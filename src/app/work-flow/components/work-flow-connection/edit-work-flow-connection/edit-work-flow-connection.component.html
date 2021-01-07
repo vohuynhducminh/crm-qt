@@ -1,0 +1,66 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Update Work Flow Connection</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="card card-transparent">
+    <div class="card-body">
+      <div class="form-group form-group-default disabled">
+        <label>Instance</label>
+        <input 
+          disabled
+          type="text"
+          class="form-control"
+          [value]="workFlowInstance.Name">
+      </div>
+      <div class="form-group form-group-default form-group-default-select2 required">
+        <label class="">Connect to</label>
+        <pg-select
+          #toWorkFlowInstance
+          [PlaceHolder]="'Connect to'"
+          [(ngModel)]="workFlowConnection.ToInstanceId"
+          AllowClear
+          ShowSearch>
+          <pg-option
+            *ngFor="let option of workFlowInstanceList"
+            [Label]="option.Name"
+            [Value]="option.Id">
+          </pg-option>
+        </pg-select>
+      </div>
+      <div class="form-group form-group-default form-group-default-select2 required">
+        <label class="">Type</label>
+        <pg-select
+          #type
+          [PlaceHolder]="'Type'"
+          [(ngModel)]="workFlowConnection.Type"
+          AllowClear
+          ShowSearch>
+          <pg-option
+            *ngFor="let option of ['Sequence Flow', 'Message Flow', 'Association']"
+            [Label]="option"
+            [Value]="option">
+          </pg-option>
+        </pg-select>
+      </div>
+      <div class="form-group form-group-default required">
+        <label>Command</label>
+        <input
+          [(ngModel)]="workFlowConnection.Command"
+          type="text"
+          class="form-control"
+          name="command"
+          required>
+      </div>
+      <br>
+      <button
+        class="btn btn-primary btn-cons
+          btn-animated from-left fa fa-pencil"
+        (click)="updateWorkFlowConnection()">
+        <span>Update</span>
+      </button>
+    </div>
+  </div>
+</div>

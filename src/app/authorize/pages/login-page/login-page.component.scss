@@ -1,0 +1,176 @@
+div.img-holder {
+    background: url('/assets/img/svg/crm_below_bg.svg');
+    background-position: right;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+}
+
+img.logo {
+    width: 100%;
+}
+
+button {
+    font-family: 'Source Sans Pro';
+}
+
+.contact {
+    position: absolute;
+    bottom: 0;
+    left: 96px;
+    height: 20vh;
+    width: calc(100vw - 400px);
+    p {
+        font-family: 'Montserrat';
+        strong,
+        a,
+        b {
+            font-family: 'Montserrat';
+        }
+    }
+}
+
+.main-bg-placeholder {
+    background: url('/assets/img/svg/crm_main_bg.svg');
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 80vh;
+    width: calc(100vw - 496px);
+}
+
+h2.brand-title {
+    font-family: 'Montserrat';
+    font-weight: 800;
+    font-size: 28px;
+    text-align: center;
+    text-transform: uppercase;
+    margin: 0;
+    margin-top: 20px;
+}
+
+.kudo-form-group {
+    padding: 0 30px;
+    margin-bottom: 20px;
+    position: relative;
+    .kudo-control {
+        width: 100%;
+        padding: 18px 25px;
+        font-size: 18px;
+        background-color: #e2e2e2;
+        color: #939598;
+        font-family: 'Montserrat' !important;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        border: 1px solid #e2e2e2;
+        border-radius: 32px;
+        &::placeholder {
+            color: #939598;
+        }
+        &:focus {
+            background-color: #ffffff;
+        }
+    }
+    &.has-error {
+        .kudo-control {
+            border-color: #ea2c54;
+            background-color: #fde9ee;
+        }
+        &:focus {
+            background-color: #fde9ee;
+        }
+    }
+    img {
+        position: absolute;
+        display: block;
+        height: 30px;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 60px;
+    }
+}
+
+#rembox {
+    display: none;
+    &+label {
+        color: #f15a56;
+        font-family: 'Montserrat' !important;
+        font-weight: 700;
+        font-size: 15px;
+        padding-left: 30px;
+        position: relative;
+        cursor: pointer;
+        &::before {
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-image: url('/assets/img/svg/icon_uncheck.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
+        &::after {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: '';
+            width: 20px;
+            height: 20px;
+            background-image: url('/assets/img/svg/icon_check.svg');
+            background-repeat: no-repeat;
+            background-size: contain;
+            background-position: center;
+        }
+    }
+    &:checked+label {
+        &::before {
+            display: none;
+        }
+        &::after {
+            display: block;
+        }
+    }
+}
+
+.kudo-label {
+    color: #f15a56;
+    font-family: 'Montserrat' !important;
+    font-weight: 700;
+    font-size: 15px;
+    position: relative;
+    cursor: pointer;
+}
+
+.kudo-login-button {
+    background: linear-gradient(90deg, rgba(247, 149, 83, 1) 0%, rgba(241, 89, 86, 1) 100%);
+    border: none;
+    padding: 14px 22px;
+    border-radius: 18px;
+    color: #ffffff;
+    font-size: 18px;
+    font-family: 'Montserrat' !important;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    &:hover {
+        -webkit-box-shadow: 1px 1px 3px 0px rgba(85, 85, 85, 0.5);
+        -moz-box-shadow: 1px 1px 3px 0px rgba(85, 85, 85, 0.5);
+        box-shadow: 1px 1px 3px 0px rgba(85, 85, 85, 0.5);
+    }
+}
+
+::ng-deep {
+    .login-wrapper {
+        height: 100vh;
+        background-color: #ffffff;
+    }
+}

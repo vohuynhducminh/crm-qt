@@ -1,0 +1,51 @@
+<div class="form-group d-flex m-0 toolbar-mini">
+    <app-create-contract-cooperation-service (useCreate)="initData()" [contractCooperation]="contractCooperation" [services]="availableServices"></app-create-contract-cooperation-service>
+    <app-update-contract-cooperation-service (useUpdate)="initData()" [data]="selected" [contractCooperation]="contractCooperation" [services]="availableServicesForUpdate"></app-update-contract-cooperation-service>
+    <button *ngIf="selected  && !selected.IsClosed" class="btn btn-info ml-2" (click)="close()">
+        <span>Ngừng cung cấp</span>
+      </button>
+    <button *ngIf="selected" class="btn btn-danger ml-2" (click)="delete()">
+        <span>Xóa</span>
+      </button>
+
+</div>
+<ngx-datatable (select)="useSelect($event)" id="table" class='table table-hover long' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="data" [selectionType]="'single'" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+    [limit]="20">
+    <ngx-datatable-column [name]="'STT'" cellClass="d-flex align-items-center">
+        <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            {{(rowIndex + 1)}}.
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Dịch vụ'" [prop]="'ServiceId'" cellClass="d-flex align-items-center">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{returnService(value) ? returnService(value).Name : ""}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Ngày hiệu lực'" [prop]="'DateStart'" cellClass="d-flex align-items-center">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value | date: "dd/MM/yyyy"}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Ngày hết hiệu lực'" [prop]="'DateEnd'" cellClass="d-flex align-items-center">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value | date: "dd/MM/yyyy"}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Phần trăm hoa hồng'" [prop]="'Percentage'" cellClass="d-flex align-items-center">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value | number}} %
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Trạng thái'" [prop]="'IsClosed'" cellClass="d-flex align-items-center">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <span class="status-{{!value ? 'doing' : 'cancel'}}">{{value ? 'Đã ngừng cung cấp' : 'Đang cung cấp'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'file PL hoặc HĐ'" [prop]="'AppendixLink'" cellClass="d-flex align-items-center">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <button class="btn btn-warning" [disabled]="!value" (click)="downloadFile(value)">
+            <span>Tải xuống</span>
+          </button>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>

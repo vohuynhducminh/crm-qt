@@ -1,0 +1,58 @@
+<kudo-manafile
+  [HeaderTitle]="'Biểu mẫu'"
+  [Icons]="['fa-file-text', 'fa-file-text']"
+  [FileList]="serverFiles"
+  [FileNameProp]="'Name'"
+  [FileDateProp]="'Date'"
+  [FileLinkProp]="'Id'"
+  [ShowApplyButtonProp]="'FormId'"
+  (ApplyButton)="openModal(template, $event)"
+  (OnFileClick)="onFileClick($event)"
+  *ngIf="showFile">
+</kudo-manafile>
+
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{selectedTemplate.Name}}</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card card-transparent">
+      <div class="card-body pb-3">
+        <app-dynamic-form
+          [fields]="formGroups"
+          [formData]="_currentCustomer"
+          [ShowSubmit]="true"
+          [SubmitClass]="['btn-primary mb-150', 'fa fa-share']"
+          [SubmitText]="'Xuất văn bản'"
+          (submit)="openSwal($event)">
+        </app-dynamic-form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<swal
+  #confirmCreateContractSwal
+  html="Xác nhận xuất văn bản hợp đồng?"
+  type="question"
+  [showCancelButton]="true"
+  [allowOutsideClick]="false"
+  [showLoaderOnConfirm]="true"
+  [preConfirm]="swalPreConfirm"
+  [allowOutsideClick]="false">
+</swal>
+
+<swal
+  #createContractErrorSwal
+  html="Đã có lỗi xảy ra khi xuất văn bản!"
+  type="error"
+  [allowOutsideClick]="false">
+</swal>

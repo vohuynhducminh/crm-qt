@@ -1,0 +1,31 @@
+<div
+tabindex="0"
+class="pg-select-selection pg-select-selection--multiple"
+(keydown.Enter)="handleKeyEnterEvent($event)"
+(keydown.Backspace)="handleKeyBackspaceEvent($event)">
+<div class="pg-select-selection__rendered">
+  <ul>
+    <li
+      *ngFor="let option of _selectedOptions"
+      [@tagAnimation]
+      [attr.title]="option"
+      class="pg-select-selection__choice" style="-webkit-user-select: none;">
+      <span class="pg-select-selection__choice__remove" (click)="unSelectOption(option,$event)"></span><div class="pg-select-selection__choice__content">{{ option }}</div>
+    </li>
+    <li class="pg-select-search pg-select-search--inline">
+      <div class="pg-select-search__field__wrap">
+        <input
+          class="pg-select-search__field"
+          (compositionstart)="compositionStart()"
+          (compositionend)="compositionEnd();updateWidth(searchInput,_searchText);"
+          [(ngModel)]="_searchText"
+          (keydown)="updateWidth(searchInput,_searchText)"
+          (keydown.Backspace)="updateWidth(searchInput,_searchText)"
+          (input)="updateWidth(searchInput,_searchText)"
+          (blur)="onTouched();selectOption(_searchText)"
+          #searchInput>
+        <span class="pg-select-search__field__mirror"></span></div>
+    </li>
+  </ul>
+</div>
+</div>

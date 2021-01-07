@@ -1,0 +1,29 @@
+div.fake-workspace-wrapper {
+  width: 100%;
+  height: calc(100vh - 203px);
+  border: 1px solid lightgrey;
+  margin-top: 5px;
+  & > .fake-workspace-header {
+    display: inline-block;
+    width: 100%;
+    line-height: 1.625;
+    padding: 0.75rem;
+    text-transform: uppercase;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: .06em;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    vertical-align: middle;
+    color: rgba(44, 44, 44, 0.35);
+    border-top: 0;
+    border-bottom: 1px solid rgba(230, 230, 230, 0.7);
+    max-height: 43px;
+  }
+  & > .fake-workspace {
+    width: 100%;
+    max-height: calc(100vh - 241px);
+    overflow: auto;
+  }
+}

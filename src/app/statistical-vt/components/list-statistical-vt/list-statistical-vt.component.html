@@ -1,0 +1,25 @@
+<h4 class="page-title text-center">Doanh Thu Trung tâm viễn thông</h4>
+<!-- <app-create-revenue></app-create-revenue> -->
+
+<kendo-grid id="kudo-grid" [kendoGridBinding]="data" [columnMenu]="true" [pageSize]="10" [pageable]="true" [sortable]="true" [filterable]="true" [height]="493" [selectable]="true">
+    <ng-template kendoGridNoRecordsTemplate>
+        Không tìm thấy dữ liệu phù hợp.
+    </ng-template>
+    <kendo-grid-column [field]="'Content'" [title]="'NỘI DUNG DOANH SỐ'" [width]="200">
+    </kendo-grid-column>
+    <kendo-grid-column [title]="'DS ĐĂNG KÝ'" [columnMenu]="false" [width]="200">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{dataItem.RegistrationCount | number}}</span>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [title]="'DS THỰC HIỆN'" [columnMenu]="false" [width]="200">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{dataItem.PerformCount | number}}</span>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [title]="'TỶ LỆ HOÀN THÀNH'" [columnMenu]="false" [width]="200">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{dataItem.Rate | number}} %</span>
+        </ng-template>
+    </kendo-grid-column>
+</kendo-grid>

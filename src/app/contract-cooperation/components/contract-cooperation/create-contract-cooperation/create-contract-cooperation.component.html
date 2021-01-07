@@ -1,0 +1,83 @@
+<button class="btn btn-primary" (click)="openModal(template)">
+  <span>Thêm</span>
+</button>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Khởi Tạo hợp đồng hợp tác</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="card card-transparent">
+            <div class="card-body" [formGroup]="form">
+                <div class="d-flex">
+                    <div class="form-group form-group-default required col-4" [class.has-error]="(form.controls['Code'].dirty || form.controls['Code'].touched) && form.controls['Code'].invalid">
+                        <label>Mã hợp đồng</label>
+                        <input formControlName="Code" type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="form-group form-group-default form-group-default-select2 required col-8" [class.has-error]="(form.controls['ParnerId'].dirty || form.controls['ParnerId'].touched) && form.controls['ParnerId'].invalid">
+                        <label>Đối tác</label>
+                        <pg-select [PlaceHolder]="''" AllowClear ShowSearch formControlName="ParnerId">
+                            <pg-option *ngFor="let option of customers" [Label]="option.Name" [Value]="option.Id">
+                            </pg-option>
+                        </pg-select>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="input-group date form-group form-group-default required col-6" [class.has-error]="(form.controls['DateStart'].dirty || form.controls['DateStart'].touched) && form.controls['DateStart'].invalid">
+                        <div class="form-input-group">
+                            <label>Ngày bắt đầu hợp đồng (DD/MM/YYYY)</label>
+                            <pg-datepicker [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateStart">
+                            </pg-datepicker>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="input-group date form-group form-group-default col-6">
+                        <div class="form-input-group">
+                            <label>Ngày ký hợp đồng (DD/MM/YYYY)</label>
+                            <pg-datepicker [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateSinged">
+                            </pg-datepicker>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="input-group date form-group form-group-default col-6">
+                        <div class="form-input-group">
+                            <label>Ngày kết thúc hợp đồng (DD/MM/YYYY)</label>
+                            <pg-datepicker [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateEnd">
+                            </pg-datepicker>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="form-group form-group-default form-group-default-select2 col-6">
+                        <label>Trạng thái</label>
+                        <pg-select [PlaceHolder]="''" AllowClear ShowSearch formControlName="Status">
+                            <pg-option *ngFor="let option of listStatus" [Label]="option.label" [Value]="option.value">
+                            </pg-option>
+                        </pg-select>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group form-group-default col">
+                        <label>Nội dung hợp tác</label>
+                        <textarea formControlName="Note" rows="6" class="form-control" name="name"></textarea>
+                    </div>
+                </div>
+                <br>
+                <button [disabled]="!form.valid" (click)="submit()" class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-plus">
+          <span>Tạo</span>
+        </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

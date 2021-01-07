@@ -1,0 +1,170 @@
+<button class="k-button-icontext k-button mr-2" (click)="openModal(template)" *ngIf="checkAccess('customer', 'create')">
+  <span class="k-icon k-i-plus"></span>
+  {{BtnText ? BtnText : 'Thêm mới'}}
+</button>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Tạo mới Đơn Vị</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="hideModal()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="card card-transparent">
+            <div class="card-body">
+                <form [formGroup]="form" (submit)="createCustomer()">
+                    <div class="">
+                        <div class="form-group form-group-default required" [class.has-error]="(!form.controls['Name'].value
+                || duplicated['Name'])
+                && (form.controls['Name'].dirty
+                || form.controls['Name'].touched)">
+                            <label>Tên đơn vị</label>
+                            <input type="text" class="form-control" style="text-transform: capitalize" [formControlName]="'Name'" (input)="onCustomerInitNameInput()">
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="col-12 px-0" style="margin-top: -10px" *ngIf="!form.controls['Name'].value && (form.controls['Name'].dirty || form.controls['Name'].touched)">
+                            <label class="error">
+                Vui lòng điền Tên đơn vị
+              </label>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="col-12 px-0" style="margin-top: -10px" *ngIf="form.controls['Name'].value && duplicated['Name']">
+                            <label class="error">
+                Tên đơn vị đã có người sử dụng
+              </label>
+                        </div>
+                    </div>
+                    <div class="">
+                        <div class="form-group form-group-default">
+                            <label>ĐV_Địa chỉ</label>
+                            <textarea rows="5" class="form-control" [formControlName]="'Address'"></textarea>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="form-group form-group-default form-group-default-select2 col">
+                            <label>ĐV_Quốc tịch</label>
+                            <pg-select #country [PlaceHolder]="''" AllowClear ShowSearch [formControlName]="'Country'">
+                                <pg-option *ngFor="let option of countriesList" [Label]="option" [Value]="option">
+                                </pg-option>
+                            </pg-select>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="form-group form-group-default form-group-default-select2 col">
+                            <label>Phân loại khách hàng</label>
+                            <pg-select [PlaceHolder]="''" AllowClear ShowSearch>
+                                <pg-option *ngFor="let option of ['Khách hàng', 'Khách hàng tiềm năng']" [Label]="option" [Value]="option">
+                                </pg-option>
+                            </pg-select>
+                        </div>
+                    </div>
+                    <div class="d-flex form-group-attached-inline">
+                        <div class="form-group form-group-default col-4 required" [class.has-error]="form.controls['Tel'].errors?.pattern
+                || duplicated['Tel']
+                || (!form.controls['Tel'].value
+                && !form.controls['Email'].value)
+                && (form.controls['Tel'].dirty
+                || form.controls['Tel'].touched)">
+                            <label>ĐV_TEL <i class="fa fa-info-circle" tooltip="Vui lòng nhập số Điện thoại theo mẫu sau: 
+                              + (84 - Mã vùng) + số điện thoại. Giữa các số không có dấu cách" placement="top"></i></label>
+                            <input type="text" class="form-control" required [formControlName]="'Tel'">
+                        </div>
+                        <div class="form-group form-group-default col-4" [class.has-error]="form.controls['Fax'].errors?.pattern
+                && (form.controls['Fax'].dirty
+                || form.controls['Fax'].touched)">
+                            <label>ĐV_FAX <i class="fa fa-info-circle" tooltip="Vui lòng nhập số Điện thoại theo mẫu sau: 
+                              + (84 - Mã vùng) + số điện thoại. Giữa các số không có dấu cách" placement="top"></i></label>
+                            <input type="text" class="form-control" [formControlName]="'Fax'">
+                        </div>
+                        <div class="form-group form-group-default col-4 required" [class.has-error]="form.controls['Email'].errors?.email
+                || duplicated['Email']
+                || (!form.controls['Tel'].value
+                && !form.controls['Email'].value)
+                && (form.controls['Email'].dirty
+                || form.controls['Email'].touched)">
+                            <label>ĐV_EMAIL</label>
+                            <input type="text" class="form-control" required [formControlName]="'Email'">
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="col-4 px-0" style="margin-top: -10px">
+                            <label class="error" *ngIf="!form.controls['Tel'].value && !form.controls['Email'].value && (form.controls['Tel'].dirty || form.controls['Tel'].touched)">
+                Vui lòng điền Số điện thoại
+              </label>
+                            <label class="error" *ngIf="form.controls['Tel'].errors?.pattern && (form.controls['Tel'].dirty || form.controls['Tel'].touched)">
+                Số điện thoại không hợp lệ
+              </label>
+                            <label class="error" *ngIf="form.controls['Tel'].value && duplicated['Tel']">
+                Số điện thoại đã có người sử dụng
+              </label>
+                        </div>
+                        <div class="col-4 px-0" style="margin-top: -10px">
+                            <label class="error" *ngIf="form.controls['Fax'].errors?.pattern && (form.controls['Fax'].dirty || form.controls['Fax'].touched)">
+                Fax không hợp lệ
+              </label>
+                        </div>
+                        <div class="col-4 px-0" style="margin-top: -10px">
+                            <label class="error" *ngIf="!form.controls['Tel'].value && !form.controls['Email'].value && (form.controls['Email'].dirty || form.controls['Email'].touched)">
+                Vui lòng điền Email
+              </label>
+                            <label class="error" *ngIf="form.controls['Email'].errors?.email && (form.controls['Email'].dirty || form.controls['Email'].touched)">
+                Email không hợp lệ
+              </label>
+                            <label class="error" *ngIf="form.controls['Email'].value && duplicated['Email']">
+                Email đã có người sử dụng
+              </label>
+                        </div>
+                    </div>
+                    <div class="d-flex form-group-attached-inline" [formGroup]="form.get('OwnerUM')">
+                        <div class="form-group form-group-default col-6">
+                            <label>Người đại diện</label>
+                            <input type="text" class="form-control" [formControlName]="'Name'">
+                        </div>
+                        <div class="form-group form-group-default col-6">
+                            <label>NĐD_Chức vụ</label>
+                            <input type="text" class="form-control" [formControlName]="'Position'">
+                        </div>
+                    </div>
+                    <div class="d-flex form-group-attached-inline">
+                        <div class="form-group form-group-default col-6" [class.has-error]="duplicated['TaxCode']
+                || form.controls['TaxCode'].errors?.pattern
+                && (form.controls['TaxCode'].dirty
+                || form.controls['TaxCode'].touched)">
+                            <label>ĐV_Mã số thuế</label>
+                            <input type="text" class="form-control" [formControlName]="'TaxCode'">
+                        </div>
+                        <div class="form-group form-group-default col-6">
+                            <label>ĐV_Giấy phép ĐKKD số</label>
+                            <input type="text" class="form-control" [formControlName]="'NumberOfBusinessLicense'">
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="col-6 px-0" style="margin-top: -10px" *ngIf="form.controls['TaxCode'].errors?.pattern && (form.controls['TaxCode'].dirty || form.controls['TaxCode'].touched)">
+                            <label class="error">
+                Mã số thuế không hợp lệ
+              </label>
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="col-6 px-0" style="margin-top: -10px" *ngIf="form.controls['TaxCode'].value && duplicated['TaxCode']">
+                            <label class="error">
+                Mã số thuế đã có người sử dụng
+              </label>
+                        </div>
+                    </div>
+                    <br>
+                    <button type="submit" class="btn btn-primary btn-cons
+              btn-animated from-left fa fa-plus" [disabled]="disableSubmit" (click)="disableSubmitForm()">
+            <span>Thêm</span>
+          </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<swal #createCustomerSuccessSwal html="Đơn Vị đã được tạo thành công!" type="success" [allowOutsideClick]="false">
+</swal>

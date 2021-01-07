@@ -1,0 +1,487 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">
+    Update Form
+  </h4>
+  <h4 class="modal-title pull-left text-danger">
+    {{ errorFormUM }}
+  </h4>
+  <button
+    type="button"
+    class="close pull-right"
+    aria-label="Close"
+    (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<form [formGroup]="validateUpdateForm">
+  <div class="modal-body">
+    <div class="card card-transparent">
+      <div class="card-body">
+        <div class="form-group-attached">
+          <ng-container [formGroup]="validateUpdateForm.get('Form')">
+            <div
+              class="form-group 
+                    form-group-default 
+                    form-group-default-select2 
+                    required">
+              <label>Work Flow</label>
+              <pg-select
+                [PlaceHolder]="''"
+                AllowClear
+                ShowSearch
+                [Disabled]="true"
+                formControlName="HsWorkflowId">
+                  <pg-option
+                    *ngFor="let option of workFlowList"
+                    [Label]="option.Name"
+                    [Value]="option.Id">
+                  </pg-option>
+              </pg-select>
+            </div>
+            <div class="form-group form-group-default required">
+              <label>Name</label>
+              <input
+                type="text"
+                class="form-control"
+                name="name"
+                formControlName="Name">
+            </div>
+            <div class="form-group form-group-default">
+              <label>Description</label>
+              <textarea
+                type="text"
+                class="form-control"
+                name="description"
+                formControlName="Description">
+              </textarea>
+            </div>
+          </ng-container>
+          <div class="form-group form-group-default">
+            <label class="">Form Group {{ isDragable }}</label>
+            <pg-collapseset>
+              <div
+                class="pg-collapse-attached"
+                [dragula]="isDragable ? 'FORM-GROUP-EDIT' : null"  
+                [(dragulaModel)] = "validateUpdateForm.get('FormGroupFields')['controls']">
+                <div 
+                  formArrayName="FormGroupFields"  
+                  *ngFor="let formGroup of validateUpdateForm.get('FormGroupFields')['controls']; let i = index">
+                  <ng-container [formGroup]="formGroup">
+                    <pg-collapse
+                      style="overflow: hidden;"
+                      [Active] = "setActive(i)"
+                      [Title]="formGroup.value.Label"
+                      (click)="getFormGroupSelect(i)">
+                      <div class="container">
+                        <div class="form-group-attached">
+                          <div
+                            class="form-group 
+                                  form-group-default 
+                                  form-group-default-select2 
+                                  required">
+                            <label>Type</label>
+                            <pg-select
+                              [PlaceHolder]="''"
+                              AllowClear
+                              ShowSearch
+                              formControlName="Type"
+                              (ngModelChange)="onTypeChange(formGroup)">
+                              <pg-option
+                                *ngFor="let option of fieldTypeList"
+                                [Label]="option"
+                                [Value]="option">
+                              </pg-option>
+                            </pg-select>
+                          </div>
+                          <div class="form-group form-group-default required">
+                            <label>Label</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="Label"
+                              required
+                              formControlName="Label">
+                          </div>
+                          <div
+                            *ngIf="['select-customer', 'select-individual'].includes(formGroup.value.Type)"
+                            class="form-group form-group-default">
+                            <label>SubLabel</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="SubLabel"
+                              formControlName="SubLabel">
+                          </div>
+                          <div 
+                            class="form-group 
+                                    form-group-default 
+                                    form-group-default-select2 
+                                    required"
+                            *ngIf="['input'].includes(formGroup.value.Type)">                          
+                            <label>Input Type</label>
+                            <pg-select
+                              [PlaceHolder]="''"
+                              AllowClear
+                              ShowSearch
+                              formControlName="InputType">
+                              <pg-option
+                                *ngFor="let option of inputTypeList"
+                                [Label]="option"
+                                [Value]="option">
+                              </pg-option>
+                            </pg-select>
+                          </div>
+                          <div 
+                            class="form-group 
+                                    form-group-default
+                                    form-group-default-select2"
+                            *ngIf="['date'].includes(formGroup.value.Type)">                          
+                            <label>Date Format</label>
+                            <pg-select
+                              [PlaceHolder]="''"
+                              AllowClear
+                              ShowSearch
+                              formControlName="DateFormat">
+                              <pg-option
+                                *ngFor="let option of typeFormat"
+                                [Label]="option.label"
+                                [Value]="option.value">
+                              </pg-option>
+                            </pg-select>
+                          </div>
+                          <div 
+                          class="form-group form-group-default required" 
+                          [class.has-error]="formGroup.get('Name').errors?.Duplicated">
+                          <label>Name</label>
+                          <label *ngIf="formGroup.get('Name').errors?.Duplicated">
+                            <span class="text-danger">
+                              Already in use
+                            </span>
+                          </label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="Name"
+                              required
+                              formControlName="Name"
+                              (ngModelChange)="checkDuplicated(formGroup.value.Name)">
+                          </div>
+                          <div 
+                            class="form-group form-group-default"
+                            *ngIf="['input', 'textarea', 'date', 'time'].includes(fieldType)">
+                            <label>Placeholder</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="Placeholder"
+                              formControlName="Placeholder">
+                          </div>
+                          <div
+                              *ngIf="['text'].includes(formGroup.value.InputType)"
+                              class="form-group 
+                                    form-group-default
+                                    form-group-default-select2">
+                              <label>Input Mask</label>
+                              <pg-select
+                                [PlaceHolder]="''"
+                                AllowClear
+                                ShowSearch
+                                formControlName="InputMask">
+                                  <pg-option
+                                    *ngFor="let option of inputMask"
+                                    [Label]="option.label"
+                                    [Value]="option.value">
+                                  </pg-option>
+                              </pg-select>
+                            </div>
+                          <div
+                              class="form-group 
+                                    form-group-default 
+                                    form-group-default-select2">
+                              <label>Class custom</label>
+                              <pg-select
+                                [PlaceHolder]="''"
+                                [Mode]="'tags'"
+                                AllowClear
+                                ShowSearch
+                                formControlName="Class">
+                                  <pg-option
+                                    *ngFor="let option of classList"
+                                    [Label]="option.label"
+                                    [Value]="option.value">
+                                  </pg-option>
+                              </pg-select>
+                          </div>
+                          <div
+                            *ngIf="['select'].includes(formGroup.value.Type)"
+                            class="form-group form-group-default">
+                            <div class="checkbox check-primary d-flex align-items-center">
+                              <input type="checkbox" id="selectmul" formControlName="SelectMultiple">
+                              <label for="selectmul">Select Multiple</label>
+                            </div>
+                          </div>
+                          <!-- DefaultValue -->
+                          <!-- <div>
+                            <pg-collapse
+                              *ngIf="['input'].includes(formGroup.value.Type)"
+                              [Title]="'Default Value'" 
+                              class="form-group form-group-default required px-0 mx-0"
+                              style="overflow: hidden;">
+                              <div class="container">
+                                <app-dynamic-form
+                                  #appDynamicForm
+                                  [fields]="[formGroup.value]">
+                                </app-dynamic-form>
+                              </div>
+                            </pg-collapse>
+                          </div> -->
+                          <!-- DefaultValue -->
+                          <!-- Option -->
+                          <div>
+                            <pg-collapse
+                              *ngIf="['radiobutton', 'select'].includes(formGroup.value.Type)"
+                              [Title]="'Options'" 
+                              class="form-group form-group-default required px-0 mx-0"
+                              style="overflow: hidden;">
+                              <div class="container">
+                                <div 
+                                  [dragula]="'FORM-OPTION-EDIT'" 
+                                  [dragulaModel] = "formGroup.get('Options').controls"
+                                  (dragulaModelChange)="changeModel($event, formGroup)">
+                                  <div
+                                    formArrayName="Options"  
+                                    *ngFor="let option of formGroup.get('Options').controls; 
+                                            let j = index"
+                                    class="input-group mb-3 border border-dark rounded">
+                                    <ng-container>
+                                      <input
+                                      type="text" 
+                                      class="form-control pl-2" 
+                                      placeholder="Option"
+                                      aria-label="Recipient's username"
+                                      aria-describedby="basic-addon2"
+                                      [formControl]="option">
+                                      <div class="input-group-append h-100">
+                                        <button 
+                                          class="btn btn-danger h-100" 
+                                          type="button"
+                                          (click)="deleteOptionField(formGroup, j)">
+                                          <i class="fa fa-times"></i>
+                                        </button>
+                                      </div>
+                                    </ng-container>
+                                  </div>
+                                </div>
+                                <button
+                                  class="btn btn-primary my-2"
+                                  (click)=" addOptionField(i)">
+                                  <i class="fa fa-plus"></i>
+                                </button>
+                              </div>
+                            </pg-collapse>
+                          </div>
+                          <!-- Option -->
+                          <div class="form-group form-group-default form-group-default-select2">
+                            <label>Validations</label>
+                              <pg-select
+                              [PlaceHolder]="''"
+                              [Mode]="'tags'"
+                              AllowClear
+                              ShowSearch
+                              formControlName="Validations">
+                                <pg-option
+                                  *ngFor="let option of [{Name:'required',Validator:'required',Message:''}]"
+                                  [Label]="option.Name"
+                                  [Value]="option">
+                                </pg-option>
+                            </pg-select>
+                          </div>
+                          <div class="form-group form-group-default form-group-default-select2">
+                            <label>Global Variable</label>
+                            <pg-select
+                              [PlaceHolder]="''"
+                              AllowClear
+                              ShowSearch
+                              formControlName="GlobalVariableId">
+                              <pg-option
+                                *ngFor="let option of globalVariableList"
+                                [Label]="option.Name"
+                                [Value]="option.Id">
+                              </pg-option>
+                            </pg-select>
+                          </div>
+                        </div>
+                        <button
+                          class="btn btn-danger float-right my-2"
+                          (click)="deleteFormGroupField(i)">
+                          <i class="fa fa-times"></i>
+                        </button>
+                      </div>  
+                    </pg-collapse>
+                  </ng-container>
+                </div>
+              </div>
+            </pg-collapseset>
+            <button
+              class="btn btn-primary mb-2"
+              (click)="addFormGroupField()">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <!-- Formula And NumberToWord -->
+          <!-- <div class="form-group form-group-default">
+            <label>Formulas</label>
+            <pg-collapseset>
+              <div>
+                <div 
+                  formArrayName="FormGroupFields"  
+                  *ngFor="let formula of validateUpdateForm.get('Form').get('Formulas')['controls']; let i = index;">
+                  <ng-container [formGroup]="formula">
+                    <pg-collapse
+                      style="overflow: hidden;"
+                      [Active] = "chooseFormula === i"
+                      [Title]="formula.value.Name"
+                      (click)="getFormulaSelect(i)">
+                      <div class="container">
+                        <div class="form-group-attached">
+                          <div
+                            class="form-group form-group-default required"
+                            [class.has-error]="formula.get('Name').errors?.Duplicated">
+                            <label>Name</label>
+                            <label *ngIf="formula.get('Name').errors?.Duplicated">
+                              <span class="text-danger">
+                                Already in use
+                              </span>
+                            </label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              name="Name"
+                              required
+                              formControlName="Name"
+                              (ngModelChange)="checkDuplicated(formula.value.Name, 'Formulas')">
+                          </div>
+                          <div>
+                            <pg-collapse
+                              [Title]="'Formula'" 
+                              class="form-group form-group-default required px-0 mx-0 border"
+                              style="overflow: hidden; border: #ececec"
+                              (click)="getFormGroupListName()">
+                              <div class="container d-flex">
+                                <div
+                                  class="border border-dark rounded formulaElement"
+                                  formArrayName="Fields">
+                                  <pg-select
+                                  [PlaceHolder]="''"
+                                  AllowClear
+                                  ShowSearch
+                                  formControlName="0">
+                                    <pg-option
+                                      *ngFor="let option of FormGroupListName"
+                                      [Label]="option"
+                                      [Value]="option">
+                                    </pg-option>
+                                  </pg-select>
+                                </div>
+                                <span class="mx-2 mt-2"> X </span>
+                                <div
+                                  class="border border-dark rounded formulaElement"
+                                  formArrayName="Fields">
+                                  <pg-select
+                                  [PlaceHolder]="''"
+                                  AllowClear
+                                  ShowSearch
+                                  formControlName="1">
+                                    <pg-option
+                                      *ngFor="let option of FormGroupListName"
+                                      [Label]="option"
+                                      [Value]="option">
+                                    </pg-option>
+                                  </pg-select>
+                                </div>
+                                <span class="mx-2 mt-2"> X </span>
+                                <div
+                                  class="border border-dark rounded formulaElement"
+                                  formArrayName="Fields">
+                                  <pg-select
+                                  [PlaceHolder]="''"
+                                  AllowClear
+                                  ShowSearch
+                                  formControlName="2">
+                                    <pg-option
+                                      *ngFor="let option of FormGroupListName"
+                                      [Label]="option"
+                                      [Value]="option">
+                                    </pg-option>
+                                  </pg-select>
+                                </div>
+                                <span class="mx-2 mt-2"> = </span>
+                                <div
+                                  class="form-group form-group-default border border-dark rounded formulaElement"
+                                  formArrayName="Fields">
+                                  <input
+                                    type="text"
+                                    class="form-control"
+                                    formControlName="3"
+                                    style="padding-top: 5px; font-weight: bolder"
+                                    placeholder="Tổng số tiền">
+                                </div> 
+                              </div>
+                            </pg-collapse>
+                          </div>
+                        </div>
+                        <button
+                          class="btn btn-danger float-right my-2"
+                          (click)="deleteFormulaField(i)">
+                          <i class="fa fa-times"></i>
+                        </button>
+                      </div>  
+                    </pg-collapse>
+                  </ng-container>
+                </div>
+              </div>
+            </pg-collapseset>
+              <button
+              class="btn btn-primary mb-2"
+              (click)="addFormulaField()">
+              <i class="fa fa-plus"></i>
+            </button>
+          </div>
+          <div
+            class="form-group 
+                  form-group-default 
+                  form-group-default-select2"
+            (click)="getFormGroupListName()"
+            [formGroup]="validateUpdateForm.get('Form')">
+            <label>Number To Text Fields</label>
+            <pg-select
+              [PlaceHolder]="''"
+              AllowClear
+              ShowSearch
+              formControlName="NumberToWordFields"
+              [Mode]="'multiple'">
+                <pg-option
+                  *ngFor="let option of FormGroupListName"
+                  [Label]="option"
+                  [Value]="option">
+                </pg-option>
+            </pg-select>
+          </div> -->
+         <!-- Formula And NumberToWord -->
+          <!-- {{ validateUpdateForm.value | json }} -->
+        </div>
+        <br>
+        <div class="d-flex justify-content-center">
+        <button
+          class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-plus"
+          (click)="updateForm()">
+          <span>Update</span>
+        </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
+  

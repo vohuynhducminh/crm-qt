@@ -1,0 +1,160 @@
+<button
+  class="btn btn-primary btn-cons btn-kudo
+  btn-animated from-left fa fa-envelope-open"
+  title="Email"
+  (click)="openModal(email)">
+  <span class="fa fa-envelope"></span>
+</button>
+
+
+<ng-template #email>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Gửi Email</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card card-transparent">
+      <div class="card-body">
+        <form class="form-group-attached" [formGroup]="form" (submit)="sendEmail()">
+          <div class="d-flex form-group-attached-inline">
+            <div class="form-group form-group-default required"
+              [class.has-error]="form.controls['UserName'].errors?.required
+                && (form.controls['UserName'].dirty
+                || form.controls['UserName'].touched)">
+              <label>Tên đăng nhập</label>
+              <input
+                type="text"
+                class="form-control"
+                name="username"
+                required
+                [formControlName]="'UserName'">
+            </div>
+            <div class="form-group form-group-default required"
+              [class.has-error]="form.controls['Password'].errors?.required
+                && (form.controls['Password'].dirty
+                || form.controls['Password'].touched)">
+              <label>Mật khẩu</label>
+              <input
+                type="password"
+                class="form-control"
+                name="password"
+                required
+                [formControlName]="'Password'">
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="col-6 px-0" style="margin-top: -10px" *ngIf="form.controls['UserName'].errors?.required && (form.controls['UserName'].dirty || form.controls['UserName'].touched)">
+              <label class="error">
+                Vui lòng điền Tên đăng nhập
+              </label>
+            </div>
+            <div class="col-6 px-0" style="margin-top: -10px" *ngIf="form.controls['Password'].errors?.required && (form.controls['Password'].dirty || form.controls['Password'].touched)">
+              <label class="error">
+                Vui lòng điền Mật khẩu
+              </label>
+            </div>
+          </div>
+          <div class="d-flex form-group-attached-inline">
+            <div class="form-group form-group-default required"
+              [class.has-error]="form.controls['ToMail'].errors
+                && (form.controls['ToMail'].dirty
+                || form.controls['ToMail'].touched)">
+              <label>Tới:</label>
+              <input
+                type="text"
+                class="form-control"
+                name="tomail"
+                required
+                [formControlName]="'ToMail'">
+            </div>
+            <div class="form-group form-group-default">
+              <label>CC:</label>
+              <input
+                type="text"
+                class="form-control"
+                name="cc"
+                [formControlName]="'Cc'">
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="col-6 px-0" style="margin-top: -10px" *ngIf="form.controls['ToMail'].errors?.required && (form.controls['ToMail'].dirty || form.controls['ToMail'].touched)">
+              <label class="error">
+                Vui lòng điền Email người nhận
+              </label>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="col-6 px-0" style="margin-top: -10px" *ngIf="form.controls['ToMail'].errors?.email && (form.controls['ToMail'].dirty || form.controls['ToMail'].touched)">
+              <label class="error">
+                Email người nhận không hợp lệ
+              </label>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="form-group form-group-default required"
+              [class.has-error]="form.controls['Subject'].errors?.required
+                && (form.controls['Subject'].dirty
+                || form.controls['Subject'].touched)">
+              <label>Tiêu đề</label>
+              <input
+                type="text"
+                class="form-control"
+                name="subject"
+                required
+                [formControlName]="'Subject'">
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="col-12 px-0" style="margin-top: -10px" *ngIf="form.controls['Subject'].errors?.required && (form.controls['Subject'].dirty || form.controls['Subject'].touched)">
+              <label class="error">
+                Vui lòng điền Tiêu đề
+              </label>
+            </div>
+          </div>
+          <div class="d-flex" *ngIf="isShowQuill">
+            <div class="form-group form-group-default">
+              <label for="content">Nội dung email</label>
+              <quill-editor
+                [formControlName]="'Message'"
+                [style]="{height: '250px'}"
+                [placeholder]="'Nội dung'"
+                [modules]="editorModules">
+              </quill-editor>
+            </div>
+          </div>
+          <div class="form-group form-group-default last-child pb-3">
+            <label class="pb-2" for="email-file">File đính kèm</label>
+            <input
+              #attachFiles
+              type="file"
+              name="kudo"
+              id="email-file"
+              multiple
+              (change)="onSelectFiles($event)">
+          </div>
+          <br>
+          <button
+            class="btn btn-primary btn-cons
+              btn-animated from-left fa fa-check"
+            [disabled]="disableSubmit"
+            (click)="disableSubmitForm()">
+            <span>Xác nhận</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+<swal
+  #sendEmailSuccessSwal
+  html="Email đã được gửi thành công!"
+  type="success"
+  [allowOutsideClick]="false"
+  (confirm)="disableSubmit = false;">
+</swal>

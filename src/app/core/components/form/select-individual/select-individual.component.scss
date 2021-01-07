@@ -1,0 +1,40 @@
+.btn.form-group {
+    color: #7a8994;
+    &:hover {
+        color: #ffffff;
+    }
+    label {
+        cursor: pointer;
+    }
+}
+::ng-deep {
+.checkbox-header-label {
+    font-size: inherit;
+    font-weight: inherit;
+    line-height: inherit;
+    cursor: pointer;
+}
+.ngx-datatable.table-hover.disabled-select-highlight {
+    .datatable-body {
+    .datatable-body-row.active {
+        .datatable-body-cell {
+        background: #ffffff !important;
+        }
+    }
+    }
+}
+.select-customer-datatable {
+    .datatable-body {
+    height: calc(100vh - 243px) !important;
+    .empty-row {
+        padding: 30px 0;
+        text-align: center;
+    }
+    }
+    &.readonly {
+    .datatable-body {
+        height: calc(100vh - 189px) !important;
+    }
+    }
+}
+}

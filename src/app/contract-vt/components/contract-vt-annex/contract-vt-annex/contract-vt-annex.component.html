@@ -1,0 +1,54 @@
+<div class="form-group d-flex m-0 toolbar-mini">
+    <app-create-contract-vt-annex (refresh)="init()" [services]="services" [contract]="contract" *ngIf="canActive.create"></app-create-contract-vt-annex>
+    <app-detail-contract-vt-annex (refresh)="init()" [objSelected]="objSelected" [services]="services" [contract]="contract" *ngIf="canActive.update"></app-detail-contract-vt-annex>
+    <!-- <button class="btn btn-primary mr-2" (click)="openModal(template)" [disabled]="!objSelected || (objSelected.Status === -1) || (objSelected.DateAccept != null)">
+        <span>Cập nhật ngày nghiệm thu</span>
+    </button> -->
+    <button (click)="payOff()" class="btn btn-warning mr-2" *ngIf="objSelected && objSelected.Status === 0 && canActive.end">
+        <span>Thanh lý</span>
+    </button>
+    <button (click)="delete()" class="btn btn-danger" *ngIf="objSelected">
+        <span>Xóa</span>
+    </button>
+</div>
+<div class="row">
+    <div class="col-6">
+        <ngx-datatable id="customer-contact-table" class='table table-hover long' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="annexs" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+            [limit]="20" [selected]="selected" [selectionType]="'single'" (select)="onSelect($event)">
+            <ngx-datatable-column *ngIf="!objSelected" [name]="'STT'" cellClass="d-flex align-items-center">
+                <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    {{(rowIndex + 1)}}.
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Mã Phụ Lục'" [prop]="'Code'" cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+            <!-- <ngx-datatable-column [name]="'Mã Hợp Đồng'" [prop]="'ContractNo'" cellClass="d-flex align-items-center">
+            </ngx-datatable-column> -->
+            <ngx-datatable-column [name]="'Ngày Bắt Đầu'" [prop]="'DateStart'" cellClass="d-flex align-items-center">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value | date: 'dd/MM/yyyy'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Ngày nghiệm thu'" [prop]="'DateAccept'" cellClass="d-flex align-items-center">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value | date: 'dd/MM/yyyy'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Ngày Kết thúc'" [prop]="'DateEnd'" cellClass="d-flex align-items-center">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value | date: 'dd/MM/yyyy'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Trạng thái'" [prop]="'Status'" cellClass="d-flex align-items-center">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    <span class="status-{{value === 0 ? 'doing' : 'liquidated'}}">{{value === 0 ? 'Đang thực hiện' : 'Đã thanh lý'}}</span>
+                </ng-template>
+            </ngx-datatable-column>
+        </ngx-datatable>
+    </div>
+    <div class="col-6">
+        <!-- <app-detail-contract-vt-annex></app-detail-contract-vt-annex> -->
+        <app-detail-contract-vt-annex-u [ObjSelected]="objSelected"></app-detail-contract-vt-annex-u>
+    </div>
+
+</div>

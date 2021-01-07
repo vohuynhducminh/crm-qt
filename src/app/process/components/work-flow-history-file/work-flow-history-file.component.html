@@ -1,0 +1,12 @@
+<kudo-manafile
+  [HeaderTitle]="'File Lưu Trữ'"
+  [AllowedUpload]="true"
+  [UploadUrl]="uploadUrl"
+  [FileList]="serverFiles"
+  [FileNameProp]="'Name'"
+  [FileDateProp]="'DateCreated'"
+  [FileLinkProp]="'Id'"
+  (UploadChange)="getFiles()"
+  (OnFileClick)="onFileClick($event)"
+  *ngIf="ShowFile">
+</kudo-manafile>

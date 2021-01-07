@@ -1,0 +1,46 @@
+<div class="container-fluid">
+    <div class="row pl-3">
+        <div class="col-12 pl-0">
+            <app-chart-frame [title]="'BÁO CÁO DOANH SỐ TTVT - NĂM'" [height]="'75vh'">
+                <ng-template hTemplate>
+                    <app-list-statistical-vt></app-list-statistical-vt>
+                </ng-template>
+            </app-chart-frame>
+        </div>
+        <div class="col-12 pl-0">
+            <app-chart-frame [title]="'Tỷ trọng doanh số các loại dịch vụ viễn thông và dự án'">
+                <ng-template hTemplate>
+                    <div echarts [options]="serviceVtChart" style="height: 100%; width: 100%"></div>
+                </ng-template>
+            </app-chart-frame>
+        </div>
+        <div class="col-6 pl-0">
+            <app-chart-frame [title]="'Tỷ trọng doanh số ngân sách tập trung so với doanh số khác'">
+                <ng-template hTemplate>
+                    <div echarts [options]="budgetChart" style="height: 100%; width: 100%"></div>
+                </ng-template>
+            </app-chart-frame>
+        </div>
+        <div class="col-6 pl-0">
+            <app-chart-frame [title]="'Tỷ trọng doanh số bên trong và bên ngoài công viên'">
+                <ng-template hTemplate>
+                    <div echarts [options]="sideChart" style="height: 100%; width: 100%"></div>
+                </ng-template>
+            </app-chart-frame>
+        </div>
+        <div class="col-6 pl-0">
+            <app-chart-frame [title]="'Tỷ lệ tăng trưởng doanh số'">
+                <ng-template hTemplate>
+                    <div echarts [options]="increaseRateChart" style="height: 100%; width: 100%"></div>
+                </ng-template>
+            </app-chart-frame>
+        </div>
+        <div class="col-6 pl-0">
+            <app-chart-frame [title]="'Thống kê tỷ lệ tăng trưởng doanh nghiệp bên ngoài'">
+                <ng-template hTemplate>
+                    <div echarts [options]="increaseRateOutSideChart" style="height: 100%; width: 100%"></div>
+                </ng-template>
+            </app-chart-frame>
+        </div>
+    </div>
+</div>

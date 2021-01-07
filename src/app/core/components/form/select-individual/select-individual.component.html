@@ -1,0 +1,188 @@
+<div class="form-group form-group-default" [formGroup]="group">
+  <button class="btn btn-primary form-group form-group-default mb-1" (click)="openModal(template)">
+    <label>{{(field.FieldType && !field.FieldType.includes('write')) || !field.IsCurrent ? (field.SubLabel ? field.SubLabel : field.Label) : field.Label}}{{group.controls[field.Name].value ? ' (đã chọn ' + group.controls[field.Name].value.length + ')' : ' (đã chọn 0)'}}</label>
+  </button>
+</div>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{(field.FieldType && !field.FieldType.includes('write')) || !field.IsCurrent ? (field.SubLabel ? field.SubLabel : field.Label) : field.Label}}{{group.controls[field.Name].value ? ' (đã chọn ' + group.controls[field.Name].value.length + ')' : ' (đã chọn 0)'}}</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body pb-0">
+    <div class="card card-transparent mb-0">
+      <div class="card-body">
+        <div class="d-flex form-group-attached-inline" *ngIf="!((field.FieldType && !field.FieldType.includes('write')) || !field.IsCurrent)">
+          <div class="form-group form-group-default mb-0">
+            <label>Tên cá nhân</label>
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="searchData.name"
+              (ngModelChange)="loadTimeOut()">
+          </div>
+          <div class="form-group form-group-default mb-0">
+            <label>Chức vụ</label>
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="searchData.position"
+              (ngModelChange)="loadTimeOut()">
+          </div>
+          <div class="form-group form-group-default mb-0">
+            <label>Đơn vị</label>
+            <input
+              class="form-control"
+              type="text"
+              [(ngModel)]="searchData.customer"
+              (ngModelChange)="loadTimeOut()">
+          </div>
+        </div>
+        <ng-container *ngIf="!state.load && !((field.FieldType && !field.FieldType.includes('write')) || !field.IsCurrent)">
+          <ngx-datatable
+            class="table table-hover disabled-select-highlight select-customer-datatable"
+            [rows]="state.data"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [externalPaging]="true"
+            [count]="state.total"
+            [offset]="state.index"
+            [limit]="searchData.pageSize"
+            [selectionType]="'single'"
+            (select)="selectRow($event)"
+            [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: null}"
+            (page)='setPage($event)'>
+            <ngx-datatable-column
+              [prop]="'Id'"
+              [sortable]="false"
+              [canAutoResize]="false"
+              [draggable]="false"
+              [resizeable]="false"
+              cellClass="d-flex align-items-center">
+              <ng-template ngx-datatable-header-template>
+                <span class="datatable-header-cell-wrapper">
+                  <span class="datatable-header-cell-label">
+                    <div class="checkbox check-danger d-inline-block m-0" [class.disabled-transition]="state.disabledTransition">
+                      <input id="checkbox_header" type="checkbox" [checked]="state.selectingAll" (click)="selectAllPage()">
+                      <label class="m-0" style="margin-bottom: -4px !important" for="checkbox_header"></label>
+                    </div>
+                    <label class="m-0 checkbox-header-label" for="checkbox_header">Chọn cả trang</label>
+                  </span>
+                </span>
+              </ng-template>
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <div class="checkbox check-danger" [class.disabled-transition]="state.disabledTransition">
+                  <input id="{{value}}" type="checkbox" [checked]="group.controls[field.Name].value?.includes(value)" (click)="select(value)">
+                  <label for="{{value}}"></label>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [name]="'Họ và Tên'"
+              [prop]="'Name'"
+              [sortable]="false"
+              cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [name]="'Chức vụ'"
+              [prop]="'Position'"
+              [sortable]="false"
+              cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [name]="'Số điện thoại'"
+              [prop]="'Phone'"
+              [sortable]="false"
+              cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [name]="'Email'"
+              [prop]="'Email'"
+              [sortable]="false"
+              cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [name]="'Đơn vị'"
+              [prop]="'Customer'"
+              [sortable]="false"
+              cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </ng-container>
+        <ng-container *ngIf="state.load">
+          <ngx-datatable
+            class="table table-hover disabled-select-highlight select-customer-datatable"
+            [rows]="[{}]"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: null}">
+            <ngx-datatable-column
+              [sortable]="false"
+              [name]="'&nbsp;'">
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <div class="d-flex justify-content-center align-items-center" style="height: calc(100vh - 300px)">
+                  <pg-progress [indeterminate]="true"></pg-progress>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </ng-container>
+
+        <!-- readonly -->
+        <ng-container *ngIf="!state.load && ((field.FieldType && !field.FieldType.includes('write')) || !field.IsCurrent)">
+          <ngx-datatable
+            class="table table-hover disabled-select-highlight select-customer-datatable readonly"
+            [rows]="state.data"
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [selectionType]="'single'"
+            [limit]="searchData.pageSize"
+            [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: null}">
+            <ngx-datatable-column
+              [name]="'Họ và Tên'"
+              [prop]="'Name'"
+              [sortable]="false"
+              cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [name]="'Chức vụ'"
+              [prop]="'Position'"
+              [sortable]="false"
+              cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [name]="'Số điện thoại'"
+              [prop]="'Phone'"
+              [sortable]="false"
+              cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [name]="'Email'"
+              [prop]="'Email'"
+              [sortable]="false"
+              cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [name]="'Đơn vị'"
+              [prop]="'Customer'"
+              [sortable]="false"
+              cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-template>

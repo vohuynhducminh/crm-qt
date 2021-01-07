@@ -1,0 +1,83 @@
+<button *ngIf="data" class="btn btn-warning ml-2" (click)="openModal(template)">
+  <span>Cập nhật</span>
+</button>
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Cập nhật dịch vụ được cung cấp bởi hợp đồng khung</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+    </div>
+    <div class="modal-body">
+        <div class="card card-transparent">
+            <div class="card-body" [formGroup]="form">
+                <div class="d-flex">
+                    <div class="form-group form-group-default form-group-default-select2 required col-8" [class.has-error]="(form.controls['ServiceId'].dirty || form.controls['ServiceId'].touched) && form.controls['ServiceId'].invalid">
+                        <label>Dịch vụ</label>
+                        <pg-select [PlaceHolder]="''" AllowClear ShowSearch formControlName="ServiceId">
+                            <pg-option *ngFor="let option of services" [Label]="option.Name" [Value]="option.Id">
+                            </pg-option>
+                        </pg-select>
+                    </div>
+                    <div class="form-group form-group-default required col-4" [class.has-error]="(form.controls['Percentage'].dirty || form.controls['Percentage'].touched) && form.controls['Percentage'].invalid">
+                        <label>Phần trăm hoa hồng</label>
+                        <input type="number" min="1" max="100" class="form-control" name="name" formControlName="Percentage">
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="input-group date form-group form-group-default required col-6" [class.has-error]="(form.controls['DateStart'].dirty || form.controls['DateStart'].touched) && form.controls['DateStart'].invalid">
+                        <div class="form-input-group">
+                            <label>Ngày hiệu lực</label>
+                            <pg-datepicker [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateStart">
+                            </pg-datepicker>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="input-group date form-group form-group-default col-6" [class.has-error]="(form.controls['DateEnd'].dirty || form.controls['DateEnd'].touched) && form.controls['DateEnd'].invalid">
+                        <div class="form-input-group">
+                            <label>Ngày hết hiệu lực</label>
+                            <pg-datepicker [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateEnd">
+                            </pg-datepicker>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="input-group form-group form-group-default col">
+                        <div class="form-input-group">
+                            <label>File phụ lục</label>
+                            <div class="form-control" style="height: 6rem;" (click)="file.click();">
+                                <div class="text-center" style="top: 2rem; position: relative;">
+                                    <span style="text-transform: uppercase;">Nhấn vào đây để chọn file</span>
+                                </div>
+                                <div style="bottom: 1rem; position: absolute;">
+                                    <span style="text-transform: uppercase;">Đã chọn: {{selectedFile ? selectedFile.name : '0 file'}}</span>
+                                </div>
+                            </div>
+                            <!-- <textarea class="form-control" rows="5" name="name" placeholder="Nhấn vào đây hoặc icon để chọn file" readonly ></textarea> -->
+                            <input (change)="onChange($event)" #file type="file" class="hidden">
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-file"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group form-group-default required col">
+                        <label>Ghi Chú</label>
+                        <textarea rows="5" class="form-control" formControlName="Note"></textarea>
+                    </div>
+                </div>
+                <br>
+                <button class="btn btn-primary btn-cons
+          btn-animated from-left fa fa-plus" (click)="submit()" [disabled]="form.invalid">
+        <span>Cập nhật</span>
+      </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

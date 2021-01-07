@@ -1,0 +1,11 @@
+.picker-clear {
+  display: block;
+  position: absolute;
+  top: 6px;
+  right: 10px;
+  cursor: pointer;
+  color: rgba(3, 3, 3, 0.3);
+  &:hover {
+    color: rgba(3, 3, 3, 0.45);
+  }
+}

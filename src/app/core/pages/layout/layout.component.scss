@@ -1,0 +1,147 @@
+@import "../../../@pages/styles/core.scss";
+@import "../../../@pages/styles/themes/light/_var.scss";
+
+$base-img-url: "../../../@pages/assets/images" !global;
+$assets-url: ".../../../@pages/assets" !global;
+
+@import "../../../@pages/styles/modules/_layout.scss";
+@import "../../../@pages/styles/modules/_sidebar.scss";
+@import "../../../@pages/styles/modules/_secondary-sidebar.scss";
+@import "../../../@pages/styles/modules/_header.scss";
+@import "../../../@pages/styles/modules/_overlay-search.scss";
+@import "../../../@pages/styles/modules/_split-view.scss";
+// Sidebar Styles
+@import "../../../@pages/styles/modules/_quick-view.scss";
+@import "../../../@pages/styles/modules/_list.scss";
+
+// UI Components
+@import "../../../@pages/styles/icons.scss";
+@import "../../../@pages/styles/modules/_typography.scss";
+@import "../../../@pages/styles/modules/_breadcrumb.scss";
+@import "../../../@pages/styles/modules/_buttons.scss";
+@import "../../../@pages/styles/modules/_alerts.scss";
+@import "../../../@pages/styles/modules/_notifications.scss";
+@import "../../../@pages/styles/modules/_tabs_accordian.scss";
+@import "../../../@pages/styles/modules/_modals.scss";
+@import "../../../@pages/styles/modules/_progress_indicators.scss";
+
+// Pages Components
+@import "../../../@pages/styles/modules/_datepicker.scss";
+@import "../../../@pages/styles/modules/_timepicker.scss";
+@import "../../../@pages/styles/modules/_select.scss";
+@import "../../../@pages/styles/modules/_slider.scss";
+@import "../../../@pages/styles/modules/_switch.scss";
+@import "../../../@pages/styles/modules/_tabs.scss";
+@import "../../../@pages/styles/modules/_tags.scss";
+@import "../../../@pages/styles/modules/_uploader.scss";
+@import "../../../@pages/styles/modules/_pagination.scss";
+
+// Email App
+@import "../../../@pages/styles/modules/_email.scss";
+
+// View
+@import "../../../@pages/styles/modules/_view.scss";
+
+// Cards
+@import "../../../@pages/styles/modules/_cards.scss";
+
+// Form Elements
+@import "../../../@pages/styles/modules/_form_elements.scss";
+
+// Tables
+@import "../../../@pages/styles/modules/_tables.scss";
+
+// Charts
+@import "../../../@pages/styles/modules/_charts.scss";
+
+// List
+@import "../../../@pages/styles/modules/_list.scss";
+
+// Social
+@import "../../../@pages/styles/modules/_social.scss";
+
+// Email
+@import "../../../@pages/styles/modules/_email.scss";
+
+// Login
+@import "../../../@pages/styles/modules/_login.scss";
+
+// Lock screen
+@import "../../../@pages/styles/modules/_lock_screen.scss";
+
+// Timeline
+@import "../../../@pages/styles/modules/_timeline.scss";
+
+// Gallery
+@import "../../../@pages/styles/modules/_gallery.scss";
+
+// Chat
+@import "../../../@pages/styles/modules/_chat.scss";
+
+// Z-indexes
+@import "../../../@pages/styles/modules/z_index.scss";
+
+// Misc
+@import "../../../@pages/styles/modules/_misc.scss";
+
+// Print
+@import "../../../@pages/styles/modules/_print.scss";
+
+// Misc Helpers
+@import "../../../@pages/styles/modules/_misc.scss";
+
+// Demo - Remove in production
+@import "../../../@pages/styles/modules/_demo.scss";
+
+// Responsive Classes
+@import "../../../@pages/styles/_responsive.scss";
+
+// Utils
+@import "../../../@pages/styles/utils.scss";
+
+// Vendor
+@import "../../../@pages/styles/vendor/perfect-scroller.scss";
+@import "../../../@pages/styles/vendor/typehead.scss";
+@import "../../../@pages/styles/vendor/ng-tree.scss";
+@import "../../../@pages/styles/vendor/quill.scss";
+@import "../../../@pages/styles/vendor/ng-datatable.scss";
+@import "../../../@pages/styles/vendor/ngx-nvd3.scss";
+@import "../../../@pages/styles/vendor/ngx-google-map.scss";
+
+@import "../../../@pages/styles/themes/light/_custom.scss";
+
+// Feather Icons overides - only for NG version
+.icon-thumbnail {
+	& > * {
+		width: 16px !important;
+		height: 16px !important;
+	}
+	svg {
+		display: inline;
+	}
+}
+
+// styles
+page-container.page-container {
+	div.page-content-wrapper {
+		min-height: calc(100% - 100px) !important;
+		height: calc(100% - 100px);
+		overflow: auto;
+		div.content {
+			padding-top: 0;
+			padding-left: 10px;
+			padding-right: 10px;
+		}
+	}
+}
+div.footer {
+	height: 40px;
+	div.copyright {
+		padding: 10px 0;
+		border-bottom: 1px solid #eaecee;
+	}
+}
+
+img.brand {
+	height: 100%;
+}

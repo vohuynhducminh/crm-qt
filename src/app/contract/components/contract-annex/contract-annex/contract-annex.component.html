@@ -1,0 +1,423 @@
+<div class="form-group d-flex m-0 toolbar-mini" style="padding-left: 15px; padding-right:15px">
+    <button class="btn btn-primary mr-1" *ngIf="canActive.create" (click)="openModal(template, 'create')">
+            <span>Thêm mới</span>
+          </button>
+    <button *ngIf="objSelected" class="btn btn-warning ml-2" (click)="openModal(templateupdate, 'update')">
+            <span>Cập nhật</span>
+          </button>
+    <button *ngIf="objSelected" class="btn btn-danger ml-2" (click)="delete()">
+            <span>Xóa</span>
+          </button>
+</div>
+<div class="d-flex">
+    <div class="col-4">
+        <ngx-datatable id="customer-contact-table" class='table table-hover' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="dataTable" [selectionType]="'single'" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+            [limit]="20" [selected]="selectionFather" (select)="onSelectTable($event)">
+            <ngx-datatable-column [name]="'STT'" cellClass="d-flex align-items-center">
+                <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    {{(rowIndex)}}.
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Số phụ lục'" [prop]="'No'" cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+        </ngx-datatable>
+
+    </div>
+    <div class="col-8">
+        <ngx-datatable id="customer-contact-table" class='table table-hover' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="objectTable.annex" [selectionType]="'single'" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+            [limit]="20" [selected]="selection" (select)="onSelect($event)">
+            <ngx-datatable-column [name]="'STT'" cellClass="d-flex align-items-center">
+                <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                    {{(rowIndex + 1)}}.
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Ngày bắt đầu'" [prop]="'DateStart'" cellClass="d-flex align-items-center">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value | date: 'dd/MM/yyyy'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Ngày kết thúc'" [prop]="'DateEnd'" cellClass="d-flex align-items-center">
+                <ng-template let-value="value" ngx-datatable-cell-template>
+                    {{value | date: 'dd/MM/yyyy'}}
+                </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column [name]="'Nội dung'" [prop]="'Type'" cellClass="d-flex align-items-center">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                    {{returnContent(row)}}
+                </ng-template>
+            </ngx-datatable-column>
+            <!-- <ngx-datatable-column [name]="'Trạng thái'" [prop]="'Status'" cellClass="d-flex align-items-center">
+                    <ng-template let-value="value" ngx-datatable-cell-template>
+                        <span class="status-{{value === 0 ? 'doing' : 'liquidated'}}">{{value === 0 ? 'Đang thực hiện' : 'Đã thanh lý'}}</span>
+                    </ng-template>
+                </ngx-datatable-column> -->
+        </ngx-datatable>
+
+    </div>
+    <!-- <div class="col-6" *ngIf="objSelected">
+        <div class="row">
+            <h4 class="page-title" style="margin-bottom: 2px; text-transform: uppercase;">{{objSelected.No}} - Thông tin {{returnLabel(objSelected.Type)}}</h4>
+            <span [class.text-danger]="!end" [class.text-success]="!objSelected.IsClose">{{!end ? 'Đã đóng' : 'Đang mở'}}</span>
+            <div class="fake-workspace-wrapper" style="width: 90%;">
+                <div class="fake-workspace-header">&nbsp;</div>
+                <div class="fake-workspace" *ngIf="formUpdate" [formGroup]="formUpdate">
+                    <div class="d-flex form-group-attached-inline">
+                        <div class="input-group date form-group form-group-default col required" [class.has-error]="!formUpdate.controls['DateSign'].valid && (formUpdate.controls['DateSign'].dirty
+                            || formUpdate.controls['DateSign'].touched)">
+                            <div class="form-input-group">
+                                <label>Ngày ký (dd/mm/yyyy)</label>
+                                <pg-datepicker [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateSign">
+                                </pg-datepicker>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                <i class="fa fa-calendar"></i>
+                              </span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="d-flex form-group-attached-inline">
+                        <div class="input-group date form-group form-group-default col required" [class.has-error]="!formUpdate.controls['DateStart'].valid && (formUpdate.controls['DateStart'].dirty
+                        || formUpdate.controls['DateStart'].touched)">
+                            <div class="form-input-group">
+                                <label>Ngày bắt đầu tính {{returnLabel(objSelected.Type)}} (dd/mm/yyyy)</label>
+                                <pg-datepicker [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateStart">
+                                </pg-datepicker>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                            <i class="fa fa-calendar"></i>
+                          </span>
+                            </div>
+                        </div>
+                        <div class="input-group date form-group form-group-default col">
+                            <div class="form-input-group">
+                                <label>Ngày kết thúc tính {{returnLabel(objSelected.Type)}} (dd/mm/yyyy)</label>
+                                <pg-datepicker [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateEnd">
+                                </pg-datepicker>
+                            </div>
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                          <i class="fa fa-calendar"></i>
+                        </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="d-flex form-group-attached-inline">
+                        <div class="form-group form-group-default col required" [class.has-error]="!formUpdate.controls['Building'].valid && (formUpdate.controls['Building'].dirty
+                        || formUpdate.controls['Building'].touched)">
+                            <label>Tên tòa nhà</label>
+                            <input type="text" class="form-control text-truncate" formControlName="Building">
+                        </div>
+                        <div class="form-group form-group-default col required" [class.has-error]="!formUpdate.controls['Floor'].valid && (formUpdate.controls['Floor'].dirty
+                        || formUpdate.controls['Floor'].touched)">
+                            <label>Số Tầng</label>
+                            <input type="text" class="form-control" formControlName="Floor">
+                        </div>
+                        <div class="form-group form-group-default col required" [class.has-error]="!formUpdate.controls['Room'].valid && (formUpdate.controls['Room'].dirty
+                        || formUpdate.controls['Room'].touched)">
+                            <label>Số Phòng</label>
+                            <input type="text" class="form-control" formControlName="Room">
+                        </div>
+                    </div>
+                    <div class="d-flex form-group-attached-inline" *ngIf="objSelected.Type === 2 || objSelected.Type === 3">
+                        <div class="form-group form-group-default col required" [class.has-error]="!formUpdate.controls['Square'].valid && (formUpdate.controls['Square'].dirty
+                        || formUpdate.controls['Square'].touched)">
+                            <label>Diện tích (m2)</label>
+                            <input type="text" class="form-control" [textMask]="{mask: currencyNoDecMask}" formControlName="Square">
+                        </div>
+                    </div>
+                    <div *ngIf="objSelected.Type === 0" class="d-flex form-group-attached-inline">
+                        <div class="form-group form-group-default col required" [class.has-error]="!formUpdate.controls['UnitPrice'].valid && (formUpdate.controls['UnitPrice'].dirty
+                        || formUpdate.controls['UnitPrice'].touched)">
+                            <label>Giá thuê (vnđ/m2)</label>
+                            <input type="text" class="form-control" [textMask]="{mask: currencyNoDecMask}" formControlName="UnitPrice">
+                        </div>
+                    </div>
+                    <div *ngIf="objSelected.Type === 1" class="d-flex form-group-attached-inline">
+                        <div class="form-group form-group-default col required" [class.has-error]="!formUpdate.controls['UnitServicePrice'].valid && (formUpdate.controls['UnitServicePrice'].dirty
+                        || formUpdate.controls['UnitServicePrice'].touched)">
+                            <label>Giá dịch vụ</label>
+                            <input type="text" class="form-control" [textMask]="{mask: currencyNoDecMask}" formControlName="UnitServicePrice">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div *ngIf="objSelected" class="row mt-3">
+            <button [disabled]="formUpdate.invalid" class="btn btn-primary mr-2" (click)="update()">
+                <span>Cập nhật</span>
+              </button>
+        </div>
+    </div>
+</div> -->
+
+
+    <ng-template #template>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Tạo mới Phụ Lục Kinh Doanh</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" *ngIf="formCreate">
+            <div class="card card-transparent">
+                <div class="card-body" [formGroup]="formCreate">
+
+                    <div class="d-flex">
+                        <div class="form-group form-group-default col required" [class.has-error]="!formCreate.controls['No'].valid && (formCreate.controls['No'].dirty
+                    || formCreate.controls['No'].touched)">
+                            <label>Số phụ lục</label>
+                            <input class="form-control" formControlName="No">
+                        </div>
+                        <div class="input-group date form-group form-group-default col required" [class.has-error]="!formCreate.controls['DateSign'].valid && (formCreate.controls['DateSign'].dirty
+                        || formCreate.controls['DateSign'].touched)">
+
+                            <div class="form-input-group">
+                                <label>Ngày ký (dd/mm/yyyy)</label>
+                                <pg-datepicker [readonly]="false" [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateSign">
+                                </pg-datepicker>
+                            </div>
+
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="form-group form-group-default form-group-default-select2 col">
+                            <label>Loại phụ lục</label>
+                            <pg-select [PlaceHolder]="''" ShowSearch (ngModelChange)="onChangeType('create')" [(ngModel)]="type" [ngModelOptions]="{standalone: true}">
+                                <pg-option *ngFor="let option of listTypes" [Label]="option.label" [Value]="option.type">
+                                </pg-option>
+                            </pg-select>
+                        </div>
+                        <div *ngIf="type === 2 || type === 3" class="form-group form-group-default col required" [class.has-error]="!formCreate.controls['Square'].valid && (formCreate.controls['Square'].dirty
+                    || formCreate.controls['Square'].touched)">
+                            <label>Diện tích (m2)</label>
+                            <input [textMask]="{mask: currencyMask}" class="form-control" formControlName="Square">
+                        </div>
+                        <div *ngIf="type === 0" class="form-group form-group-default col required" [class.has-error]="!formCreate.controls['UnitPrice'].valid && (formCreate.controls['UnitPrice'].dirty
+                    || formCreate.controls['UnitPrice'].touched)">
+                            <label>Giá thuê văn phòng (vnđ/m2)</label>
+                            <input [textMask]="{mask: currencyNoDecMask}" class="form-control" formControlName="UnitPrice">
+                        </div>
+
+                        <div *ngIf="type === 1" class="form-group form-group-default col required" [class.has-error]="!formCreate.controls['UnitServicePrice'].valid && (formCreate.controls['UnitServicePrice'].dirty
+                    || formCreate.controls['UnitServicePrice'].touched)">
+                            <label>Giá dịch vụ</label>
+                            <input [textMask]="{mask: currencyNoDecMask}" class="form-control" formControlName="UnitServicePrice">
+                        </div>
+                    </div>
+                    <div class="d-flex form-group-attached-inline">
+
+                        <div class="input-group date form-group form-group-default col required" [class.has-error]="!formCreate.controls['DateStart'].valid && (formCreate.controls['DateStart'].dirty
+                    || formCreate.controls['DateStart'].touched)">
+
+                            <div class="form-input-group">
+                                <label>Ngày bắt đầu tính {{returnLabel(type)}} (dd/mm/yyyy)</label>
+                                <pg-datepicker [readonly]="false" [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateStart">
+                                </pg-datepicker>
+                            </div>
+
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                            </div>
+
+                        </div>
+
+                        <div class="input-group date form-group form-group-default col">
+
+                            <div class="form-input-group">
+                                <label>Ngày kết thúc tính {{returnLabel(type)}} (dd/mm/yyyy)</label>
+                                <pg-datepicker [readonly]="false" [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateEnd">
+                                </pg-datepicker>
+                            </div>
+
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                      <i class="fa fa-calendar"></i>
+                    </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="d-flex">
+                        <div class="form-group form-group-default col required" [class.has-error]="!formCreate.controls['Building'].valid && (formCreate.controls['Building'].dirty
+                    || formCreate.controls['Building'].touched)">
+                            <label>Tên tòa nhà</label>
+                            <input class="form-control" formControlName="Building">
+                        </div>
+                        <div class="form-group form-group-default col">
+                            <label>Số tầng</label>
+                            <input type="text" class="form-control" formControlName="Floor">
+                        </div>
+                        <div class="form-group form-group-default col">
+                            <label>Số phòng</label>
+                            <input type="text" class="form-control" formControlName="Room">
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="form-group form-group-default form-group-default-select2 col">
+                            <label>Số hiệu mặt bằng</label>
+                            <pg-select [PlaceHolder]="''" ShowSearch  formControlName="Key" >                                
+                                <pg-option *ngFor="let option of listGround" [Label]="option.label_ground" [Value]="option.key">
+                                </pg-option>
+                            </pg-select>
+                        </div>                                                                        
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="form-group form-group-default col">
+                            <label>Ghi chú</label>
+                            <textarea rows="5" class="form-control" formControlName="Note"></textarea>
+                        </div>
+                    </div>
+                    <button [disabled]="!formCreate.valid" class="btn btn-primary btn-cons
+                btn-animated from-left fa fa-plus" (click)="submit()">
+                <span>Thêm</span>
+              </button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <ng-template #templateupdate>
+        <div class="modal-header">
+            <h4 class="modal-title pull-left">Cập nhật Phụ Lục Kinh Doanh</h4>
+            <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body" *ngIf="formUpdate && objSelected">
+            <div class="card card-transparent">
+                <div class="card-body" [formGroup]="formUpdate">
+
+                    <div class="d-flex">
+                        <div class="form-group form-group-default col required">
+                            <label>Số phụ lục</label>
+                            <input readonly class="form-control" [value]="objSelected.No">
+                        </div>
+                        <div class="input-group date form-group form-group-default col required" [class.has-error]="!formUpdate.controls['DateSign'].valid && (formUpdate.controls['DateSign'].dirty
+                        || formUpdate.controls['DateSign'].touched)">
+
+                            <div class="form-input-group">
+                                <label>Ngày ký (dd/mm/yyyy)</label>
+                                <pg-datepicker [readonly]="false" [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateSign">
+                                </pg-datepicker>
+                            </div>
+
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="d-flex">
+                        <div class="form-group form-group-default form-group-default-select2 col">
+                            <label>Loại phụ lục</label>
+                            <pg-select [PlaceHolder]="''" ShowSearch (ngModelChange)="onChangeType('update')" [(ngModel)]="type" [ngModelOptions]="{standalone: true}">
+                                <pg-option *ngFor="let option of listTypes" [Label]="option.label" [Value]="option.type">
+                                </pg-option>
+                            </pg-select>
+                        </div>
+                        <div *ngIf="type === 0" class="form-group form-group-default col required" [class.has-error]="!formUpdate.controls['UnitPrice'].valid && (formUpdate.controls['UnitPrice'].dirty
+                        || formUpdate.controls['UnitPrice'].touched)">
+                            <label>Giá thuê văn phòng (vnđ/m2)</label>
+                            <input [textMask]="{mask: currencyNoDecMask}" class="form-control" formControlName="UnitPrice">
+                        </div>
+                        <div *ngIf="type === 1" class="form-group form-group-default col required" [class.has-error]="!formUpdate.controls['UnitServicePrice'].valid && (formUpdate.controls['UnitServicePrice'].dirty
+                        || formUpdate.controls['UnitServicePrice'].touched)">
+                            <label>Giá dịch vụ</label>
+                            <input [textMask]="{mask: currencyNoDecMask}" class="form-control" formControlName="UnitServicePrice">
+                        </div>
+                        <div *ngIf="type === 2 || type === 3" class="form-group form-group-default col required" [class.has-error]="!formUpdate.controls['Square'].valid && (formUpdate.controls['Square'].dirty
+                        || formUpdate.controls['Square'].touched)">
+                            <label>Diện tích (m2)</label>
+                            <input [textMask]="{mask: currencyMask}" class="form-control" formControlName="Square">
+                        </div>
+                    </div>
+                    <div class="d-flex form-group-attached-inline">
+
+                        <div class="input-group date form-group form-group-default col required" [class.has-error]="!formUpdate.controls['DateStart'].valid && (formUpdate.controls['DateStart'].dirty
+                    || formUpdate.controls['DateStart'].touched)">
+
+                            <div class="form-input-group">
+                                <label>Ngày bắt đầu tính {{returnLabel(type)}} (dd/mm/yyyy)</label>
+                                <pg-datepicker [readonly]="false" [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateStart">
+                                </pg-datepicker>
+                            </div>
+
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                            </div>
+
+                        </div>
+
+                        <div class="input-group date form-group form-group-default col">
+
+                            <div class="form-input-group">
+                                <label>Ngày kết thúc tính {{returnLabel(type)}} (dd/mm/yyyy)</label>
+                                <pg-datepicker [readonly]="false" [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateEnd">
+                                </pg-datepicker>
+                            </div>
+
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                      <i class="fa fa-calendar"></i>
+                    </span>
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <div class="d-flex">
+                        <div class="form-group form-group-default col required" [class.has-error]="!formUpdate.controls['Building'].valid && (formUpdate.controls['Building'].dirty
+                    || formUpdate.controls['Building'].touched)">
+                            <label>Tên tòa nhà</label>
+                            <input class="form-control" formControlName="Building">
+                        </div>
+                        <div class="form-group form-group-default col">
+                            <label>Số tầng</label>
+                            <input type="text" class="form-control" formControlName="Floor">
+                        </div>
+                        <div class="form-group form-group-default col">
+                            <label>Số phòng</label>
+                            <input type="text" class="form-control" formControlName="Room">
+                        </div>
+                    </div>
+
+                    <div class="d-flex">
+                        <div class="form-group form-group-default col">
+                            <label>Ghi chú</label>
+                            <textarea rows="5" class="form-control" formControlName="Note"></textarea>
+                        </div>
+                    </div>
+                    <button [disabled]="!formUpdate.valid" class="btn btn-primary btn-cons
+                btn-animated from-left fa fa-plus" (click)="update()">
+                <span>Cập nhật</span>
+              </button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+
+    <swal #success title="Thanh lý thành công" text="" type="success" [focusCancel]="true" [allowOutsideClick]="false">
+    </swal>
+    <swal #successForm title="Tạo phụ lục thành công" text="" type="success" [focusCancel]="true" [allowOutsideClick]="false">
+    </swal>
+    <swal #error title="Có lỗi xảy ra" text="Vui lòng thử lại!" type="error" [focusCancel]="true" [allowOutsideClick]="false">
+    </swal>

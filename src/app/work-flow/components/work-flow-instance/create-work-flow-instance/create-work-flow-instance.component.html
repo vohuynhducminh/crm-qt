@@ -1,0 +1,89 @@
+<button
+  class="btn btn-primary"
+  (click)="openModal(template)"
+  [disabled]="!workFlow">
+  <span>Add</span>
+</button>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create Work Flow Instance</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card card-transparent">
+      <div class="card-body">
+        <div class="form-group-attached">
+          <div class="form-group form-group-default required">
+            <label>Name</label>
+            <input #name type="text" class="form-control" name="name" required>
+          </div>
+          <div class="form-group form-group-default form-group-default-select2 required">
+            <label class="">Type</label>
+            <pg-select
+              #type
+              [PlaceHolder]="''"
+              AllowClear
+              ShowSearch>
+              <pg-option
+                *ngFor="let option of ['Activity', 'Event', 'Gateway']"
+                [Label]="option"
+                [Value]="option">
+              </pg-option>
+            </pg-select>
+          </div>
+          <div class="form-group form-group-default form-group-default-select2 required">
+            <label>SubType</label>
+            <pg-select
+              #subType
+              [PlaceHolder]="''"
+              AllowClear
+              ShowSearch
+              [ngSwitch]="type.Value">
+              <ng-container *ngSwitchCase="'Activity'">
+                <pg-option
+                  *ngFor="let option of ['Task', 'Sub-process', 'Transaction', 'Call Activity']"
+                  [Label]="option"
+                  [Value]="option">
+                </pg-option>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Event'">
+                <pg-option
+                  *ngFor="let option of ['Start event', 'Intermediate event', 'End event']"
+                  [Label]="option"
+                  [Value]="option">
+                </pg-option>
+              </ng-container>
+              <ng-container *ngSwitchCase="'Gateway'">
+                <pg-option
+                  *ngFor="let option of ['Exclusive', 'Event Based', 'Parallel', 'Inclusive', 'Exclusive Event Based', 'Complex', 'Parallel Event Based']"
+                  [Label]="option"
+                  [Value]="option">
+                </pg-option>
+              </ng-container>
+            </pg-select>
+          </div>
+          <div class="form-group form-group-default required">
+            <label>Description</label>
+            <textarea
+              #description
+              rows="5"
+              class="form-control"
+              name="description"
+              required
+            ></textarea>
+          </div>
+        </div>
+        <br>
+        <button
+          class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-plus"
+          (click)="createWorkFlowInstance(name.value, type.Value, subType.Value, description.value)">
+          <span>Add</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

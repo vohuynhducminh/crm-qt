@@ -1,0 +1,18 @@
+<pgcard
+    #card
+    [Refresh]="false"
+    [Loading]="load"
+    [Maximize]="false"
+    [Close]="false"
+    HeaderClass="separator">
+    <ng-template #CardTitle>
+        <p class="title pointer">{{title}}</p>
+        <ng-template #noRouter></ng-template>
+    </ng-template>
+    <div class="card-data mt-3" [ngStyle]="{height: height}" *ngIf="hTemplate ;else sampleData">
+        <ng-container *ngTemplateOutlet="hTemplate; context: {$implicit: 'data'}"></ng-container>
+    </div>
+    <ng-template #sampleData>
+        <h1>Card body</h1>
+    </ng-template>
+</pgcard>

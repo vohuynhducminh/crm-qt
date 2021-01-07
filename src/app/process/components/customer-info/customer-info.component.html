@@ -1,0 +1,51 @@
+<button class="btn btn-primary btn-cons btn-kudo
+btn-animated from-left fa fa-user" title="Thông tin khách hàng" (click)="openModal(info)">
+  <span class="fa fa-user"></span>
+</button>
+
+<ng-template #info>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">
+            Thông tin khách hàng
+        </h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="card card-transparent">
+            <div class="card-body" *ngIf="cus">
+                <div class="d-flex form-group-attached-inline">
+                    <div class="form-group form-group-default col-8 disabled">
+                        <label>Người đại diện</label>
+                        <input type="text" readonly class="form-control" [value]="cus.DeputyVM.Name">
+                    </div>
+                    <div class="form-group form-group-default col-4 disabled">
+                        <label>Chức danh</label>
+                        <input type="text" readonly class="form-control" [value]="cus.DeputyVM.Position">
+                    </div>
+                </div>
+                <div class="d-flex form-group-attached-inline">
+                    <div class="form-group form-group-default col disabled">
+                        <label>Điện thoại</label>
+                        <input type="text" readonly class="form-control" [value]="cus.Tel">
+                    </div>
+                    <div class="form-group form-group-default col disabled">
+                        <label>Fax</label>
+                        <input type="text" readonly class="form-control" [value]="cus.Fax">
+                    </div>
+                    <div class="form-group form-group-default col disabled">
+                      <label>Mã số thuế</label>
+                      <input type="text" readonly class="form-control" [value]="cus.TaxCode">
+                  </div>
+                </div>
+                <div class="d-flex form-group-attached-inline">
+                    <div class="form-group form-group-default col disabled">
+                      <label>Địa chỉ</label>
+                      <textarea class="form-control" readonly name="comment" rows="5">{{cus.Address}}</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

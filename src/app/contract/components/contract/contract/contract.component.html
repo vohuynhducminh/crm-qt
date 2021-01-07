@@ -1,0 +1,164 @@
+<h4 class="page-title">Hợp Đồng Kinh Doanh</h4>
+<!-- <app-create-contract></app-create-contract> -->
+
+<!-- [kendoGridBinding]="[{Id:'ea403721-fd5b-4d7b-84fd-f285d32170aa',Name:'Test Company',Contact: 'Mr. Shinichi',Position:'Manager',Tel:'0123456789',Email:'shinichi@gmail.com',Fax:'012345876',ContractCode:'QTSC9/0024',BuildingName:'QTSC 9',Floor:'6',Room:'607,608,609',InContractArea:'380.5',UsedArea:'302.5',RentCost:'2.180.000',ServiceCost:'258.000',SignDate:'30/09/2019',OutDate:'30/09/2020',RentStartDate:'01/10/2019',ServiceStartDate:'01/10/2019',IncreaseDate:'01/03/2020',IncreaseLevel:'30%',AddedFee:'10.000',Note:'Rented by test data'}]" -->
+<kendo-grid id="kudo-grid" [kendoGridGroupBinding]="data" [columnMenu]="true" [pageSize]="10" [pageable]="true" [sortable]="true" [filterable]="true" [reorderable]="true" [selectable]="true">
+    <ng-template kendoGridNoRecordsTemplate>
+        Không tìm thấy dữ liệu phù hợp.
+    </ng-template>
+    <!-- <kendo-grid-column
+    [title]="'STT'"
+    [width]="150">
+    <ng-template kendoGridColumnMenuTemplate let-service="service">
+      <kendo-grid-columnmenu-lock [service]="service">
+      </kendo-grid-columnmenu-lock>
+      <kendo-grid-columnmenu-sort [service]="service">
+      </kendo-grid-columnmenu-sort>
+      <kendo-grid-columnmenu-chooser [service]="service">
+      </kendo-grid-columnmenu-chooser>
+    </ng-template>
+    <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+      <i
+        class="fa fa-info-circle mr-3 view-detail"
+        (click)="viewInfo(dataItem)"
+        [tooltip]="'Xem chi tiết'"
+        [placement]="'right'"></i>
+      {{(rowIndex + 1)}}.
+    </ng-template>
+  </kendo-grid-column> -->
+    <kendo-grid-column [field]="'ContractCode'" [title]="'MÃ HỢP ĐỒNG'" [width]="200">
+        <ng-template kendoGridColumnMenuTemplate let-service="service">
+            <kendo-grid-columnmenu-lock [service]="service">
+            </kendo-grid-columnmenu-lock>
+            <kendo-grid-columnmenu-sort [service]="service">
+            </kendo-grid-columnmenu-sort>
+            <kendo-grid-columnmenu-chooser [service]="service">
+            </kendo-grid-columnmenu-chooser>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <i class="fa fa-info-circle mr-3 view-detail" (click)="viewInfo(dataItem)" [tooltip]="'Xem chi tiết'" [placement]="'right'"></i>
+            <span class="status-{{dataItem.Status === 0 ? 'doing' : 'liquidated'}}">{{dataItem.ContractCode}}</span>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'CompanyCode'" [title]="'MÃ CÔNG TY'" [locked]="true" [width]="150">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'CompanyName'" [title]="'TÊN CÔNG TY'" [width]="500">
+    </kendo-grid-column>
+    <!-- <kendo-grid-column
+    [field]="'Contact'"
+    [title]="'NGƯỜI LIÊN HỆ'"
+    [columnMenu]="false"
+    [width]="250">
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'Position'"
+    [title]="'CHỨC VỤ'"
+    [columnMenu]="false"
+    [width]="150">
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'Phone'"
+    [title]="'ĐIỆN THOẠI'"
+    [columnMenu]="false"
+    [width]="150">
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'Email'"
+    [title]="'EMAIL'"
+    [columnMenu]="false"
+    [width]="250">
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'Fax'"
+    [title]="'FAX'"
+    [columnMenu]="false"
+    [width]="150">
+  </kendo-grid-column> -->
+    <kendo-grid-column [field]="'ContractNo'" [title]="'SỐ HỢP ĐỒNG'" [columnMenu]="false" [width]="200">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Building'" [title]="'TÊN TÒA NHÀ'" [columnMenu]="false" [width]="200">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Floor'" [title]="'SỐ TẦNG'" [columnMenu]="false" [width]="150">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Room'" [title]="'SỐ PHÒNG'" [columnMenu]="false" [width]="150">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Square'" [title]="'DIỆN TÍCH THEO HỢP ĐỒNG'" [columnMenu]="false" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{formatter(dataItem.Square + '')}}
+        </ng-template>
+    </kendo-grid-column>
+    <!-- <kendo-grid-column
+    [field]="'UsingSquare'"
+    [title]="'DIỆN TÍCH ĐANG SỬ DỤNG'"
+    [columnMenu]="false"
+    [width]="250">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.UsingSquare | number: '1.0-0'}}
+    </ng-template>
+  </kendo-grid-column> -->
+    <kendo-grid-column [field]="'UnitPrice'" [title]="'ĐƠN GIÁ'" [columnMenu]="false" [width]="200">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{formatter(dataItem.UnitPrice + '')}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'UnitServicePrice'" [title]="'ĐƠN GIÁ DỊCH VỤ'" [columnMenu]="false" [width]="200">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{formatter(dataItem.UnitServicePrice + '')}}
+        </ng-template>
+    </kendo-grid-column>
+    <!-- <kendo-grid-column
+    [field]="'ContractDate'"
+    [title]="'NGÀY KÝ HỢP ĐỒNG'"
+    [columnMenu]="false"
+    [width]="250">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.ContractDate | date: 'dd/MM/yyyy'}}
+    </ng-template>
+  </kendo-grid-column> -->
+    <kendo-grid-column [field]="'StartDate'" [title]="'NGÀY BẮT ĐẦU HỢP ĐỒNG'" [columnMenu]="false" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.StartDate | date: 'dd/MM/yyyy'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'EndDate'" [title]="'NGÀY HẾT HẠN HỢP ĐỒNG'" [columnMenu]="false" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.EndDate | date: 'dd/MM/yyyy'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'StartDateRent'" [title]="'NGÀY BẮT ĐẦU TÍNH TIỀN THUÊ'" [columnMenu]="false" [width]="300">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.StartDateRent | date: 'dd/MM/yyyy'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'ServiceStartDate'" [title]="'NGÀY BẮT ĐẦU TÍNH PHÍ DỊCH VỤ'" [columnMenu]="false" [width]="300">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.StartDateService | date: 'dd/MM/yyyy'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'UpPriceDate'" [title]="'NGÀY TĂNG GIÁ'" [columnMenu]="false" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.UpPriceDate | date: 'dd/MM/yyyy'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'LevelUpPrice'" [title]="'MỨC TĂNG GIÁ THUÊ'" [columnMenu]="false" [width]="300">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.LevelUpUnitPrice}}%
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'LevelUpUnitServicePrice'" [title]="'MỨC TĂNG GIÁ DỊCH VỤ'" [columnMenu]="false" [width]="300">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.LevelUpUnitServicePrice}}%
+        </ng-template>
+    </kendo-grid-column>
+    <!-- <kendo-grid-column
+    [field]="'OtherPrice'"
+    [title]="'GIÁ PHỤ PHÍ NGOÀI GIỜ'"
+    [columnMenu]="false"
+    [width]="300">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.OtherPrice | number: '1.0-0'}}
+    </ng-template>
+  </kendo-grid-column> -->
+    <kendo-grid-column [field]="'Note'" [title]="'GHI CHÚ'" [columnMenu]="false" [width]="200">
+    </kendo-grid-column>
+</kendo-grid>

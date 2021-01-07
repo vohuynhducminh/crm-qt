@@ -1,0 +1,23 @@
+<!-- <app-account-update (useChange)="useLoadData()" [accountSelected]="accountSelected" [roles]="roles"></app-account-update> -->
+<!-- <button *ngIf="accountSelected" class="btn btn-danger ml-2" (click)="useDelete()">
+    <span>Xóa</span>
+  </button> -->
+<div class="input-group">
+    <div class="input-group-prepend">
+        <app-account-create (useChange)="useLoadData()"></app-account-create>
+
+    </div>
+    <input class="form-control search" (input)="useFilter()" [(ngModel)]="name" placeholder="Nhập tên nhân viên tìm kiếm">
+</div>
+<ngx-datatable id="table" (select)="useSelect($event)" [selected]="selected" class='table table-hover' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="searchAccounts" [selectionType]="'single'"
+    [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}" [limit]="5">
+    <ngx-datatable-column [name]="'STT'" cellClass="d-flex align-items-center">
+        <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            {{(rowIndex + 1)}}.
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Tên nhân viên'" [prop]="'FullName'" cellClass="d-flex align-items-center">
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Tài khoản nhân viên'" [prop]="'UserName'" cellClass="d-flex align-items-center">
+    </ngx-datatable-column>
+</ngx-datatable>

@@ -1,0 +1,19 @@
+<div class="row mt-3">
+    <div class="col text-center">
+        <button class="btn btn-{{index === 0 ? 'warning' : 'primary'}} mr-2" (click)="showChart(0)">Hiển thị theo năm</button>
+        <button class="btn btn-{{index === 1 ? 'warning' : 'primary'}} mr-2" (click)="showChart(1)">Hiển thị theo tháng</button>
+        <button class="btn btn-{{index === 2 ? 'warning' : 'primary'}} mr-2" (click)="showChart(2)">Hiển thị theo tuần</button>
+    </div>
+</div>
+<div class="row mt-3" style="height: calc(100vh - 202px) !important; max-height: calc(100vh - 202px) !important; overflow-y: scroll;">
+    <div *ngIf="index === 2" class="col-12 text-center">
+        <span>Chọn năm để hiển thị <pg-select style="width: 100px" [PlaceHolder]="''" (ngModelChange)="showChart(2)" ShowSearch [(ngModel)]="selectedYear">
+      <pg-option *ngFor="let option of years" [Label]="option" [Value]="option">
+      </pg-option>
+  </pg-select>
+    </span>
+    </div>
+    <div class="{{index === 0 ? 'col-12' : 'col-6'}} mt-3" *ngFor="let option of charts">
+        <div echarts [options]="option" style="height: 50vh; width: 100%"></div>
+    </div>
+</div>

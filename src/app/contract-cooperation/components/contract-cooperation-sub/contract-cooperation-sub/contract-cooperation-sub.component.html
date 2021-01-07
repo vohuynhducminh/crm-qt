@@ -1,0 +1,42 @@
+<div class="form-group d-flex m-0 toolbar-mini">
+    <app-create-contract-cooperation-sub *ngIf="canActive.create" (refresh)="loadContract()" [contractCooperation]="contractCooperation" [customers]="customers" [services]="returnCoNotClose()"></app-create-contract-cooperation-sub>
+    <app-update-contract-cooperation-sub *ngIf="canActive.update" (refresh)="loadContract()" [id]="id" [contractCooperation]="contractCooperation" [customers]="customers" [services]="services"></app-update-contract-cooperation-sub>
+    <button *ngIf="id" class="btn btn-danger ml-2" (click)="delete()">
+        <span>Xóa</span>
+      </button>
+</div>
+<ngx-datatable id="customer-contact-table" class='table table-hover long' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="data" [selectionType]="'single'" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+    [limit]="20" [selected]="selected" (select)="onSelect($event)">
+    <ngx-datatable-column [name]="'STT'" cellClass="d-flex align-items-center">
+        <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            {{(rowIndex + 1)}}.
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Mã hợp đồng con'" [prop]="'Code'" cellClass="d-flex align-items-center">
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Khách hàng'" [prop]="'CustomerId'" cellClass="d-flex align-items-center">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{returnCustomer(value) ? returnCustomer(value).Name : ''}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Ngày bắt đầu hợp đồng'" [prop]="'DateStart'" cellClass="d-flex align-items-center">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value | date: "dd/MM/yyyy"}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Ngày kết thúc hợp đồng'" [prop]="'DateEnd'" cellClass="d-flex align-items-center">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value | date: "dd/MM/yyyy"}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Loại hình hợp tác'" [prop]="'Type'" cellClass="d-flex align-items-center">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{returnType(value)}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Trạng thái'" [prop]="'Status'" cellClass="d-flex align-items-center">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <span class="status-{{value === 0 ? 'notstated' : value === 1 ? 'doing' : 'cancel'}}">{{value === 0 ? 'Chưa kích hoạt' : value === 1 ? 'Đang kích hoạt' : 'Đã hủy'}}</span>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>

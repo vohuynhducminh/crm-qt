@@ -1,0 +1,36 @@
+<div class="container-fluid customer-work-flow px-3">
+  <div class="row">
+    <div class="col">
+      <pg-tabset
+        tabAnimation="slide-left"
+        Type="simple"
+        TabPosition="left"
+        ActiveBarClass="kudo-active"
+        [extraTabContentClass]="'py-0 w-100'">
+        <pg-tab>
+          <ng-template #TabHeading>
+            <i
+              class="fa fa-suitcase"
+              style="font-size: 16px"
+              [tooltip]="'Hợp Đồng Viễn Thông'"
+              [placement]="'bottom'">
+            </i>
+          </ng-template>
+          <h4 class="page-title" style="margin-bottom: 2px">Thông Tin Doanh Thu Viễn Thông</h4>
+          <div class="fake-workspace-wrapper">
+            <div class="fake-workspace-header">&nbsp;</div>
+            <div class="fake-workspace">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col pt-2 px-0 pb-4">
+                    <app-detail-revenue-vt></app-detail-revenue-vt>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </pg-tab>
+       </pg-tabset>
+    </div>
+  </div>
+</div>

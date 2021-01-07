@@ -1,0 +1,58 @@
+<button
+  class="btn btn-primary"
+  (click)="openModal(template)"
+  [disabled]="!group || !_filteredRoleList || _filteredRoleList.length === 0">
+  <span>Add</span>
+</button>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create Role of Group</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card card-transparent">
+      <div class="card-body">
+        <div class="form-group-attached">
+          <div class="form-group form-group-default disabled">
+            <label>Group</label>
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              disabled
+              [value]="group.Name">
+          </div>
+        </div>
+        <div class="form-group form-group-default form-group-default-select2 required">
+          <label>Role</label>
+          <pg-select
+            #role
+            [PlaceHolder]="'Role'"
+            Multiple
+            AllowClear
+            ShowSearch>
+            <pg-option
+              *ngFor="let option of _filteredRoleList"
+              [Label]="option.Name"
+              [Value]="option.Id">
+            </pg-option>
+          </pg-select>
+        </div>
+        <br>
+        <button
+          class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-plus"
+          (click)="createRoleOfGroup(role.Value)">
+          <span>Add</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

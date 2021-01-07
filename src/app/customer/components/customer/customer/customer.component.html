@@ -1,0 +1,744 @@
+<h4 class="page-title">Đơn Vị</h4>
+<!-- <div class="form-group d-flex m-0">
+  <div class="toolbar">
+    <app-create-customer
+      (refresh)="getData()">
+    </app-create-customer>
+    <app-export-excel></app-export-excel>
+  </div>
+</div> -->
+
+<kendo-grid #kenGrid class="kudo-grid fixed" [height]="'auto'" [kendoGridBinding]="filteredData" [columnMenu]="false"
+  [pageSize]="10" [pageable]="true" [sortable]="true" [filterable]="true" [selectable]="true" [reorderable]="true"
+  (selectionChange)="onSelect($event)">
+  <ng-template kendoGridToolbarTemplate>
+    <app-create-customer (refresh)="getData()">
+    </app-create-customer>
+    <!-- <button type="button" kendoGridExcelCommand icon="file-excel">Xuất file Excel</button> -->
+    <button class="k-button-icontext k-button mr-2" (click)="sendExcel()">
+      <span class="k-icon k-i-file-excel"></span>
+      Xuất file Excel
+    </button>
+    <label class="custom-file-upload">
+      <input type="file" (change)="handleFileExcel($event)" accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+      Custom Upload
+    </label>
+    
+
+    <button *ngIf="fileExcel != null" (click)="sendExcelFile()" class="k-button-icontext k-button mr-2">Send Excel file</button>
+    <!-- <b *ngIf="openSendExcel">
+            <input placeholder="Nhập Email để gửi" [(ngModel)]="email" />
+            <button class="k-button-icontext k-button" (click)="sendExcel()">
+              Gửi
+            </button>
+            <button class="k-button-icontext k-button" (click)="openSendExcel = false">
+              Hủy
+            </button>
+        </b> -->
+  </ng-template>
+  <ng-template kendoGridNoRecordsTemplate>
+    Không tìm thấy dữ liệu phù hợp.
+  </ng-template>
+  <kendo-grid-column [field]="'Code'" [title]="'MÃ ĐƠN VỊ'" [locked]="true" [columnMenu]="false" [width]="150">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <i class="fa fa-info-circle mr-3 view-detail" (click)="viewInfo(dataItem)" [tooltip]="'Xem chi tiết'"
+        [placement]="'right'"></i> {{dataItem.Code}}
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+    <ng-template kendoGridColumnMenuTemplate let-service="service">
+      <kendo-grid-columnmenu-lock [service]="service">
+      </kendo-grid-columnmenu-lock>
+      <kendo-grid-columnmenu-sort [service]="service">
+      </kendo-grid-columnmenu-sort>
+      <kendo-grid-columnmenu-chooser [service]="service">
+      </kendo-grid-columnmenu-chooser>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column [field]="'Name'" [title]="'TÊN ĐƠN VỊ'" [locked]="true" [columnMenu]="false" [width]="500">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+    <ng-template kendoGridColumnMenuTemplate let-service="service">
+      <kendo-grid-columnmenu-lock [service]="service">
+      </kendo-grid-columnmenu-lock>
+      <kendo-grid-columnmenu-sort [service]="service">
+      </kendo-grid-columnmenu-sort>
+      <kendo-grid-columnmenu-chooser [service]="service">
+      </kendo-grid-columnmenu-chooser>
+      <kendo-grid-columnmenu-filter [service]="service">
+      </kendo-grid-columnmenu-filter>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column [field]="'ShortName'" [title]="'ĐV_TÊN VIẾT TẮT'" [columnMenu]="false" [width]="300">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column [field]="'Country'" [title]="'ĐV_QUỐC TỊCH'" [columnMenu]="false" [width]="200">
+    <ng-template kendoGridFilterCellTemplate let-filter>
+      <crm-dropdownlist-filter [filter]="filter" [data]="distinctNationalities" [textField]="'text'"
+        [valueField]="'Country'">
+      </crm-dropdownlist-filter>
+    </ng-template>
+  </kendo-grid-column>
+  <!-- <kendo-grid-column
+    [field]="'CountryType'"
+    [title]="'ĐV_PHÂN LOẠI QUỐC TỊCH'"
+    [columnMenu]="false"
+    [width]="250">
+    <ng-template kendoGridFilterCellTemplate let-filter>
+      <crm-dropdownlist-filter
+        [filter]="filter"
+        [data]="[{text: 'Trong nước', CountryType: 'Trong nước'},{text: 'Ngoài nước', CountryType: 'Ngoài nước'}]"
+        [textField]="'text'"
+        [valueField]="'CountryType'">
+      </crm-dropdownlist-filter>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'TotalInvestment'"
+    [title]="'ĐV_VỐN ĐIỀU LỆ (VNĐ)'"
+    [columnMenu]="false"
+    [width]="200">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.TotalInvestment | currencyFormat : true}}
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'Investment'"
+    [title]="'ĐV_VỐN ĐIỀU LỆ (USD)'"
+    [columnMenu]="false"
+    [width]="200">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.Investment | currencyFormat : true}}
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+  [field]="'abc1'"
+    [title]="'VỐN ĐẦU TƯ_ĐĂNG KÝ (VNĐ)'"
+    [columnMenu]="false"
+    [width]="230">
+  </kendo-grid-column>
+  <kendo-grid-column
+  [field]="'abc1'"
+    [title]="'VỐN ĐẦU TƯ_THỰC HIỆN (VNĐ)'"
+    [columnMenu]="false"
+    [width]="240">
+  </kendo-grid-column> -->
+  <kendo-grid-column [field]="'MarketTypeJson'" [title]="'ĐV_PHÂN LOẠI THỊ TRƯỜNG'" [columnMenu]="false" [width]="250">
+    <ng-template kendoGridFilterCellTemplate let-filter>
+      <crm-dropdownlist-filter [filter]="filter"
+        [data]="[{text: 'Châu Á', MarketTypeJson: 'Châu Á'},{text: 'Châu Mỹ', MarketTypeJson: 'Châu Mỹ'},{text: 'Châu Phi', MarketTypeJson: 'Châu Phi'},{text: 'Châu Úc', MarketTypeJson: 'Châu Úc'},{text: 'Châu Âu', MarketTypeJson: 'Châu Âu'}]"
+        [textField]="'text'" [valueField]="'MarketTypeJson'" [filterOperator]="'contains'">
+      </crm-dropdownlist-filter>
+    </ng-template>
+  </kendo-grid-column>
+  <!-- <kendo-grid-column
+  [field]="'abc1'"
+    [title]="'ĐV_THỊ TRƯỜNG HOẠT ĐỘNG'"
+    [columnMenu]="false"
+    [width]="250">
+  </kendo-grid-column> -->
+  <kendo-grid-column [field]="'YearStarted'" [title]="'ĐV_NĂM BẮT ĐẦU HĐ TẠI QTSC'" [width]="250">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.YearStarted | date: 'dd/MM/yyyy'}}
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column [field]="'YearEnded'" [title]="'ĐV_NĂM KẾT THÚC HĐ TẠI QTSC'" [columnMenu]="false" [width]="250">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.YearEnded | date: 'dd/MM/yyyy'}}
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <!-- <kendo-grid-column
+    [field]="'CustomerTypeId'"
+    [title]="'ĐV_PHÂN LOẠI NHÓM KHÁCH HÀNG'"
+    [columnMenu]="false"
+    [width]="270">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.CustomerTypeId | mapBy: customerTypeList}}
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter>
+      <crm-dropdownlist-filter
+        [filter]="filter"
+        [data]="customerTypeList"
+        [textField]="'Name'"
+        [valueField]="'CustomerTypeId'">
+      </crm-dropdownlist-filter>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'TransactionName'"
+    [title]="'ĐV_TÊN GIAO DỊCH'"
+    [columnMenu]="false"
+    [width]="180">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column> -->
+  <kendo-grid-column [field]="'BusinessType'" [title]="'ĐV_LOẠI HÌNH DOANH NGHIỆP'" [columnMenu]="false" [width]="250">
+    <ng-template kendoGridFilterCellTemplate let-filter>
+      <crm-dropdownlist-filter [filter]="filter" [data]="[
+          {text: 'CÔNG TY CỔ PHẦN', BusinessType: 'CÔNG TY CỔ PHẦN'},
+          {text: 'CÔNG TY TNHH', BusinessType: 'CÔNG TY TNHH'},
+          {text: 'DOANH NGHIỆP TƯ NHÂN', BusinessType: 'DOANH NGHIỆP TƯ NHÂN'}]" [textField]="'text'"
+        [valueField]="'BusinessType'">
+      </crm-dropdownlist-filter>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column [field]="'CompanyTypeJson'" [title]="'ĐV_PHÂN LOẠI DOANH NGHIỆP'" [columnMenu]="false"
+    [width]="250">
+    <ng-template kendoGridFilterCellTemplate let-filter>
+      <crm-dropdownlist-filter [filter]="filter" [data]="[
+        {text:'Doanh nghiệp Phần mềm - Công nghệ thông tin', CompanyTypeJson: 'Doanh nghiệp Phần mềm - Công nghệ thông tin'},
+        {text:'Doanh nghiệp R&D',CompanyTypeJson: 'Doanh nghiệp R&D'},
+        {text: 'Doanh nghiệp 97 Nguyễn Công Trứ', CompanyTypeJson: 'Doanh nghiệp 97 Nguyễn Công Trứ'},
+        {
+          text: 'Doanh nghiệp 97 Nguyễn Công Trứ - CNTT',
+          CompanyTypeJson: 'Doanh nghiệp 97 Nguyễn Công Trứ - CNTT'
+        },
+        {text: 'Doanh nghiệp dịch vụ', CompanyTypeJson: 'Doanh nghiệp dịch vụ'},
+        {text: 'Trường học/viện', CompanyTypeJson: 'Trường học/viện'},
+        {text: 'Nhà đầu tư', CompanyTypeJson: 'Nhà đầu tư'},
+        {text: 'Doanh nghiệp khác', CompanyTypeJson: 'Doanh nghiệp khác'}]" [textField]="'text'"
+        [valueField]="'CompanyTypeJson'" [filterOperator]="'contains'">
+      </crm-dropdownlist-filter>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column [field]="'ObjectTypeJson'" [title]="'ĐV_PHÂN LOẠI ĐỐI TƯỢNG'" [columnMenu]="false" [width]="250">
+    <ng-template kendoGridFilterCellTemplate let-filter>
+      <crm-dropdownlist-filter [filter]="filter" [data]="[
+    {text: 'Khách hàng cá nhân', ObjectTypeJson: 'Khách hàng cá nhân'},
+    {text: 'Khách hàng doanh nghiệp', ObjectTypeJson: 'Khách hàng doanh nghiệp'},
+    {text: 'Đào tạo', ObjectTypeJson: 'Đào tạo'},
+    {text: 'Đối tác', ObjectTypeJson: 'Đối tác'},
+    {text: 'Nhà đầu tư', ObjectTypeJson: 'Nhà đầu tư'},
+    {text: 'Nhà cung cấp', ObjectTypeJson: 'Nhà cung cấp'},
+    {text: 'Tổng công ty nhà nước', ObjectTypeJson: 'Tổng công ty nhà nước'},
+    {text: 'Lãnh sự quán', ObjectTypeJson: 'Lãnh sự quán'},
+    {text: 'Báo chí', ObjectTypeJson: 'Báo chí'},
+    {text: 'Hiệp hội', ObjectTypeJson: 'Hiệp hội'},
+    {text: 'Thương vụ', ObjectTypeJson: 'Thương vụ'},
+    {text: 'Sở ban ngành', ObjectTypeJson: 'Sở ban ngành'},
+    {text: 'Sinh viên', ObjectTypeJson: 'Sinh viên'},
+    {text: 'Email các loại', ObjectTypeJson: 'Email các loại'},
+    {text: 'Doanh nghiệp phần mềm – CNTT', ObjectTypeJson: 'Doanh nghiệp phần mềm – CNTT'},
+    {text: 'Doanh nghiệp R&D', ObjectTypeJson: 'Doanh nghiệp R&D'},
+    {text: 'Doanh nghiệp dịch vụ', ObjectTypeJson: 'Doanh nghiệp dịch vụ'},
+    {text: 'Đơn vị khác', ObjectTypeJson: 'Đơn vị khác'}]" [textField]="'text'" [valueField]="'ObjectTypeJson'"
+        [filterOperator]="'contains'">
+      </crm-dropdownlist-filter>
+    </ng-template>
+  </kendo-grid-column>
+  <!-- <kendo-grid-column
+  [field]="'abc1'"
+    [title]="'ĐV_CHI TIẾT ĐỐI TƯỢNG'"
+    [columnMenu]="false"
+    [width]="250">
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'Career'"
+    [title]="'ĐV_LĨNH VỰC HOẠT ĐỘNG'"
+    [columnMenu]="false"
+    [width]="230">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'MainCareer'"
+    [title]="'ĐV_HOẠT ĐỘNG CHÍNH'"
+    [columnMenu]="false"
+    [width]="200">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <span
+        class="text-truncate"
+        [tooltip]="dataItem.MainCareer"
+        [placement]="'auto'">
+        {{dataItem.MainCareer}}
+      </span>
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'ProductHighlight'"
+    [title]="'ĐV_SẢN PHẨM TIÊU BIỂU'"
+    [columnMenu]="false"
+    [width]="200">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column> -->
+  <kendo-grid-column [field]="'Address'" [title]="'ĐV_ĐỊA CHỈ'" [columnMenu]="false" [width]="300">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <pre [tooltip]="dataItem.Address" [placement]="'auto'">{{dataItem.Address}}</pre>
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <!-- <kendo-grid-column
+  [field]="'abc1'"
+    [title]="'ĐV_ĐỊA CHỈ_TỈNH/TP'"
+    [columnMenu]="false"
+    [width]="250">
+  </kendo-grid-column>
+  <kendo-grid-column
+  [field]="'abc1'"
+    [title]="'ĐV_THÀNH VIÊN CVPMQT'"
+    [columnMenu]="false"
+    [width]="300">
+    <ng-template kendoGridFilterCellTemplate let-filter>
+      <crm-dropdownlist-filter
+        [filter]="filter"
+        [data]="[{text: 'Trong Công viên Phần mềm Quang Trung', Inside: 'Trong Công viên Phần mềm Quang Trung'},{text: 'Ngoài Công viên Phần mềm Quang Trung', Inside: 'Ngoài Công viên Phần mềm Quang Trung'}]"
+        [textField]="'text'"
+        [valueField]="'Inside'">
+      </crm-dropdownlist-filter>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column-group
+    [title]="'THÔNG TIN CHỦ SỞ HỮU'"
+    [columnMenu]="false"
+    [width]="2700">
+    <kendo-grid-column
+    [field]="'abc1'"
+      [title]="'TÊN CHỦ SỞ HỮU'"
+      [columnMenu]="false"
+      [width]="250">
+    </kendo-grid-column>
+    <kendo-grid-column
+    [field]="'abc1'"
+      [title]="'MÃ SỐ DOANH NGHIỆP'"
+      [columnMenu]="false"
+      [width]="250">
+    </kendo-grid-column>
+    <kendo-grid-column
+    [field]="'abc1'"
+      [title]="'NƠI CẤP'"
+      [columnMenu]="false"
+      [width]="250">
+    </kendo-grid-column>
+    <kendo-grid-column
+    [field]="'abc1'"
+      [title]="'NGÀY CẤP'"
+      [columnMenu]="false"
+      [width]="250">
+    </kendo-grid-column>
+    <kendo-grid-column
+    [field]="'abc1'"
+      [title]="'ĐỊA CHỈ TRỤ SỞ CHÍNH'"
+      [columnMenu]="false"
+      [width]="250">
+    </kendo-grid-column>
+    <kendo-grid-column
+    [field]="'abc1'"
+      [title]="'NGƯỜI ĐẠI DIỆN PHÁP LUẬT'"
+      [columnMenu]="false"
+      [width]="250">
+    </kendo-grid-column>
+    <kendo-grid-column
+    [field]="'abc1'"
+      [title]="'CHỨC DANH'"
+      [columnMenu]="false"
+      [width]="250">
+    </kendo-grid-column>
+    <kendo-grid-column
+    [field]="'abc1'"
+      [title]="'GIỚI TÍNH'"
+      [columnMenu]="false"
+      [width]="250">
+    </kendo-grid-column>
+    <kendo-grid-column
+    [field]="'abc1'"
+      [title]="'NGÀY SINH'"
+      [columnMenu]="false"
+      [width]="250">
+    </kendo-grid-column>
+    <kendo-grid-column
+    [field]="'abc1'"
+      [title]="'QUỐC TỊCH'"
+      [columnMenu]="false"
+      [width]="250">
+    </kendo-grid-column>
+  </kendo-grid-column-group>
+  <kendo-grid-column
+  [field]="'abc1'"
+    [title]="'ĐV_CƠ QUAN CHỦ QUẢN'"
+    [columnMenu]="false"
+    [width]="250">
+  </kendo-grid-column> -->
+  <kendo-grid-column [field]="'Building'" [title]="'ĐV_ĐC_TÒA NHÀ'" [columnMenu]="false" [width]="300">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <span class="text-truncate" [tooltip]="dataItem.Building" [placement]="'auto'">
+        {{dataItem.Building}}
+      </span>
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column [field]="'Floor'" [title]="'ĐV_ĐC_TẦNG'" [columnMenu]="false" [width]="150">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column [field]="'Room'" [title]="'ĐV_ĐC_PHÒNG'" [columnMenu]="false" [width]="150">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column [field]="'Tel'" [title]="'ĐV_TEL'" [columnMenu]="false" [width]="150">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <!-- <kendo-grid-column
+    [field]="'Fax'"
+    [title]="'ĐV_FAX'"
+    [columnMenu]="false"
+    [width]="150">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'Email'"
+    [title]="'ĐV_EMAIL'"
+    [columnMenu]="false"
+    [width]="200">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <span
+        class="text-truncate"
+        [tooltip]="dataItem.Email"
+        [placement]="'auto'">
+        {{dataItem.Email}}
+      </span>
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'Website'"
+    [title]="'ĐV_WEBSITE'"
+    [columnMenu]="false"
+    [width]="200">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'InvestmentCertificate'"
+    [title]="'ĐV_GIẤY CNĐT SỐ'"
+    [columnMenu]="false"
+    [width]="200">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'InvestmentCertificateDate'"
+    [title]="'ĐV_GIẤY CNĐT NGÀY CẤP'"
+    [columnMenu]="false"
+    [width]="280">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.InvestmentCertificateDate | date: 'dd/MM/yyyy'}}
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'InvestmentCertificateTime'"
+    [title]="'ĐV_LẦN THAY ĐỔI GIẤY CNĐT'"
+    [columnMenu]="false"
+    [width]="250">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'BusinessLicense'"
+    [title]="'ĐV_GIẤY PHÉP ĐKKD SỐ'"
+    [columnMenu]="false"
+    [width]="220">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'BusinessLicenseDate'"
+    [title]="'ĐV_GIẤY PHÉP ĐKKD NGÀY CẤP'"
+    [columnMenu]="false"
+    [width]="300">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.BusinessLicenseDate | date: 'dd/MM/yyyy'}}
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'BusinessLicenseTime'"
+    [title]="'ĐV_LẦN THAY ĐỔI GIẤY ĐKKD'"
+    [columnMenu]="false"
+    [width]="250">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column> -->
+  <kendo-grid-column [field]="'TaxCode'" [title]="'ĐV_MÃ SỐ THUẾ'" [columnMenu]="false" [width]="150">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column [field]="'DateEstablish'" [title]="'ĐV_NGÀY HOẠT ĐỘNG/THÀNH LẬP'" [columnMenu]="false"
+    [width]="320">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.DateEstablish | date: 'dd/MM/yyyy'}}
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <!-- <kendo-grid-column
+    [field]="'DeputyGender'"
+    [title]="'NĐD_GIỚI TÍNH'"
+    [width]="180">
+    <ng-template kendoGridFilterCellTemplate let-filter>
+      <crm-dropdownlist-filter
+        [filter]="filter"
+        [data]="[{text: 'Nam', DeputyGender: 0},{text: 'Nữ', DeputyGender: 1}]"
+        [textField]="'text'"
+        [valueField]="'DeputyGender'">
+      </crm-dropdownlist-filter>
+    </ng-template>
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <span [ngSwitch]="dataItem.DeputyGender">
+        <span *ngSwitchCase="0">Nam</span>
+        <span *ngSwitchCase="1">Nữ</span>
+      </span>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'DeputyName'"
+    [title]="'NĐD_HỌ TÊN'"
+    [width]="200">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'DeputyPosition'"
+    [title]="'NĐD_CHỨC VỤ'"
+    [width]="150">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'DeputyNation'"
+    [title]="'NĐD_QUỐC TỊCH'"
+    [width]="150">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'DeputyTel'"
+    [title]="'NĐD_ĐIỆN THOẠI'"
+    [width]="200">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'DeputyMail'"
+    [title]="'NĐD_EMAIL'"
+    [width]="200">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <span
+        class="text-truncate"
+        [tooltip]="dataItem.DeputyMail"
+        [placement]="'auto'">
+        {{dataItem.DeputyMail}}
+      </span>
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'ContractNo'"
+    [title]="'ĐV_SỐ HĐ'"
+    [columnMenu]="false"
+    [width]="150">
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'ContractNoDateRegister'"
+    [title]="'ĐV_NGÀY KÝ HĐ'"
+    [columnMenu]="false"
+    [width]="220">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.ContractNoDateRegister | date: 'dd/MM/yyyy'}}
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'ContractNoDateOut'"
+    [title]="'ĐV_NGÀY HẾT HẠN HĐ'"
+    [columnMenu]="false"
+    [width]="250">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      {{dataItem.ContractNoDateOut | date: 'dd/MM/yyyy'}}
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell
+        [showOperators]="false"
+        [column]="column"
+        [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column> -->
+  <kendo-grid-column [field]="'Note'" [title]="'GHI CHÚ'" [columnMenu]="false" [width]="200">
+    <ng-template kendoGridCellTemplate let-dataItem>
+      <pre>{{dataItem.Note}}</pre>
+    </ng-template>
+    <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+      <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+      </kendo-grid-string-filter-cell>
+    </ng-template>
+  </kendo-grid-column>
+  <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+    <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+    <kendo-pager-numeric-buttons [buttonCount]="5">
+    </kendo-pager-numeric-buttons>
+    <kendo-pager-next-buttons></kendo-pager-next-buttons>
+    <kendo-pager-page-sizes [pageSizes]="[5, 10, 20, 40, 100, 200]"></kendo-pager-page-sizes>
+    <kendo-pager-info></kendo-pager-info>
+  </ng-template>
+  <kendo-grid-excel [fileName]="'CRM_THÔNG_TIN_ĐƠN_VỊ.xlsx'" [fetchData]="allData">
+  </kendo-grid-excel>
+</kendo-grid>

@@ -1,0 +1,16 @@
+<div class="input-group">
+    <div class="input-group-prepend">
+        <app-account-role-create [roles]="roles" [accountSelected]="accountSelected" (useChange)="insertRole($event)"></app-account-role-create>
+    </div>
+    <input class="form-control search" (input)="useFilter()" [(ngModel)]="name" placeholder="Nhập tên quyền tìm kiếm" *ngIf="accountSelected">
+</div>
+<ngx-datatable id="table" class='table table-hover' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="searchData" [selectionType]="'single'" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+    [limit]="5">
+    <ngx-datatable-column [name]="'STT'" cellClass="d-flex align-items-center">
+        <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            {{(rowIndex + 1)}}.
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Tên'" [prop]="'Name'" cellClass="d-flex align-items-center">
+    </ngx-datatable-column>
+</ngx-datatable>

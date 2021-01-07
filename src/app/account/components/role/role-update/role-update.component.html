@@ -1,0 +1,29 @@
+<button class="btn btn-warning" *ngIf="roleSelected" (click)="useOpenModal(template)">
+  <span>Cập nhật</span>
+</button>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Cập nhật quyền</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="card card-transparent">
+            <div class="card-body" [formGroup]="form">
+                <div class="d-flex">
+                    <div class="form-group form-group-default required col" [class.has-error]="(form.controls['Name'].dirty || form.controls['Name'].touched) && form.controls['Name'].invalid">
+                        <label>Tên quyền</label>
+                        <input formControlName="Name" type="text" class="form-control" name="name" required>
+                    </div>
+                </div>
+                <br>
+                <button [disabled]="!form.valid" (click)="useCreate()" class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-plus">
+          <span>Cập nhật</span>
+        </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

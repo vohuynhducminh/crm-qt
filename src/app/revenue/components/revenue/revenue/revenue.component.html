@@ -1,0 +1,120 @@
+<h4 class="page-title">Doanh Thu Năm <b><pg-select AllowClear style="width: 100px" [(ngModel)]="selectedYear" (ngModelChange)="load()">
+    <pg-option *ngFor="let item of years" [Label]="item" [Value]="item">
+    </pg-option>
+</pg-select> </b>
+</h4>
+<!-- <app-create-revenue></app-create-revenue> -->
+
+<kendo-grid id="kudo-grid" [kendoGridBinding]="revenues" [columnMenu]="true" [pageSize]="10" [pageable]="true" [sortable]="true" [filterable]="true" [height]="493" [selectable]="true">
+    <ng-template kendoGridNoRecordsTemplate>
+        Không tìm thấy dữ liệu phù hợp.
+    </ng-template>
+    <kendo-grid-column [field]="'CustomerCode'" [title]="'MÃ KH'" [locked]="true" [width]="150">
+        <!-- <ng-template kendoGridCellTemplate let-dataItem>
+      <span>{{dataItem.CustomerCode}}</span>
+    </ng-template> -->
+
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'CompanyName'" [title]="'DOANH NGHIỆP'" [width]="200">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Room'" [title]="'SỐ PHÒNG'" [columnMenu]="false" [width]="200">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Floor'" [title]="'SỐ TẦNG'" [columnMenu]="false" [width]="150">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Building'" [title]="'TÒA NHÀ'" [columnMenu]="false" [width]="200">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'ContractNo'" [title]="'SỐ HĐ'" [columnMenu]="false" [width]="150">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'StartDateRent'" [title]="'NGÀY TÍNH TIỀN'" [columnMenu]="false" [width]="150">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{dataItem.StartDateRent | date: 'dd/MM/yyyy'}}</span>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Square'" [title]="'DIỆN TÍCH'" [columnMenu]="false" [width]="250">
+    </kendo-grid-column>
+    <kendo-grid-column [title]="'GIÁ THUÊ VP'" [columnMenu]="false" [width]="200">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{formatter(dataItem.UnitPrice + '')}}</span>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [title]="'GIÁ DV'" [columnMenu]="false" [width]="200">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{formatter(dataItem.UnitServicePrice + '')}}</span>
+        </ng-template>
+    </kendo-grid-column>
+
+    <kendo-grid-column-group [title]="'THÁNG ' + i" [width]="500" [columnMenu]="false" *ngFor="let i of [1,2,3]">
+        <kendo-grid-column [title]="'TỔNG DT'" [width]="150" [columnMenu]="false">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <span>{{formatter(dataItem.MonthDatas[i-1].TotalRevenue + '')}}</span>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column [title]="'TĂNG MỚI'" [width]="150" [columnMenu]="false">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <span>{{formatter(dataItem.MonthDatas[i-1].Increase + '')}}</span>
+            </ng-template>
+        </kendo-grid-column>
+    </kendo-grid-column-group>
+    <kendo-grid-column [title]="'DOANH THU QUÝ 1'" [columnMenu]="false" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{formatter(dataItem.RevenueSeason1 + '')}}</span>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column-group [title]="'THÁNG ' + i" [width]="500" [columnMenu]="false" *ngFor="let i of [4,5,6]">
+        <kendo-grid-column [field]="'tdtt' + i" [title]="'TỔNG DT'" [width]="150" [columnMenu]="false">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <span>{{formatter(dataItem.MonthDatas[i-1].TotalRevenue + '')}}</span>
+            </ng-template>
+        </kendo-grid-column>
+
+        <kendo-grid-column [field]="'tmt' + i" [title]="'TĂNG MỚI'" [width]="150" [columnMenu]="false">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <span>{{formatter(dataItem.MonthDatas[i-1].Increase + '')}}</span>
+            </ng-template>
+        </kendo-grid-column>
+    </kendo-grid-column-group>
+    <kendo-grid-column [field]="'RevenueSeason2'" [title]="'DOANH THU QUÝ 2'" [columnMenu]="false" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{formatter(dataItem.RevenueSeason2 + '')}}</span>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column-group [title]="'THÁNG ' + i" [width]="500" [columnMenu]="false" *ngFor="let i of [7,8,9]">
+        <kendo-grid-column [field]="'tdtt' + i" [title]="'TỔNG DT'" [width]="150" [columnMenu]="false">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <span>{{formatter(dataItem.MonthDatas[i-1].TotalRevenue + '')}}</span>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column [field]="'tmt' + i" [title]="'TĂNG MỚI'" [width]="150" [columnMenu]="false">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <span>{{formatter(dataItem.MonthDatas[i-1].Increase + '')}}</span>
+            </ng-template>
+        </kendo-grid-column>
+    </kendo-grid-column-group>
+    <kendo-grid-column [field]="'RevenueSeason3'" [title]="'DOANH THU QUÝ 3'" [columnMenu]="false" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{formatter(dataItem.RevenueSeason3 + '')}}</span>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column-group [title]="'THÁNG ' + i" [width]="500" [columnMenu]="false" *ngFor="let i of [10,11,12]">
+        <kendo-grid-column [field]="'tdtt' + i" [title]="'TỔNG DT'" [width]="150" [columnMenu]="false">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <span>{{formatter(dataItem.MonthDatas[i-1].TotalRevenue + '')}}</span>
+            </ng-template>
+        </kendo-grid-column>
+        <kendo-grid-column [field]="'tmt' + i" [title]="'TĂNG MỚI'" [width]="150" [columnMenu]="false">
+            <ng-template kendoGridCellTemplate let-dataItem>
+                <span>{{formatter(dataItem.MonthDatas[i-1].Increase + '')}}</span>
+            </ng-template>
+        </kendo-grid-column>
+    </kendo-grid-column-group>
+    <kendo-grid-column [field]="'RevenueSeason4'" [title]="'DOANH THU QUÝ 4'" [columnMenu]="false" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{formatter(dataItem.RevenueSeason4 + '')}}</span>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'RevenueYear'" [title]="'DOANH THU CẢ NĂM'" [columnMenu]="false" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <span>{{formatter(dataItem.RevenueYear + '')}}</span>
+        </ng-template>
+    </kendo-grid-column>
+</kendo-grid>

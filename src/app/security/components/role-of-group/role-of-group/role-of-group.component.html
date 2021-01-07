@@ -1,0 +1,58 @@
+<h4 class="page-title">Role of Group</h4>
+<div class="form-group d-flex m-0">
+  <app-create-role-of-group
+    [group]="_group"
+    [roleList]="_roleList"
+    [addedRoleOfGroup]="data"
+    (refresh)="getData()">
+  </app-create-role-of-group>
+  <input
+    [disabled]="!_group"
+    type="text"
+    class="form-control search"
+    id="search"
+    placeholder="Search"
+    (keyup)="updateFilter($event)">
+</div>
+<ngx-datatable
+  class='table table-hover'
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [loadingIndicator]="true"
+  [rows]="filteredData"
+  [limit]="20">
+  <ngx-datatable-column
+    [name]="'Role'"
+    [prop]="'Role.Name'"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <ngx-datatable-column 
+    [sortable]="false"
+    [cellClass]="'text-right'"
+    [width]="20">
+    <ng-template
+      ngx-datatable-cell-template
+      let-row="row">
+      <!-- <i class="pg pg-more" (click)="openUpdateModal(row)"></i> -->
+      <i class="pg pg-close_line" [swal]="deleteSwal"></i>
+      <swal 
+        #deleteSwal
+        title="Delete this role?"
+        text="This action cannot be undone"
+        type="warning"
+        [showCancelButton]="true"
+        [focusCancel]="true"
+        (confirm)="deleteRoleOfGroup(row)"
+        [allowOutsideClick]="false">
+      </swal>
+      <swal 
+        #deleteErrorSwal
+        title="Cannot delete this role"
+        type="error"
+        [allowOutsideClick]="false">
+      </swal>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

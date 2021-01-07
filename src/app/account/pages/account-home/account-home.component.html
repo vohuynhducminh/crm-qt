@@ -1,0 +1,38 @@
+<div class="container-fluid customer-work-flow px-3">
+    <div class="row">
+        <div class="col">
+            <pg-tabset tabAnimation="slide-left" Type="simple" TabPosition="left" ActiveBarClass="kudo-active" [extraTabContentClass]="'py-0 w-100'">
+                <pg-tab>
+                    <ng-template #TabHeading>
+                        <i class="fa fa-users" style="font-size: 16px" [tooltip]="'Quản lý Phân Quyền'" [placement]="'bottom'">
+            </i>
+                    </ng-template>
+                    <h4 class="page-title" style="margin-bottom: 2px">Quản lý Phân Quyền</h4>
+                    <div class="row">
+                        <div class="col-6">
+                            <app-role-list (useChange)="roles = $event.roles; role = $event.role"></app-role-list>
+                        </div>
+                        <div class="col-6">
+                            <app-role-account-list [role]="role"></app-role-account-list>
+                        </div>
+                    </div>
+                </pg-tab>
+                <pg-tab>
+                    <ng-template #TabHeading>
+                        <i class="fa fa-user" style="font-size: 16px" [tooltip]="'Quản lý tài khoản'" [placement]="'bottom'">
+            </i>
+                    </ng-template>
+                    <h4 class="page-title" style="margin-bottom: 2px">Quản lý tài khoản</h4>
+                    <div class="row">
+                        <div class="col-6">
+                            <app-account-list (useChange)="account = $event.account; accounts = $event.accounts" [roles]="roles"></app-account-list>
+                        </div>
+                        <div class="col-6">
+                            <app-account-role-list [account]="account" [roles]="roles"></app-account-role-list>
+                        </div>
+                    </div>
+                </pg-tab>
+            </pg-tabset>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+<app-progress-bar></app-progress-bar>
+
+<ng-container *ngIf="isLogin; then isLoggedIn else notLoggedIn"></ng-container>
+
+<ng-template #isLoggedIn>
+    <div class="container" *ngIf="_boxed; else basicLayoutBlock">
+        <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
+    </div>
+    <ng-template #basicLayoutBlock>
+        <ng-container *ngTemplateOutlet="contentTpl"></ng-container>
+    </ng-template>
+
+    <!-- YOUR LAYOUT CONTENT GOES INSIDE HERE -->
+    <ng-template #contentTpl>
+
+        <!-- PAGE SIDEBAR -->
+        <pg-sidebar>
+            <ng-template #sideBarHeader>
+                <img pgRetina src="/assets/img/qtsc-logo.png" src2x="/assets/img/qtsc-logo.png" alt="logo" class="brand">
+            </ng-template>
+
+            <ng-template #menuItems>
+                <pg-menu-items style="display: block; height: calc(100vh - 60px);" [Items]="menuLinks">
+                </pg-menu-items>
+            </ng-template>
+
+        </pg-sidebar>
+
+        <!-- PAGE CONTAINER -->
+        <page-container>
+            <pg-header [boxed]="_boxed">
+
+                <!-- START MOBILE SIDEBAR TOGGLE -->
+                <a class="btn-link toggle-sidebar d-lg-none pg pg-menu" (click)="toggleMobileSidebar()">
+                </a>
+                <!-- END MOBILE SIDEBAR TOGGLE -->
+
+                <!-- Dont delete this div -->
+                <div class="d-flex align-items-center" [class.no-brand]="_layoutOption === 'email'">
+                </div>
+                <div class="ml-auto">
+                    <app-notification-center></app-notification-center>
+                </div>
+                <app-user-info [userName]="userName"></app-user-info>
+            </pg-header>
+
+            <div class="page-content-wrapper {{_pageContainerClass}}">
+                <div class="content {{_contentClass}}">
+                    <router-outlet></router-outlet>
+                </div>
+            </div>
+
+            <ng-template [ngIf]="_footer">
+                <div class=" container-fluid container-fixed-lg footer">
+                    <div class="copyright sm-text-center">
+                        <p class="small no-margin pull-left sm-pull-reset">
+                            QTSC CRM
+                        </p>
+                        <div class="clearfix">
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+        </page-container>
+    </ng-template>
+</ng-template>
+
+<ng-template #notLoggedIn>
+    <router-outlet></router-outlet>
+</ng-template>

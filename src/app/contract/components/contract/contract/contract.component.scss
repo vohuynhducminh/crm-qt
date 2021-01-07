@@ -1,0 +1,13 @@
+#kudo-grid {
+  margin-top: 6px;
+  height: calc(100vh - 161px) !important;
+}
+i.view-detail {
+  cursor: pointer;
+}
+.status-doing {
+  color: #ea2c54;
+}
+.status-liquidated {
+  color: #0064bc;
+}

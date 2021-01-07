@@ -1,0 +1,33 @@
+<button class="btn btn-primary" (click)="openModal(template)">
+  <span>Add</span>
+</button>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Create Role</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="card card-transparent">
+            <div class="card-body">
+                <div class="form-group-attached">
+                    <div class="form-group form-group-default required">
+                        <label>Qui trình</label>
+                        <input [(ngModel)]="father" type="text" class="form-control" name="name" required>
+                    </div>
+                    <div class="form-group form-group-default required">
+                        <label>Tên Nhân Viên</label>
+                        <input #name type="text" class="form-control" name="name" required>
+                    </div>
+                </div>
+                <br>
+                <button class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-plus" (click)="createRole(name.value)">
+          <span>Add</span>
+        </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

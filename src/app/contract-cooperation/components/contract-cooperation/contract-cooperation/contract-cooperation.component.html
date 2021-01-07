@@ -1,0 +1,57 @@
+<h4 class="page-title">Hợp Đồng Hợp tác</h4>
+<kendo-grid id="kudo-grid" [kendoGridGroupBinding]="data" [columnMenu]="true" [pageSize]="10" [pageable]="true" [sortable]="true" [filterable]="true" [reorderable]="true" [selectable]="true">
+    <ng-template kendoGridToolbarTemplate>
+        <app-create-contract-cooperation [customers]="customers" (refresh)="loadContract()"></app-create-contract-cooperation>
+    </ng-template>
+    <ng-template kendoGridNoRecordsTemplate>
+        Không tìm thấy dữ liệu phù hợp.
+    </ng-template>
+    <kendo-grid-column [field]="'Code'" [title]="'MÃ HỢP ĐỒNG'" [width]="200" [columnMenu]="false">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <i class="fa fa-info-circle mr-3 view-detail" (click)="viewInfo(dataItem.Id)" [tooltip]="'Xem chi tiết'" [placement]="'right'"></i>
+            <span class="status-{{dataItem.Status === 0 ? 'notstated' : dataItem.Status === 1 ? 'doing' : 'cancel'}}">{{dataItem.Code}}</span>
+        </ng-template>
+        <ng-template kendoGridFilterCellTemplate let-filter let-column="column">
+            <kendo-grid-string-filter-cell [showOperators]="false" [column]="column" [filter]="filter">
+            </kendo-grid-string-filter-cell>
+        </ng-template>
+        <ng-template kendoGridColumnMenuTemplate let-service="service">
+            <kendo-grid-columnmenu-lock [service]="service">
+            </kendo-grid-columnmenu-lock>
+            <kendo-grid-columnmenu-sort [service]="service">
+            </kendo-grid-columnmenu-sort>
+            <kendo-grid-columnmenu-chooser [service]="service">
+            </kendo-grid-columnmenu-chooser>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'ParnerName'" [title]="'ĐỐI TÁC'" [columnMenu]="false" [width]="200">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'DateSinged'" [title]="'NGÀY KÝ HỢP ĐỒNG'" [columnMenu]="false" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.DateSinged | date: 'dd/MM/yyyy'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'DateStart'" [title]="'NGÀY BẮT ĐẦU HỢP ĐỒNG'" [columnMenu]="false" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.DateStart | date: 'dd/MM/yyyy'}}
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'DateEnd'" [title]="'NGÀY HẾT HẠN HỢP ĐỒNG'" [columnMenu]="false" [width]="250">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            {{dataItem.DateEnd | date: 'dd/MM/yyyy'}}
+        </ng-template>
+    </kendo-grid-column>
+    <ng-template kendoPagerTemplate let-totalPages="totalPages" let-currentPage="currentPage">
+        <kendo-pager-prev-buttons></kendo-pager-prev-buttons>
+        <kendo-pager-numeric-buttons [buttonCount]="5">
+        </kendo-pager-numeric-buttons>
+        <kendo-pager-next-buttons></kendo-pager-next-buttons>
+        <kendo-pager-page-sizes [pageSizes]="[5, 10, 20, 40, 100, 200]"></kendo-pager-page-sizes>
+        <kendo-pager-info></kendo-pager-info>
+    </ng-template>
+    <!-- <kendo-grid-column [field]="'Services'" [title]="'Danh sách dịch vụ'" [columnMenu]="false" [width]="200">
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <p *ngFor="let service of dataItem.Services">{{returnService(service.ServiceId).Name}}</p>
+        </ng-template>
+    </kendo-grid-column> -->
+</kendo-grid>

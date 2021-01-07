@@ -1,0 +1,157 @@
+<ng-container *ngIf="currentRevenue">
+    <form class="edit-customer-form">
+        <div class="d-flex form-group-attached-inline">
+            <div class="form-group form-group-default col">
+                <label>Số Hợp Đồng</label>
+                <input type="text" class="form-control" [value]="currentRevenue.ContractNo" readonly>
+            </div>
+        </div>
+        <div class="d-flex form-group-attached-inline">
+            <div class="form-group form-group-default col">
+                <label>Tên công ty</label>
+                <input type="text" class="form-control" [value]="currentRevenue.CompanyName" readonly>
+            </div>
+        </div>
+        <div class="d-flex form-group-attached-inline">
+            <div class="form-group form-group-default col">
+                <label>Mã Nhân Viên</label>
+                <input type="text" class="form-control" [value]="currentRevenue.CustomerCode" readonly>
+            </div>
+        </div>
+        <div class="d-flex form-group-attached-inline">
+            <div class="input-group date form-group form-group-default col">
+                <div class="form-input-group">
+                    <label>Ngày ký hợp đồng (dd/mm/yyyy)</label>
+                    <input type="text" class="form-control" [value]="currentRevenue.DateSigned | date: 'dd/MM/yyyy'" readonly>
+                </div>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+            <i class="fa fa-calendar"></i>
+          </span>
+                </div>
+            </div>
+            <div class="input-group date form-group form-group-default col">
+                <div class="form-input-group">
+                    <label>Ngày bắt đầu hợp đồng (dd/mm/yyyy)</label>
+                    <input type="text" class="form-control" [value]="currentRevenue.DateStart | date: 'dd/MM/yyyy'" readonly>
+                </div>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+            <i class="fa fa-calendar"></i>
+          </span>
+                </div>
+            </div>
+            <div class="input-group date form-group form-group-default col">
+                <div class="form-input-group">
+                    <label>Ngày hết hạn hợp đồng (dd/mm/yyyy)</label>
+                    <input type="text" class="form-control" [value]="currentRevenue.DateEnd | date: 'dd/MM/yyyy'" readonly>
+                </div>
+                <div class="input-group-append">
+                    <span class="input-group-text">
+            <i class="fa fa-calendar"></i>
+          </span>
+                </div>
+            </div>
+        </div>
+        <div class="d-flex">
+            <div class="form-group form-group-default">
+                <label>Vị trí triển khải</label>
+                <textarea type="text" class="form-control" rows="5" readonly>{{currentRevenue.LocationBuild}}</textarea>
+            </div>
+        </div>
+        <div class="d-flex">
+            <div class="form-group form-group-default">
+                <label>Ghi chú</label>
+                <textarea type="text" class="form-control" rows="5" readonly>{{currentRevenue.RevenueYear}}</textarea>
+            </div>
+        </div>
+
+    </form>
+    <ngx-datatable class='table table-hover' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [scrollbarH]="true" [loadingIndicator]="true" [rows]="listServiceRevenueVt" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+        [limit]="20" [reorderable]="true">
+        <ngx-datatable-column [name]="'STT'" cellClass="d-flex align-items-center" [width]="70">
+            <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                {{(rowIndex + 1)}}.
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'Mã Phụ Lục'" [prop]="'AppendixCode'" cellClass="d-flex align-items-center" [width]="100">
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'Tên dịch vụ'" [prop]="'ServiceName'" cellClass="d-flex align-items-center" [width]="400">
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'Số lượng'" [prop]="'Quantity'" cellClass="d-flex align-items-center" [width]="100">
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'Thông số'" [prop]="'Data'" cellClass="d-flex align-items-center" [width]="120">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value | jsonArray : '\n' : '- $'}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'Giá trị hợp đồng'" [prop]="'UnitAmount'" cellClass="d-flex align-items-center" [width]="200">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{formatter(value)}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'Ngày Nghiệm Thu'" [prop]="'DateAccept'" cellClass="d-flex align-items-center" [width]="200">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value | date: 'dd/MM/yyyy'}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'Ngày Kết Thúc'" [prop]="'DateEnd'" cellClass="d-flex align-items-center" [width]="200">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value | date: 'dd/MM/yyyy'}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column *ngFor="let i of [1,2,3]" [prop]="'MonthDatas'" [name]="'Tháng ' + i" cellClass="d-flex align-items-center" [width]="150">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                <span>
+            {{formatter(value[i-1])}}
+          </span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'Doanh thu quý 1'" [prop]="'RevenueSeason1'" cellClass="d-flex align-items-center" [width]="200">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{formatter(value)}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column *ngFor="let i of [4,5,6]" [prop]="'MonthDatas'" [name]="'Tháng ' + i" cellClass="d-flex align-items-center" [width]="150">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                <span>
+            {{formatter(value[i-1])}}
+          </span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'Doanh thu quý 2'" [prop]="'RevenueSeason2'" cellClass="d-flex align-items-center" [width]="200">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{formatter(value)}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column *ngFor="let i of [7,8,9]" [prop]="'MonthDatas'" [name]="'Tháng ' + i" cellClass="d-flex align-items-center" [width]="150">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                <span>
+            {{formatter(value[i-1])}}
+          </span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'Doanh thu quý 3'" [prop]="'RevenueSeason3'" cellClass="d-flex align-items-center" [width]="200">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{formatter(value)}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column *ngFor="let i of [10,11,12]" [prop]="'MonthDatas'" [name]="'Tháng ' + i" cellClass="d-flex align-items-center" [width]="150">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                <span>
+            {{formatter(value[i-1])}}
+          </span>
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'Doanh thu quý 4'" [prop]="'RevenueSeason4'" cellClass="d-flex align-items-center" [width]="200">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{formatter(value)}}
+            </ng-template>
+        </ngx-datatable-column>
+        <ngx-datatable-column [name]="'Doanh thu cả năm'" [prop]="'RevenueYear'" cellClass="d-flex align-items-center" [width]="200">
+            <ng-template let-value="value" ngx-datatable-cell-template>
+                {{formatter(value)}}
+            </ng-template>
+        </ngx-datatable-column>
+    </ngx-datatable>
+</ng-container>

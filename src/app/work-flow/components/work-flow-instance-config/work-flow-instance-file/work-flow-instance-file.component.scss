@@ -1,0 +1,67 @@
+div.fake-workspace-wrapper {
+  width: 100%;
+  height: calc(100vh - 261px);
+  border: 1px solid lightgrey;
+  margin-top: 5px;
+  & > .fake-workspace-header {
+    display: inline-block;
+    width: 100%;
+    line-height: 1.625;
+    padding: 0.75rem;
+    text-transform: uppercase;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: .06em;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    vertical-align: middle;
+    color: rgba(44, 44, 44, 0.35);
+    border-top: 0;
+    border-bottom: 1px solid rgba(230, 230, 230, 0.7);
+    max-height: 43px;
+  }
+  & > .fake-workspace {
+    width: 100%;
+    max-height: calc(100vh - 299px);
+    overflow: auto;
+  }
+}
+a.kudo-link {
+  display: flex;
+  flex: 1;
+  align-items: center;
+}
+div.kudo-file {
+  display: flex;
+  align-items: center;
+  padding: 10px 15px;
+  min-height: 20px;
+  width: 100%;
+  background-color: #ffffff;
+}
+div.kudo-file:hover {
+  background-color: #daeffd;
+}
+i.file-icon {
+  font-size: 30px;
+  padding-right: 10px;
+}
+i.add-form-icon {
+  color: #7a8994;
+  cursor: pointer;
+}
+i.delete-icon {
+  color: #7a8994;
+  cursor: pointer;
+}
+span.file-info > span.date-time {
+  display: block;
+  color: #aaaaaa;
+  font-weight: normal;
+}
+span.file-info > span.date-time > span.divider::before {
+  content: '-';
+  margin-left: 5px;
+  margin-right: 5px;
+}

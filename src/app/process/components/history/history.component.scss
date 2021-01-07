@@ -1,0 +1,36 @@
+span.name {
+  display: block;
+  text-transform: uppercase;
+}
+span.date {
+  font-weight: normal;
+}
+span.divider::before {
+  content: '-';
+  margin-left: 10px;
+  margin-right: 10px;
+}
+span.time {
+  font-weight: normal;
+}
+div.status {
+  width: 5px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+div.icon {
+  width: 70px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  i {
+    cursor: auto;
+    font-size: 24px;
+  }
+}

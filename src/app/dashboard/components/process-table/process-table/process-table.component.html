@@ -1,0 +1,61 @@
+<h4 class="page-title">Dashboard</h4>
+<div class="form-group d-flex m-0">
+  <input
+    type="text"
+    class="form-control search ml-0"
+    id="search"
+    placeholder="Search"
+    (keyup)="updateFilter($event)">
+</div>
+<ngx-datatable
+  class='table table-hover'
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [loadingIndicator]="true"
+  [rows]="filteredData"
+  [selectionType]="'single'"
+  (select)="onSelect($event)"
+  [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+  [limit]="20">
+  <ngx-datatable-column
+    [name]="'Code'"
+    [prop]="'Code'"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [name]="'Work Flow'"
+    [prop]="'WorkFlow.Name'"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [name]="'Customer'"
+    [prop]="'Customer.Name'"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [prop]="'StartDate'"
+    cellClass="d-flex align-items-center">
+    <ng-template ngx-datatable-header-template>
+      Start Date
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{value | date: 'dd/MM/yyyy'}}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [prop]="'CurrentProcesses'"
+    cellClass="d-flex align-items-center">
+    <ng-template ngx-datatable-header-template>
+      Processes
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <ul class="p-0 m-0">
+        <li *ngFor="let v of value">
+          <a href="javascript:void(0)">{{v.InstanceName}}</a>
+        </li>
+      </ul>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

@@ -1,0 +1,103 @@
+<!-- Developed by Kudo Shinichi -->
+
+<div class="dropdown ml-auto" dropdown [insideClick]="true">
+  <div class="toggle-wrapper" dropdownToggle>
+    <a
+      href="javascript:void(0)"
+      id="notification-center"
+      class="header-icon fa animated fast"
+      [class.bubble-color]="unreadCount > 0"
+      [class.fa-bell-o]="!tadaAnimated && !hasNewNotification"
+      [class.fa-bell]="tadaAnimated || hasNewNotification"
+      [class.tada]="tadaAnimated"
+      (click)="hasNewNotification = false; tadaAnimated = false;">
+    </a>
+    <span
+      class="unread-count badge badge-pill badge-danger"
+      *ngIf="unreadCount > 0"
+      [class.badge-danger-reverse]="tadaAnimated || hasNewNotification">
+      {{unreadCount}}
+    </span>
+  </div>
+  <!-- START Notification Dropdown -->
+  <div *dropdownMenu class="dropdown-menu kudo-notification notification-toggle">
+    <!-- START Notification -->
+    <div class="notification-panel">
+      <!-- START Notification Header-->
+      <div class="notification-header">
+        <span class="text-default">Trung Tâm Thông Báo</span>
+      </div>
+      <!-- END Notification Header-->
+      <!-- START Notification Body-->
+      <div
+        class="notification-body"
+        [class.scrollable]="_notifications && _notifications.length > 0">
+
+        <ng-container *ngIf="!_notifications || _notifications.length === 0; then noNoti else hasNoti"></ng-container>
+
+      </div>
+      <!-- END Notification Body-->
+      <!-- START Notification Footer-->
+      <div class="notification-footer text-center">
+        <a href="javascript:void(0)" (click)="nextPage()">
+          {{hasMore ? 'Xem thêm' : '&nbsp;'}}
+        </a>
+        <a
+          data-toggle="refresh"
+          class="portlet-refresh text-black pull-right"
+          title="Refresh"
+          href="javascript:void(0)"
+          (click)="getNotifications()">
+          <i class="pg pg-refresh_new" *ngIf="_notifications && _notifications.length > 0"></i>
+        </a>
+      </div>
+      <!-- START Notification Footer-->
+    </div>
+    <!-- END Notification -->
+  </div>
+  <!-- END Notification Dropdown -->
+</div>
+
+<ng-template #hasNoti>
+  <!-- START Notification Item-->
+  <div
+    class="notification-item clearfix"
+    [class.unread]="!noti.IsSeen"
+    *ngFor="let noti of _notifications; let i = index">
+    <div class="heading d-flex" (click)="routingNoti(i, noti)">
+      <div class="thumbnail-wrapper circular b-white b-a m-t-10 m-r-10">
+        <img pgRetina src="/assets/img/human.png" src1x="/assets/img/human.png" src2x="/assets/img/human.png">
+      </div>
+      <div class="notification-content">
+        <a href="javascript:void(0)" class="text-{{noti.Type}} pull-left w-100 pr-3 lh-2 text-justify">
+          <span class="bold">{{noti.Body}}</span>
+          <span class="d-block fs-12 text-right">{{noti.Title}}</span>
+        </a>
+        <span class="pull-right time">{{noti.TimeStatus}}</span>
+      </div>
+    </div>
+    <!-- START Notification Item Right Side-->
+    <div
+      #pop="bs-tooltip"
+      class="option seen-toggle"
+      placement="left"
+      [tooltip]="noti.IsSeen ? 'Đánh dấu là chưa đọc' : 'Đánh dấu là đã đọc'"
+      (click)="toggleSeen(i); pop.hide()">
+      <a href="javascript:void(0)" class="mark"></a>
+    </div>
+    <!-- END Notification Item Right Side-->
+  </div>
+  <!-- END Notification Item-->
+</ng-template>
+
+<ng-template #noNoti>
+  <!-- START Notification Item-->
+  <div class="notification-item clearfix">
+    <div class="heading">
+      <a href="javascript:void(0)" class="text-default cur-auto pull-left w-100 text-center lh-6">
+        <span class="fw-400">Không có thông báo nào!</span>
+      </a>
+    </div>
+  </div>
+  <!-- END Notification Item-->
+</ng-template>

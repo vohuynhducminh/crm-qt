@@ -1,0 +1,55 @@
+<h4 class="page-title">Work Flow Connection</h4>
+<app-create-work-flow-connection
+  (refresh)="getData()"
+  [workFlowInstance]="workFlowInstance"
+  [workFlowInstanceList]="workFlowInstanceList"
+  [addedWorkFlowConnectionList]="data">
+</app-create-work-flow-connection>
+<ngx-datatable
+  class='table table-hover'
+  [columnMode]="'force'"
+  [headerHeight]="43"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [loadingIndicator]="true"
+  [rows]="data">
+  <ngx-datatable-column
+    [name]="'Name'"
+    [prop]="'ToInstance.Name'"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [name]="'Type'"
+    [prop]="'Type'"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [name]="'Command'"
+    [prop]="'Command'"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <ngx-datatable-column [sortable]="false" [cellClass]="'text-right'">
+    <ng-template
+      ngx-datatable-cell-template
+      let-row="row">
+      <i class="pg pg-more" (click)="openUpdateModal(row, workFlowInstance, workFlowInstanceList)"></i>
+      <i class="pg pg-close_line" [swal]="deleteSwal"></i>
+      <swal 
+        #deleteSwal
+        title="Delete this connection?"
+        text="This action cannot be undone"
+        type="warning"
+        [showCancelButton]="true"
+        [focusCancel]="true"
+        (confirm)="deleteWorkFlowConnection(row)"
+        [allowOutsideClick]="false">
+      </swal>
+      <swal 
+        #deleteErrorSwal
+        title="Cannot delete this connection"
+        type="error"
+        [allowOutsideClick]="false">
+      </swal>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

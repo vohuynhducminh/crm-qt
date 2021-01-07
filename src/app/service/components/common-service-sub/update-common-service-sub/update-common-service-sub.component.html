@@ -1,0 +1,73 @@
+<button class="btn btn-warning" *ngIf="serviceSelected" (click)="useOpenModal(template)">
+  <span>Cập nhật</span>
+</button>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Cập nhật dịch vụ</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="card card-transparent">
+            <div class="card-body" [formGroup]="form">
+                <div class="d-flex">
+                    <div class="form-group form-group-default required col" [class.has-error]="(form.controls['Name'].dirty || form.controls['Name'].touched) && form.controls['Name'].invalid">
+                        <label>Tên dịch vụ</label>
+                        <input formControlName="Name" type="text" class="form-control" name="name" required>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group form-group-default form-group-default-select2 required col" [class.has-error]="(form.controls['CommonTelecomserviceId'].dirty || form.controls['CommonTelecomserviceId'].touched) && form.controls['CommonTelecomserviceId'].invalid">
+                        <label>Nhóm dịch vụ</label>
+                        <pg-select [PlaceHolder]="''" ShowSearch formControlName="CommonTelecomserviceId">
+                            <pg-option *ngFor="let option of commons" [Label]="option.Name" [Value]="option.Id">
+                            </pg-option>
+                        </pg-select>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group form-group-default last-child required">
+                        <label>Thông số</label>
+                        <pg-collapseset #Demo>
+                            <div class="pg-collapse-attached">
+                                <div class="col-12" *ngFor="let formGroup of subParameters; let i = index">
+                                    <ng-container [formGroup]="formGroup">
+                                        <pg-collapse style="overflow: hidden;" [Title]="(formGroup.get('Name').value ? formGroup.get('Name').value : 'Thông số mới') + (formGroup.get('Id').value ? '' : '(Chưa có trong cơ sở dữ liệu)')">
+                                            <div class="container">
+                                                <div class="form-group-attached">
+                                                    <div class="form-group form-group-default last-child required" [class.has-error]="(formGroup.get('Name').dirty || formGroup.get('Name').touched) && formGroup.get('Name').invalid">
+                                                        <label>Tên</label>
+                                                        <input [formControl]="formGroup.get('Name')" class="form-control" name="name">
+                                                    </div>
+                                                </div>
+                                                <button *ngIf="!formGroup.get('Id').value" class="btn btn-primary my-2 mr-2" (click)="useCreateParam(formGroup)">
+                                                    Tạo
+                                                </button>
+                                                <button *ngIf="formGroup.get('Id').value" class="btn btn-warning my-2 mr-2" (click)="useUpdateParam(formGroup)">
+                                                    Cập nhật
+                                                </button>
+                                                <button class="btn btn-danger my-2" (click)="useDeleteParam(formGroup.get('Id').value, i)">
+                                                    Xóa
+                                                </button>
+                                            </div>
+
+                                        </pg-collapse>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </pg-collapseset>
+                        <button class="btn btn-primary mb-2" (click)="useAddParam()"><i
+                        class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+                <br>
+                <button [disabled]="!form.valid" (click)="useUpdate()" class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-plus">
+          <span>Cập nhật</span>
+        </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

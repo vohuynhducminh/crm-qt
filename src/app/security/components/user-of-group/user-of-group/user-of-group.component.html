@@ -1,0 +1,57 @@
+<h4 class="page-title">Group User</h4>
+<div class="form-group d-flex m-0">
+  <app-create-user-of-group
+    [group]="_group"
+    [userList]="_userList"
+    [addedUserList]="data"
+    (refresh)="getData()">
+  </app-create-user-of-group>
+  <input
+    [disabled]="!_group"
+    type="text"
+    class="form-control search"
+    id="search"
+    placeholder="Search"
+    (keyup)="updateFilter($event)">
+</div>
+<ngx-datatable
+  class='table table-hover'
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [loadingIndicator]="true"
+  [rows]="filteredData"
+  [limit]="20">
+  <ngx-datatable-column
+    [name]="'User'"
+    [prop]="'User.UserName'"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <ngx-datatable-column 
+    [sortable]="false"
+    [cellClass]="'text-right'"
+    [width]="20">
+    <ng-template
+      ngx-datatable-cell-template
+      let-row="row">
+      <i class="pg pg-close_line" [swal]="deleteSwal"></i>
+      <swal 
+        #deleteSwal
+        title="Remove this user?"
+        text="This action cannot be undone"
+        type="warning"
+        [showCancelButton]="true"
+        [focusCancel]="true"
+        (confirm)="deleteGroupUser(row)"
+        [allowOutsideClick]="false">
+      </swal>
+      <swal 
+        #deleteErrorSwal
+        title="Cannot remove this user"
+        type="error"
+        [allowOutsideClick]="false">
+      </swal>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

@@ -1,0 +1,43 @@
+<button class="btn btn-primary" (click)="openModal(template)">
+  <span>Add</span>
+</button>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create Product</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card card-transparent">
+      <div class="card-body">
+        <form (submit)="createProduct(name.value)">
+          <div class="form-group-attached">
+            <div
+              pgFormGroupDefault
+              class="form-group form-group-default required">
+              <label>Name</label>
+              <input
+                #name
+                type="text"
+                class="form-control"
+                name="name"
+                required>
+            </div>
+          </div>
+          <br>
+          <button
+            class="btn btn-primary btn-cons btn-animated from-left fa fa-plus"
+            [disabled]="isCreating">
+            <span>Add</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>

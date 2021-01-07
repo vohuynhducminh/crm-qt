@@ -1,0 +1,223 @@
+<button
+  class="btn btn-primary mr-3"
+  (click)="excelexport.save()">
+  <span>Xuất excel</span>
+</button>
+
+<kendo-excelexport
+  #excelexport
+  [data]="data"
+  [collapsible]="true"
+  [fileName]="'CRM_THÔNG_TIN_ĐƠN_VỊ.xlsx'">
+  <kendo-excelexport-column
+    [field]="'Code'"
+    [title]="'MÃ ĐƠN VỊ'"
+    [locked]="true"
+    [width]="150">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Name'"
+    [title]="'TÊN ĐƠN VỊ'"
+    [width]="400">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'ShortName'"
+    [title]="'DN_TÊN VIẾT TẮT'"
+    [width]="200">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Country'"
+    [title]="'DN_QUỐC TỊCH'"
+    [width]="200">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'CountryType'"
+    [title]="'DN_PHÂN LOẠI QUỐC TỊCH'"
+    [width]="250">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'TotalInvestment'"
+    [title]="'DN_TỔNG VỐN ĐẦU TƯ (VNĐ)'"
+    [width]="250">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Investment'"
+    [title]="'DN_VỐN ĐẦU TƯ (USD)'"
+    [width]="200">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'YearStarted'"
+    [title]="'DN_NĂM BẮT ĐẦU HĐ TẠI QTSC'"
+    [width]="250">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'YearEnded'"
+    [title]="'DN_NĂM KẾT THÚC HĐ TẠI QTSC'"
+    [width]="250">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'StaffCount'"
+    [title]="'DN_SL_CHUYÊN VIÊN'"
+    [width]="220">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'TransactionName'"
+    [title]="'DN_TÊN GIAO DỊCH'"
+    [width]="180">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'CompanyType'"
+    [title]="'DN_LOẠI HÌNH DOANH NGHIỆP'"
+    [width]="250">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'CustomerType'"
+    [title]="'DN_PHÂN LOẠI ĐỐI TƯỢNG'"
+    [width]="250">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Career'"
+    [title]="'DN_LĨNH VỰC HOẠT ĐỘNG'"
+    [width]="230">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'MainCareer'"
+    [title]="'DN_HOẠT ĐỘNG CHÍNH'"
+    [width]="200">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'ProductHighlight'"
+    [title]="'DN_SẢN PHẨM TIÊU BIỂU'"
+    [width]="200">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Address'"
+    [title]="'DN_ĐỊA CHỈ'"
+    [width]="300">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Building'"
+    [title]="'DN_ĐC_TÒA NHÀ'"
+    [width]="150">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Floor'"
+    [title]="'DN_ĐC_TẦNG'"
+    [width]="150">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Room'"
+    [title]="'DN_ĐC_PHÒNG'"
+    [width]="150">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Tel'"
+    [title]="'DN_TEL'"
+    [width]="150">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Fax'"
+    [title]="'DN_FAX'"
+    [width]="150">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Email'"
+    [title]="'DN_EMAIL'"
+    [width]="200">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Website'"
+    [title]="'DN_WEBSITE'"
+    [width]="200">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'InvestmentCertificate'"
+    [title]="'DN_GIẤY CNĐT SỐ'"
+    [width]="200">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'InvestmentCertificateDate'"
+    [title]="'DN_GIẤY CNĐT SỐ NGÀY CẤP'"
+    [width]="280">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'InvestmentCertificateTime'"
+    [title]="'DN_LẦN THAY ĐỔI GIẤY CNĐT'"
+    [width]="250">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'BusinessLicense'"
+    [title]="'DN_GIẤY PHÉP ĐKKD SỐ'"
+    [width]="220">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'BusinessLicenseDate'"
+    [title]="'DN_GIẤY PHÉP ĐKKD NGÀY CẤP'"
+    [width]="300">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'BusinessLicenseTime'"
+    [title]="'DN_LẦN THAY ĐỔI GIẤY ĐKKD'"
+    [width]="250">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'TaxCode'"
+    [title]="'DN_MÃ SỐ THUẾ'"
+    [width]="150">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'DateEstablish'"
+    [title]="'DN_NGÀY HOẠT ĐỘNG/THÀNH LẬP'"
+    [width]="320">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'DeputyGenderStr'"
+    [title]="'NĐD_GIỚI TÍNH'"
+    [width]="180">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'DeputyName'"
+    [title]="'NĐD_HỌ TÊN'"
+    [width]="200">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'DeputyPosition'"
+    [title]="'NĐD_CHỨC VỤ'"
+    [width]="150">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'DeputyNation'"
+    [title]="'NĐD_QUỐC TỊCH'"
+    [width]="150">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Tel'"
+    [title]="'NĐD_ĐIỆN THOẠI'"
+    [width]="200">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Email'"
+    [title]="'NĐD_EMAIL'"
+    [width]="200">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'ContractNo'"
+    [title]="'DN_SỐ HĐ'"
+    [width]="150">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'ContractNoDateRegister'"
+    [title]="'DN_NGÀY KÝ HĐ'"
+    [width]="220">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'ContractNoDateOut'"
+    [title]="'DN_NGÀY HẾT HẠN HĐ'"
+    [width]="250">
+  </kendo-excelexport-column>
+  <kendo-excelexport-column
+    [field]="'Note'"
+    [title]="'GHI CHÚ'"
+    [width]="200">
+  </kendo-excelexport-column>
+</kendo-excelexport>

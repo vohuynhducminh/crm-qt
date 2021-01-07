@@ -1,0 +1,37 @@
+a.kudo-link {
+    display: flex;
+    flex: 1;
+    align-items: center;
+  }
+  div.kudo-file {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    min-height: 20px;
+    width: 100%;
+  }
+  div.kudo-file:hover {
+    background-color: #daeffd;
+  }
+  div.kudo-file:hover > i.delete-icon {
+    visibility: visible;
+  }
+  i.file-icon {
+    font-size: 30px;
+    padding-right: 10px;
+  }
+  i.delete-icon {
+    color: #7a8994;
+    visibility: hidden;
+    cursor: pointer;
+  }
+  span.file-info > span.date-time {
+    display: block;
+    color: #aaaaaa;
+    font-weight: normal;
+  }
+  span.file-info > span.date-time > span.divider::before {
+    content: '-';
+    margin-left: 5px;
+    margin-right: 5px;
+  }

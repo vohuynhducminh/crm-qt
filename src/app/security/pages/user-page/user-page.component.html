@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-4">
+      <app-user #user></app-user>
+    </div>
+    <div class="col-4 pl-0">
+      <app-group-of-user [user]="user.selecting"></app-group-of-user>
+    </div>
+    <div class="col-4 pl-0">
+      <app-role-of-user [user]="user.selecting"></app-role-of-user>
+    </div>
+  </div>
+</div>

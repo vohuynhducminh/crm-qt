@@ -1,0 +1,10 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-6">
+      <app-role #role></app-role>
+    </div>
+    <div class="col-6 pl-0">
+      <app-permission-of-role [role]="role.selecting"></app-permission-of-role>
+    </div>
+  </div>
+</div>

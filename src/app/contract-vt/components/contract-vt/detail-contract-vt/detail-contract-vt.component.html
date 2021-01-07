@@ -1,0 +1,83 @@
+<ng-container *ngIf="currentContract">
+  <form class="edit-customer-form">
+    <div class="d-flex form-group-attached-inline">
+      <div class="form-group form-group-default col">
+        <label>Số Hợp Đồng</label>
+        <input type="text" class="form-control" [value]="currentContract.ContractNo" readonly>
+      </div>
+    </div>
+    <div class="d-flex form-group-attached-inline">
+      <div class="form-group form-group-default col">
+        <label>Tên công ty</label>
+        <input type="text" class="form-control" [value]="currentContract.CustomerName" readonly>
+      </div>
+    </div>
+    <div class="d-flex form-group-attached-inline">
+      <div class="form-group form-group-default col-8">
+        <label>Người đại diện ký hợp đồng</label>
+        <input type="text" class="form-control" [value]="currentContract.Name" readonly>
+      </div>
+      <div class="form-group form-group-default">
+        <label>Chức vụ</label>
+        <input type="text" class="form-control" [value]="currentContract.Position" readonly>
+      </div>
+    </div>
+    <div class="d-flex form-group-attached-inline">
+      <div class="form-group form-group-default col">
+        <label>Điện thoại</label>
+        <input type="text" class="form-control" [value]="currentContract.Phone" readonly>
+      </div>
+      <div class="form-group form-group-default col">
+        <label>Email</label>
+        <input type="text" class="form-control" [value]="currentContract.Email" readonly>
+      </div>
+    </div>
+    <div class="d-flex form-group-attached-inline">
+      <div class="input-group date form-group form-group-default col">
+        <div class="form-input-group">
+          <label>Ngày ký hợp đồng (dd/mm/yyyy)</label>
+          <input type="text" class="form-control" [value]="currentContract.DateSigned" readonly>
+        </div>
+        <div class="input-group-append">
+          <span class="input-group-text">
+            <i class="fa fa-calendar"></i>
+          </span>
+        </div>
+      </div>
+      <div class="input-group date form-group form-group-default col">
+        <div class="form-input-group">
+          <label>Ngày bắt đầu hợp đồng (dd/mm/yyyy)</label>
+          <input type="text" class="form-control" [value]="currentContract.DateStart" readonly>
+        </div>
+        <div class="input-group-append">
+          <span class="input-group-text">
+            <i class="fa fa-calendar"></i>
+          </span>
+        </div>
+      </div>
+      <div class="input-group date form-group form-group-default col">
+        <div class="form-input-group">
+          <label>Ngày hết hạn hợp đồng (dd/mm/yyyy)</label>
+          <input type="text" class="form-control" [value]="currentContract.DateEnd" readonly>
+        </div>
+        <div class="input-group-append">
+          <span class="input-group-text">
+            <i class="fa fa-calendar"></i>
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="d-flex">
+      <div class="form-group form-group-default">
+        <label>Vị trí triển khải</label>
+        <textarea type="text" class="form-control" rows="5" readonly>{{currentContract.LocationBuild}}</textarea>
+      </div>
+    </div>
+    <div class="d-flex">
+      <div class="form-group form-group-default">
+        <label>Ghi chú</label>
+        <textarea type="text" class="form-control" rows="5" readonly>{{currentContract.Note}}</textarea>
+      </div>
+    </div>
+  </form>
+</ng-container>

@@ -1,0 +1,45 @@
+<h4 class="page-title">Quy Trình</h4>
+<div class="form-group d-flex m-0">
+  <input
+    type="text"
+    class="form-control search ml-0"
+    id="search"
+    placeholder="Tìm kiếm"
+    (keyup)="updateFilter($event)">
+</div>
+<ngx-datatable
+  class='table table-hover'
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [loadingIndicator]="true"
+  [rows]="filteredData"
+  [selectionType]="'single'"
+  (select)="onSelect($event)"
+  [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+  [limit]="20">
+  <ngx-datatable-column
+    [name]="'Quy trình'"
+    [prop]="'Name'"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <!-- <ngx-datatable-column
+    [name]="'Some'"
+    [prop]="'Some'"
+    *ngIf="!selecting"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [name]="'More'"
+    [prop]="'More'"
+    *ngIf="!selecting"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [name]="'Information'"
+    [prop]="'Information'"
+    *ngIf="!selecting"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column> -->
+</ngx-datatable>

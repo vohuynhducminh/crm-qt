@@ -1,0 +1,54 @@
+<h4 class="page-title">User</h4>
+<div class="form-group d-flex m-0">
+  <app-create-user (refresh)="getData()"></app-create-user>
+  <input
+    type="text"
+    class="form-control search"
+    id="search"
+    placeholder="Search"
+    (keyup)="updateFilter($event)">
+</div>
+<ngx-datatable
+  class='table table-hover'
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [loadingIndicator]="true"
+  [rows]="filteredData"
+  [selectionType]="'single'"
+  (select)="onSelect($event)"
+  [limit]="20">
+  <ngx-datatable-column
+    [name]="'User'"
+    [prop]="'UserName'"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <ngx-datatable-column 
+    [sortable]="false"
+    [cellClass]="'text-right'"
+    [width]="20">
+    <ng-template
+      ngx-datatable-cell-template
+      let-row="row">
+      <!-- <i class="pg pg-more" (click)="openModal(row)"></i> -->
+      <i class="pg pg-close_line" [swal]="deleteSwal"></i>
+      <swal 
+        #deleteSwal
+        title="Delete this user?"
+        text="This action cannot be undone"
+        type="warning"
+        [showCancelButton]="true"
+        [focusCancel]="true"
+        (confirm)="deleteUser(row)"
+        [allowOutsideClick]="false">
+      </swal>
+      <swal 
+        #deleteErrorSwal
+        title="Cannot delete this user"
+        type="error"
+        [allowOutsideClick]="false">
+      </swal>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

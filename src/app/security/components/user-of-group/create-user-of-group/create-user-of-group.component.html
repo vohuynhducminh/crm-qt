@@ -1,0 +1,58 @@
+<button
+  class="btn btn-primary"
+  (click)="openModal(template)"
+  [disabled]="!group || !_filteredUserList || _filteredUserList.length === 0">
+  <span>Add</span>
+</button>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Create User of Group</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card card-transparent">
+      <div class="card-body">
+        <div class="form-group-attached">
+          <div class="form-group form-group-default disabled">
+            <label>Group</label>
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              disabled
+              [value]="group.Name">
+          </div>
+        </div>
+        <div class="form-group form-group-default form-group-default-select2 required">
+          <label>User</label>
+          <pg-select
+            #user
+            [PlaceHolder]="'User'"
+            Multiple
+            AllowClear
+            ShowSearch>
+            <pg-option
+              *ngFor="let option of _filteredUserList"
+              [Label]="option.UserName"
+              [Value]="option.Id">
+            </pg-option>
+          </pg-select>
+        </div>
+        <br>
+        <button
+          class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-plus"
+          (click)="createUserOfGroup(user.Value)">
+          <span>Add</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

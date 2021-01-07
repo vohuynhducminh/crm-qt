@@ -1,0 +1,22 @@
+{
+    "extends": "../tslint.json",
+    "rules": {
+        "directive-selector": [
+            true,
+            "attribute",
+            "app",
+            "pg",
+            "camelCase"
+        ],
+        "component-selector": [
+            true,
+            "element",
+            "app",
+            "pg",
+            "kebab-case"
+        ],
+        "max-line-length": [
+            false
+        ]
+    }
+}

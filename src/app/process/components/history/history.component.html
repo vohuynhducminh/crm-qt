@@ -1,0 +1,30 @@
+<ngx-datatable
+  class='table table-hover'
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [loadingIndicator]="true"
+  [rows]="data"
+  [selectionType]="'single'"
+  [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+  (select)="onSelect($event)">
+  <ngx-datatable-column
+    [prop]="''"
+    [sortable]="false"
+    cellClass="d-flex align-items-center">
+    <ng-template ngx-datatable-header-template>
+      Lịch sử
+    </ng-template>
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      <span class="name">{{value.InstanceName}}</span>
+      <span class="date">{{value.DateCreated | date: 'dd/MM/yyyy'}}</span>
+      <span class="divider"></span>
+      <span class="time">{{value.DateCreated | date: 'HH:mm:ss'}}</span>
+      <div class="status" [ngClass]="{'bg-danger': value.Status === 1, 'bg-success': value.Status !== 1}"></div>
+      <div class="icon" *ngIf="value.Icon">
+        <i class="fa fa-flip-horizontal fa-{{value.Icon}}"></i>
+      </div>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

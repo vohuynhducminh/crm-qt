@@ -1,0 +1,47 @@
+<h4 class="page-title">Đơn Vị</h4>
+<div class="form-group d-flex m-0">
+    <app-create-work-flow-customer (refresh)="getData()" [workFlow]="_workFlow" [customerList]="customerList" [isWrite]="isWrite">
+    </app-create-work-flow-customer>
+    <input type="text" class="form-control search" id="search" placeholder="Tìm kiếm" (keyup)="updateFilter($event)">
+    <!-- <button class="close-component" (click)="close()">
+      <i class="fa fa-close"></i>
+    </button> -->
+</div>
+<ngx-datatable class='table table-hover' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="filteredData" [selectionType]="'single'" (select)="onSelect($event)" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+    [limit]="20">
+    <ngx-datatable-column [name]="'Mã đơn vị'" [prop]="'Code'" cellClass="d-flex align-items-center">
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Tên đơn vị'" [prop]="'CustomerName'" cellClass="d-flex align-items-center">
+    </ngx-datatable-column>
+    <ngx-datatable-column [prop]="'StartDate'" cellClass="d-flex align-items-center">
+        <ng-template ngx-datatable-header-template>
+            Ngày bắt đầu
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value | date: 'dd/MM/yyyy'}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [prop]="'EndDate'" cellClass="d-flex align-items-center">
+        <ng-template ngx-datatable-header-template>
+            Ngày kết thúc
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{value | date: 'dd/MM/yyyy'}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [prop]="'CurrentProcesses'" cellClass="d-flex align-items-center">
+        <ng-template ngx-datatable-header-template>
+            Tiến trình hiện tại
+        </ng-template>
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <ul class="p-0 m-0">
+                <li *ngFor="let v of value">
+                    <a class="doing" href="javascript:void(0)">{{v.InstanceName}}</a>
+                </li>
+                <li *ngIf="value.length === 0">
+                    <a href="javascript:void(0)">Đã hoàn thành</a>
+                </li>
+            </ul>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>

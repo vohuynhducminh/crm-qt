@@ -1,0 +1,51 @@
+<div class="container-fluid customer-work-flow px-3">
+    <div class="row">
+        <div class="col">
+            <pg-tabset tabAnimation="slide-left" Type="simple" TabPosition="left" ActiveBarClass="kudo-active" [extraTabContentClass]="'py-0 w-100'">
+                <pg-tab>
+                    <ng-template #TabHeading>
+                        <i class="fa fa-suitcase" style="font-size: 16px" [tooltip]="'Hợp Đồng Kinh Doanh'" [placement]="'bottom'">
+            </i>
+                    </ng-template>
+                    <h4 class="page-title" style="margin-bottom: 2px">Thông Tin Hợp Đồng Kinh Doanh</h4>
+                    <div class="fake-workspace-wrapper">
+                        <div class="fake-workspace-header">&nbsp;</div>
+                        <div class="fake-workspace">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <div class="col pt-2 px-0 pb-4">
+                                        <app-detail-contract></app-detail-contract>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </pg-tab>
+                <pg-tab>
+                    <ng-template #TabHeading>
+                        <i class="fa fa-address-book" style="font-size: 16px" [tooltip]="'Phụ Lục Kinh Doanh'" [placement]="'bottom'">
+            </i>
+                    </ng-template>
+                    <h4 class="page-title" style="margin-bottom: 2px">Thông Tin Phụ Lục Kinh Doanh</h4>
+                    <div class="row">
+                        <div class="col">
+                            <app-contract-annex></app-contract-annex>
+                        </div>
+                    </div>
+                </pg-tab>
+                <pg-tab>
+                    <ng-template #TabHeading>
+                        <i class="fa fa-line-chart" style="font-size: 16px" [tooltip]="'Biểu đồ phụ lục kinh doanh'" [placement]="'bottom'">
+            </i>
+                    </ng-template>
+                    <h4 class="page-title" style="margin-bottom: 2px">Biểu đồ phụ lục kinh doanh</h4>
+                    <div class="row">
+                        <div class="col">
+                            <app-contract-chart></app-contract-chart>
+                        </div>
+                    </div>
+                </pg-tab>
+            </pg-tabset>
+        </div>
+    </div>
+</div>

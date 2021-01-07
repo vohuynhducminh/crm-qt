@@ -1,0 +1,38 @@
+<button class="btn btn-warning" *ngIf="commonSelected" (click)="useOpenModal(template)">
+  <span>Cập nhật</span>
+</button>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Cập nhật dịch vụ</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="card card-transparent">
+            <div class="card-body" [formGroup]="form">
+                <div class="d-flex">
+                    <div class="form-group form-group-default required col" [class.has-error]="(form.controls['Name'].dirty || form.controls['Name'].touched) && form.controls['Name'].invalid">
+                        <label>Tên nhóm dịch vụ</label>
+                        <input formControlName="Name" type="text" class="form-control" name="name" required>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group form-group-default form-group-default-select2 required col" [class.has-error]="(form.controls['Type'].dirty || form.controls['Type'].touched) && form.controls['Type'].invalid">
+                        <label>Loại nhóm dịch vụ</label>
+                        <pg-select [PlaceHolder]="''" ShowSearch formControlName="Type">
+                            <pg-option *ngFor="let option of [{value: 1, label: 'Dịch vụ hợp tác'} , {value: 0, label: 'Dịch vụ viễn thông'}]" [Label]="option.label" [Value]="option.value">
+                            </pg-option>
+                        </pg-select>
+                    </div>
+                </div>
+                <br>
+                <button [disabled]="!form.valid" (click)="useUpdate()" class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-plus">
+          <span>Cập nhật</span>
+        </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

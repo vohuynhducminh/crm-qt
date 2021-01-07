@@ -1,0 +1,17 @@
+<div class="input-group" [ngStyle]="{'opacity': accounts.length===0 ? 0 : 1}">
+    <div class="input-group-prepend">
+    </div>
+    <input class="form-control search m-0" (input)="useFilter()" [(ngModel)]="name" placeholder="Nhập tên nhân viên tìm kiếm" [readOnly]="accounts.length===0" [ngStyle]="{'cursor': accounts.length>0 ? 'text' : 'default'}">
+</div>
+<ngx-datatable id="table" class='table table-hover' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="searchAccounts" [selectionType]="'single'" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+    [limit]="5">
+    <ngx-datatable-column [name]="'STT'" cellClass="d-flex align-items-center">
+        <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            {{(rowIndex + 1)}}.
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Tên nhân viên'" [prop]="'FullName'" cellClass="d-flex align-items-center">
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Tài khoản nhân viên'" [prop]="'UserName'" cellClass="d-flex align-items-center">
+    </ngx-datatable-column>
+</ngx-datatable>

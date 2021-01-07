@@ -1,0 +1,96 @@
+<button class="btn btn-primary"
+  (click)="openModal(template)"
+  [disabled]="!workFlow || !isWrite">
+  <span>Thêm mới</span>
+</button>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Tạo Mới Quy Trình</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card card-transparent">
+      <div class="card-body">
+        <div class="form-group-attached">
+          <div class="form-group form-group-default disabled">
+            <label>Quy Trình</label>
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              disabled
+              [value]="workFlow.Name">
+          </div>
+          <div class="form-group form-group-default form-group-default-select2" [class.required]="workFlow.Type !== 2">
+            <label>Đơn Vị</label>
+            <pg-select
+              #customer
+              [PlaceHolder]="''"
+              AllowClear
+              ShowSearch
+              (SearchChange)="searchHandler($event)"
+              [(ngModel)]="selectedCustomer"
+              (ngModelChange)="updateCustomerInitName()">
+              <pg-option
+                *ngIf="isNotFound && customerInitName"
+                [Label]="'Tạo mới Đơn Vị: ' + customerInitName"
+                [Value]="'create:' + customerInitName">
+              </pg-option>
+              <pg-option
+                *ngFor="let option of _customerList"
+                [Label]="option.Name"
+                [Value]="option.Id">
+              </pg-option>
+            </pg-select>
+          </div>
+        </div>
+        <br>
+        <button
+          class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-plus"
+          *ngIf="!customerInitName"
+          [disabled]="disableSubmit || (workFlow.Type !== 2 && !selectedCustomer)"
+          (click)="disableSubmitForm()">
+          <span>Thêm</span>
+        </button>
+        <app-create-customer
+          [BtnClass]="'btn-cons btn-animated from-left fa fa-plus'"
+          [BtnText]="'Thêm'"
+          [(CustomerInitName)]="customerInitName"
+          (AfterCreateSuccess)="afterCreateCustomerSuccess($event)"
+          *ngIf="customerInitName">
+        </app-create-customer>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<swal
+  #createWorkFlowCustomerSuccessSwal
+  html="Quy Trình đã được tạo thành công!"
+  type="success"
+  [allowOutsideClick]="false">
+</swal>
+<swal
+  #createWorkFlowCustomerErrorSwal
+  [html]="'Tạo Quy Trình thất bại!<br/>Bạn không có quyền tạo quy trình này'"
+  type="error"
+  [allowOutsideClick]="false">
+</swal>
+<swal
+  #availableWorkFlowCustomerWarningSwal
+  type="question"
+  [html]="'Đơn Vị đã thực hiện Quy Trình này trước đó.<br/>Bạn có muốn tiếp tục tạo Quy Trình này?'"
+  [showConfirmButton]="true"
+  [showCancelButton]="true"
+  [allowOutsideClick]="false"
+  (confirm)="createWorkFlowCustomer(selectedCustomer, true)"
+  (cancel)="disableSubmit = false;">
+</swal>

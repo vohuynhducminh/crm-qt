@@ -1,0 +1,57 @@
+<ngx-datatable *ngIf="viewType === 0" id="customer-contact-table-u" class='table table-hover' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="listContractService" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+    [limit]="20">
+    <ngx-datatable-column [name]="'STT'" cellClass="d-flex align-items-center" [width]="50">
+        <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            {{(rowIndex + 1)}}.
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Dịch vụ'" [prop]="'Service'" cellClass="d-flex align-items-center" [width]="100">
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Số lượng'" [prop]="'Quantity'" cellClass="d-flex align-items-center" [width]="100">
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Thông số'" [prop]="'Data'" cellClass="d-flex align-items-center" [width]="100">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <pre>{{value | jsonArray : '\n' : '- $'}}</pre>
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Giá trị hợp đồng'" [prop]="'UnitAmount'" cellClass="d-flex align-items-center" [width]="120">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{formatter(value + '')}}
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Ghi Chú'" [sortable]="false" [prop]="'Note'" cellClass="d-flex align-items-center" [width]="100">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            <button (click)="openModal(template, value)" class="btn btn-info">
+            <span>Ghi chú</span>
+        </button>
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>
+
+<div class="d-flex" style="margin-top: 6px" *ngIf="viewType === 1">
+    <div class="form-group form-group-default col">
+        <label>Ghi chú</label>
+        <textarea readonly type="text" rows="15" [value]="note" class="form-control"></textarea>
+    </div>
+</div>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Chi tiết</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+          <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+        <div class="card card-transparent">
+            <div class="card-body">
+                <div class="d-flex">
+                    <div class="form-group form-group-default col">
+                        <label>Ghi chú</label>
+                        <textarea readonly type="text" [value]="noteToShow" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>

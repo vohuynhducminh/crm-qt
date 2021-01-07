@@ -1,0 +1,96 @@
+div.kudo-notification {
+	transform: translateX(-290px) !important;
+}
+div.kudo-notification {
+	div.notification-panel {
+		div.notification-body {
+			max-height: 80vh;
+			padding: 1px 0;
+		}
+	}
+}
+div.notification-header {
+	width: 100%;
+	padding: 10px;
+	border-bottom: 1px solid #eaecee;
+	color: #94979a;
+}
+span.bubble {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	font-size: 9px;
+}
+a#notification-center {
+	font-size: 16px;
+	&.bubble-color {
+		color: #ea2c54;
+	}
+}
+.lh-2 {
+	line-height: 2;
+}
+.lh-6 {
+	line-height: 6;
+}
+div.notification-item.unread {
+	margin-left: 0 !important;
+	padding-left: 25px;
+	cursor: pointer;
+}
+div.notification-item {
+	&:not(.unread) {
+		img, div.thumbnail-wrapper, div.notification-content a {
+			cursor: auto;
+		}
+	}
+}
+div.seen-toggle {
+	cursor: pointer;
+}
+a.portlet-refresh {
+	position: relative;
+	bottom: 2px;
+	left: 2px;
+}
+div.thumbnail-wrapper {
+	width: 40px;
+	height: 40px;
+}
+div.thumbnail-wrapper {
+	img {
+		display: block;
+		width: 38px;
+		height: 38px;
+	}
+}
+div.notification-content {
+	flex: 1;
+	padding-top: 15px;
+}
+.fw-400 {
+	font-weight: 400;
+}
+.scrollable {
+	overflow-y: auto;
+}
+.cur-auto {
+	cursor: auto;
+}
+.badge {
+	border: 1px solid #ea2c54;
+}
+.toggle-wrapper {
+	position: relative;
+	.unread-count {
+		font-size: 10px;
+		position: absolute;
+    top: -7px;
+		right: 7px;
+		padding: 2px 4px;
+	}
+	.badge-danger.badge-danger-reverse {
+    color: #ea2c54;
+    background-color: #fff;
+	}
+}

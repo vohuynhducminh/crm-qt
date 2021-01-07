@@ -1,0 +1,122 @@
+<button *ngIf="id" class="btn btn-warning ml-2" (click)="openModal(template)">
+  <span>Cập nhật</span>
+</button>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Khởi Tạo hợp đồng con cho hợp đồng khung {{contractCooperation ? contractCooperation.Code : ""}}</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="card card-transparent">
+            <div class="card-body" [formGroup]="form">
+                <div class="d-flex">
+                    <div class="form-group form-group-default col-4">
+                        <label>Mã hợp đồng</label>
+                        <input readonly [value]="form.get('Code').value" type="text" class="form-control" name="name">
+                    </div>
+                    <div class="form-group form-group-default form-group-default-select2 required col-8" [class.has-error]="(form.controls['CustomerId'].dirty || form.controls['CustomerId'].touched) && form.controls['CustomerId'].invalid">
+                        <label>Khách hàng</label>
+                        <pg-select [PlaceHolder]="''" AllowClear ShowSearch formControlName="CustomerId">
+                            <pg-option *ngFor="let option of customers" [Label]="option.Name" [Value]="option.Id">
+                            </pg-option>
+                        </pg-select>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="input-group date form-group form-group-default required col-6" [class.has-error]="(form.controls['DateStart'].dirty || form.controls['DateStart'].touched) && form.controls['DateStart'].invalid">
+                        <div class="form-input-group">
+                            <label>Ngày bắt đầu hợp đồng (DD/MM/YYYY)</label>
+                            <pg-datepicker [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateStart">
+                            </pg-datepicker>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                    <div class="input-group date form-group form-group-default col-6">
+                        <div class="form-input-group">
+                            <label>Ngày kết thúc hợp đồng (DD/MM/YYYY)</label>
+                            <pg-datepicker [Placeholder]="''" [Format]="'DD/MM/YYYY'" formControlName="DateEnd">
+                            </pg-datepicker>
+                        </div>
+                        <div class="input-group-append">
+                            <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group form-group-default form-group-default-select2 required col-6">
+                        <label>Loại hình hợp tác</label>
+                        <pg-select [PlaceHolder]="''" AllowClear ShowSearch formControlName="Type">
+                            <pg-option *ngFor="let option of [{value: 0, label: 'TTVT ký hợp đồng con với KH'}, {value: 1, label: 'Đối tác ký hợp đồng con với KH'}, {value: 2, label: 'TTVT, đối tác cùng ký hợp đồng con với KH'}]" [Label]="option.label" [Value]="option.value">
+                            </pg-option>
+                        </pg-select>
+                    </div>
+                    <div class="form-group form-group-default form-group-default-select2 col-6">
+                        <label>Trạng thái</label>
+                        <pg-select [PlaceHolder]="''" AllowClear ShowSearch formControlName="Status">
+                            <pg-option *ngFor="let option of listStatus" [Label]="option.label" [Value]="option.value">
+                            </pg-option>
+                        </pg-select>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group form-group-default col">
+                        <label>Nội dung hợp tác</label>
+                        <textarea formControlName="Note" rows="6" class="form-control" name="name"></textarea>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="form-group form-group-default last-child required">
+                        <label>Danh sách Dịch vụ</label>
+                        <pg-collapseset #Demo>
+                            <div class="pg-collapse-attached">
+                                <div [formGroup]="form.get('Services')" class="col-12" *ngFor="let formGroup of form.get('Services')['controls']; let i = index">
+                                    <ng-container [formGroup]="formGroup">
+                                        <pg-collapse style="overflow: hidden;" [class.close-co]="returnCoClose(formGroup.get('CoContractTelServiceId').value)" [Title]="returnService(formGroup.get('CoContractTelServiceId').value) ? returnService(formGroup.get('CoContractTelServiceId').value).Service.Name + (returnCoClose(formGroup.get('CoContractTelServiceId').value) ? ' - ' + returnCoClose(formGroup.get('CoContractTelServiceId').value) : '') : 'Chọn Dịch vụ'">
+                                            <div class="container">
+                                                <div class="form-group-attached">
+                                                    <div class="form-group form-group-default form-group-default-select2 required" [class.has-error]="(formGroup.get('CoContractTelServiceId').dirty || formGroup.get('CoContractTelServiceId').touched) && formGroup.get('CoContractTelServiceId').invalid">
+                                                        <label>Dịch vụ</label>
+                                                        <pg-select [PlaceHolder]="''" AllowClear ShowSearch [formControl]="formGroup.get('CoContractTelServiceId')" (ngModelChange)="onSelectService(formGroup)">
+                                                            <pg-option *ngFor="let option of services" [Label]="option.Service.Name" [Value]="option.CoContractService.Id" [Disabled]="checkDisable(option.CoContractService.Id)">
+                                                            </pg-option>
+                                                        </pg-select>
+                                                    </div>
+                                                    <!-- <div [formGroup]="formGroup.get('ObjData')">
+                                                        <div *ngFor="let item of returnKeys(formGroup.get('ObjData')['controls']); let i = index" class="form-group form-group-default" [class.has-error]="returnDataControlValid(formGroup.get('ObjData').get(item))">
+                                                            <label>{{item}}</label>
+                                                            <input formControlName="{{item}}" type="text" class="form-control">
+                                                        </div>
+                                                    </div> -->
+                                                    <div class="form-group form-group-default last-child required" [class.has-error]="(formGroup.get('Amount').dirty || formGroup.get('Amount').touched) && formGroup.get('Amount').invalid">
+                                                        <label>Cước phí</label>
+                                                        <input [formControl]="formGroup.get('Amount')" [textMask]="{mask: currencyNoDecMask}" class="form-control" name="name">
+                                                    </div>
+                                                </div>
+                                                <button class="btn btn-danger float-right my-2" (click)="deleteService(form.get('Services'), formGroup.get('CoContractTelServiceId').value)">
+                                                    <i class="fa fa-times"></i>
+                                                </button>
+                                            </div>
+
+                                        </pg-collapse>
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </pg-collapseset>
+                        <button [disabled]="form.get('Services').value.length == services.length" class="btn btn-primary mb-2" (click)="addService(form.get('Services'))"><i
+                        class="fa fa-plus"></i></button>
+                    </div>
+                </div>
+                <br>
+                <button [disabled]="!form.valid" (click)="submit()" class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-plus">
+          <span>Cập nhật</span>
+        </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

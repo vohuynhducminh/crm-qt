@@ -1,0 +1,19 @@
+#customer-contact-table {
+  margin-top: 6px;
+  height: calc(100vh - 202px) !important;
+}
+.toolbar-mini {
+  padding-top: 5px;
+}
+.status-doing {
+  color: #ea2c54;
+}
+.status-liquidated {
+  color: #0064bc;
+}
+.end {
+  opacity: 0;
+}
+.show-end {
+  border: 2px solid red;
+}

@@ -1,0 +1,86 @@
+<h4 class="page-title">Hợp Đồng Viễn Thông</h4>
+<!-- <app-create-contract></app-create-contract> -->
+
+<kendo-grid id="kudo-grid" [kendoGridBinding]="listContractTelecome" [columnMenu]="true" [pageSize]="10" [pageable]="true" [sortable]="true" [filterable]="true" [reorderable]="true" [selectable]="true">
+    <ng-template kendoGridNoRecordsTemplate>
+        Không tìm thấy dữ liệu phù hợp.
+    </ng-template>
+    <!-- <kendo-grid-column
+    [title]="'STT'"
+    [width]="150">
+    <ng-template kendoGridColumnMenuTemplate let-service="service">
+      <kendo-grid-columnmenu-lock [service]="service">
+      </kendo-grid-columnmenu-lock>
+      <kendo-grid-columnmenu-sort [service]="service">
+      </kendo-grid-columnmenu-sort>
+      <kendo-grid-columnmenu-chooser [service]="service">
+      </kendo-grid-columnmenu-chooser>
+    </ng-template>
+    <ng-template kendoGridCellTemplate let-rowIndex="rowIndex" let-dataItem>
+      <i
+        class="fa fa-info-circle mr-3 view-detail"
+        (click)="viewInfo(dataItem)"
+        [tooltip]="'Xem chi tiết'"
+        [placement]="'right'"></i>
+      {{(rowIndex + 1)}}.
+    </ng-template>
+  </kendo-grid-column> -->
+    <kendo-grid-column [field]="'ContractNo'" [title]="'MÃ HỢP ĐỒNG'" [width]="200">
+        <ng-template kendoGridColumnMenuTemplate let-service="service">
+            <kendo-grid-columnmenu-lock [service]="service">
+            </kendo-grid-columnmenu-lock>
+            <kendo-grid-columnmenu-sort [service]="service">
+            </kendo-grid-columnmenu-sort>
+            <kendo-grid-columnmenu-chooser [service]="service">
+            </kendo-grid-columnmenu-chooser>
+        </ng-template>
+        <ng-template kendoGridCellTemplate let-dataItem>
+            <i class="fa fa-info-circle mr-3 view-detail" (click)="viewInfo(dataItem)" [tooltip]="'Xem chi tiết'" [placement]="'right'"></i>
+            <span class="status-{{dataItem.Status === 0 ? 'doing' : 'liquidated'}}">{{dataItem.ContractCode}}</span>
+        </ng-template>
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'CustomerName'" [title]="'TÊN CÔNG TY'" [width]="400">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Name'" [title]="'NGƯỜI ĐẠI DIỆN KÝ HỢP ĐỒNG'" [columnMenu]="false" [width]="300">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Position'" [title]="'CHỨC VỤ'" [columnMenu]="false" [width]="150">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Phone'" [title]="'ĐIỆN THOẠI'" [columnMenu]="false" [width]="150">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Email'" [title]="'EMAIL'" [columnMenu]="false" [width]="150">
+    </kendo-grid-column>
+    <!-- <kendo-grid-column
+    [field]="'BirthDate'"
+    [title]="'NGÀY SINH'"
+    [columnMenu]="false"
+    [width]="150">
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'Address'"
+    [title]="'ĐỊA CHỈ'"
+    [columnMenu]="false"
+    [width]="150">
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'Gender'"
+    [title]="'GIỚI TÍNH'"
+    [columnMenu]="false"
+    [width]="150">
+  </kendo-grid-column>
+  <kendo-grid-column
+    [field]="'Nation'"
+    [title]="'QUỐC TỊCH'"
+    [columnMenu]="false"
+    [width]="150">
+  </kendo-grid-column> -->
+    <kendo-grid-column [field]="'ContractNo'" [title]="'SỐ HỢP ĐỒNG'" [columnMenu]="false" [width]="200">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'DateSigned'" [title]="'NGÀY KÝ HỢP ĐỒNG'" [columnMenu]="false" [width]="250">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'DateEnd'" [title]="'NGÀY HẾT HẠN HỢP ĐỒNG'" [columnMenu]="false" [width]="250">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'DateStart'" [title]="'NGÀY BẮT ĐẦU HỢP ĐỒNG'" [columnMenu]="false" [width]="300">
+    </kendo-grid-column>
+    <kendo-grid-column [field]="'Note'" [title]="'GHI CHÚ'" [columnMenu]="false" [width]="200">
+    </kendo-grid-column>
+</kendo-grid>

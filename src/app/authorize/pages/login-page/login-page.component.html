@@ -1,0 +1,90 @@
+<div class="login-wrapper ">
+    <!-- START Login Background Pic Wrapper-->
+    <div class="bg-pic">
+        <!-- START Background Pic-->
+        <div class="img-holder"></div>
+        <!-- START Background Caption-->
+        <!-- END Background Caption-->
+    </div>
+    <!-- END Login Background Pic Wrapper-->
+    <!-- START Login Right Container-->
+    <div class="main-bg-placeholder d-none d-lg-block"></div>
+    <div class="contact d-none d-lg-block">
+        <p style="color: #ff4a1d; font-weight: bold; font-size: 1.2em;">CÔNG TY TNHH MỘT THÀNH VIÊN PHÁT TRIỂN CÔNG VIÊN PHẦN MỀM QUANG TRUNG</p>
+        <p style="font-weight: bold; color: black; font-size: 1em;">Phòng Chiến Lược & Thị Trường</p>
+        <p><strong style="color: #ff4a1d;">• </strong><b style="color: black; font-weight: normal;">Tòa nhà QTSC Building 1, Công viên phần mềm Quang Trung, P. Tân Chánh Hiệp, Q.12, TP. HCM, Việt Nam</b></p>
+        <p><strong style="color: #ff4a1d;">• T: </strong> <b style="color: black; font-weight: normal;">(84-28) 3715 8888 | </b>
+            <strong style="color: #ff4a1d;">• F: </strong> <b style="color: black; font-weight: normal;">(84-28) 3715 5985 | </b>
+            <strong style="color: #ff4a1d;">• E: </strong> <b style="color: black; font-weight: normal;">qtsc@qtsc.com.vn | </b>
+            <strong style="color: #ff4a1d;">• W: </strong> <a style="color: black; font-weight: normal;" target="_blank" href="https://www.qtsc.com.vn">www.qtsc.com.vn</a>
+        </p>
+    </div>
+    <div class="login-container">
+        <div class="m-l-20 m-r-20 p-t-20 m-t-30 sm-p-l-15 sm-p-r-15 sm-p-t-40">
+            <div class="logo-wrapper d-flex justify-content-center">
+                <img class="logo" style="display: block; width: 100px" src="/assets/img/svg/qtsc_logo.svg" alt="logo">
+            </div>
+            <!-- START Login Form -->
+            <h2 class="brand-title">Hệ thống quản trị CRM</h2>
+            <div class="logo-wrapper d-flex justify-content-center m-t-10">
+                <img class="logo" style="display: block; width: 100px" src="/assets/img/svg/human_logo.svg" alt="logo">
+            </div>
+            <form class="p-t-15" role="form" #loginForm="ngForm" (submit)="login()">
+                <!-- START Form Control-->
+                <div pgFormGroupDefault class="kudo-form-group" [class.has-error]="loginUserName.invalid && (loginUserName.dirty || loginUserName.touched) || loginFailed">
+                    <input type="text" name="userName" id="userName" class="kudo-control" placeholder="Tên đăng nhập" required #loginUserName="ngModel" [(ngModel)]="userName" (blur)="resetLoginFailed()" (input)="resetLoginFailed()">
+                    <img src="/assets/img/svg/username_logo.svg" alt="">
+                </div>
+                <div class="p-l-30" *ngIf="loginUserName.invalid && (loginUserName.dirty || loginUserName.touched)">
+                    <label *ngIf="loginUserName.errors.required" class="error">
+						Vui lòng điền Tên đăng nhập
+					</label>
+                </div>
+                <!-- END Form Control-->
+                <!-- START Form Control-->
+                <div pgFormGroupDefault class="kudo-form-group" [class.has-error]="loginPassword.invalid && (loginPassword.dirty || loginPassword.touched) || loginFailed">
+                    <input type="password" name="password" id="password" class="kudo-control" placeholder="Mật khẩu" required #loginPassword="ngModel" [(ngModel)]="password" (blur)="resetLoginFailed()" (input)="resetLoginFailed()">
+                    <img src="/assets/img/svg/password_logo.svg" alt="">
+                </div>
+                <div class="p-l-30" *ngIf="loginPassword.invalid && (loginPassword.dirty || loginPassword.touched)">
+                    <label *ngIf="loginPassword.errors.required" class="error">
+						Vui lòng điền Mật khẩu
+					</label>
+                </div>
+                <div class="p-l-40 p-r-40 p-t-20">
+                    <div class="row">
+                        <div class="col">
+                            <input type="checkbox" name="rembox" id="rembox">
+                            <label for="rembox">Ghi nhớ</label>
+                        </div>
+                        <div class="col d-flex justify-content-end">
+                            <label class="kudo-label">Quên mật khẩu?</label>
+                        </div>
+                    </div>
+                </div>
+                <!-- START Form Control-->
+                <!-- <div class="row">
+					<div class="col-md-6 no-padding sm-p-l-10">
+						<div class="checkbox ">
+							<input type="checkbox" value="1" id="checkbox1">
+							<label for="checkbox1">Keep Me Signed in</label>
+						</div>
+					</div>
+					<div class="col-md-6 d-flex align-items-center justify-content-end">
+						<a href="javascript:void(0)" class="text-info small">Help? Contact Support</a>
+					</div>
+				</div> -->
+                <!-- END Form Control-->
+                <div *ngIf="loginFailed">
+                    <label class="error">{{loginFailed}}</label>
+                </div>
+                <div class="row justify-content-center m-t-40">
+                    <button type="submit" class="kudo-login-button" [disabled]="loginForm.invalid && !loginForm.pristine || loginFailed">
+						Đăng nhập
+					</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!-- END Login Right Container-->
+</div>

@@ -1,0 +1,31 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h4 class="page-title text-truncate">{{customerWorkFlow ? customerWorkFlow.Code : ''}}: {{customerWorkFlowService.customerInWorkFlow ? customerWorkFlowService.customerInWorkFlow.Name : ''}}</h4>
+            <div class="toolbar">
+                <app-next-step #nextStep [currentInstanceId]="history.currentInstanceId" [customerWorkFlowId]="customerWorkFlowId" (refresh)="history.getData()" [workspace]="workspace" [currentProcessId]="history.selectedId">
+                </app-next-step>
+                <app-work-flow-history-file #historyFile [CustomerWorkFlowId]="customerWorkFlowId" [HistoryId]="history.selectedId">
+                </app-work-flow-history-file>
+                <app-work-flow-history-template [historyId]="history.selectedId" [showFile]="nextStep.showFile" [CurrentCustomer]="customerWorkFlowService.customerInWorkFlow">
+                </app-work-flow-history-template>
+                <app-send-email></app-send-email>
+                <app-event-log [workFlowHistoryId]="history.selectedId">
+                </app-event-log>
+                <app-customer-info *ngIf="customerWorkFlow ? customerWorkFlow.Code.includes('QT.20-') || customerWorkFlow.Code.includes('QT.11-') : false" [cus]="cus"></app-customer-info>
+                <button class="btn btn-danger btn-cons btn-kudo
+        btn-animated from-left fa fa-times" title="Xóa tiến trình" (click)="delete()">
+          <span class="fa fa-times"></span>
+        </button>
+            </div>
+        </div>
+        <div class="col-8">
+            <app-workspace-form #workspace [formGroups]="history.formResponse?.FormGroups" [formData]="history.formResponse?.FormData" [history]="history" [file]="historyFile">
+            </app-workspace-form>
+        </div>
+        <div class="col-4 pl-0">
+            <app-history #history [customerWorkFlowId]="customerWorkFlowId">
+            </app-history>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,415 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <app-chart-frame [isCollapse]="true" [toggle]="cvpmqt" [title]="'Dashboard số liệu CVPMQT'" [height]="'-webkit-fill-available'">
+                <ng-template hTemplate>
+                    <div class="fake-workspace-wrapper">
+                        <div class="fake-workspace-header">&nbsp;</div>
+                        <div class="fake-workspace">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <!-- <div class="col-12 pl-0">
+        <app-chart-frame [title]="'Thống kê nhà đầu tư'">
+            <ng-template hTemplate>
+                <div echarts [options]="TotalInvestorChart" style="height: 100%; width: 100%"></div>
+            </ng-template>
+        </app-chart-frame>
+    </div> -->
+                                    <div class="col-6">
+                                        <app-chart-frame [title]="'Tổng số VĐKKD của các NĐT (tỷ đồng)'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!VondautuInvestorChartShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="VondautuInvestorChartShow" echarts [options]="VondautuInvestorChart" style="height: 100%; width: 100%">
+                                                </div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-6">
+                                        <app-chart-frame [title]="'Tổng số VĐKKD của các DNPM (tỷ đồng)'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!VondautuSoftwareChartShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="VondautuSoftwareChartShow" echarts [options]="VondautuSoftwareChart" style="height: 100%; width: 100%">
+                                                </div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-12">
+                                        <app-chart-frame [title]="'Doanh nghiệp phần mềm, CNTT'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!TotalSoftwareChartShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="TotalSoftwareChartShow" echarts [options]="TotalSoftwareChart" style="height: 100%; width: 100%">
+                                                </div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-12">
+                                        <app-chart-frame [title]="'Số lượng nhân viên & sinh viên (ĐVT: NGƯỜI) '">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!TotalPeopleChartShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="TotalPeopleChartShow" echarts [options]="TotalPeopleChart" style="height: 100%; width: 100%"></div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-6">
+                                        <app-chart-frame [title]="'Phân loại đối tượng'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!pieCustomerChartOptionsShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="pieCustomerChartOptionsShow" echarts [options]="pieCustomerChartOptions" style="height: 100%; width: 100%"></div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-6">
+                                        <app-chart-frame [title]="'Phân loại thị trường'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!pieMarketChartOptionsShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="pieMarketChartOptionsShow" echarts [options]="pieMarketChartOptions" style="height: 100%; width: 100%">
+                                                </div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-6">
+                                        <app-chart-frame [title]="'Số lượng doanh nghiệp CNTT'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!pieITCompanyOptionsShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="pieITCompanyOptionsShow" echarts [options]="pieITCompanyOptions" style="height: 100%; width: 100%">
+                                                </div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-6">
+                                        <app-chart-frame [title]="'Số lượng (NĐT)'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!pieDeputyChartOptionsShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="pieDeputyChartOptionsShow" echarts [options]="pieDeputyChartOptions" style="height: 100%; width: 100%">
+                                                </div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-12">
+                                        <app-chart-frame [title]="'Quốc tịch đơn vị'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!companyStatisticsInQTSCShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="companyStatisticsInQTSCShow" echarts [options]="companyStatisticsInQTSC" style="height: 100%; width: 100%">
+                                                </div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-12">
+                                        <app-chart-frame [title]="'Top doanh thu khách hàng'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!topRevenueDashboardShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <ngx-datatable *ngIf="topRevenueDashboardShow" class='table table-hover kudo-disable-viewheight' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="topRevenueDashboard.TotalVndRevenueVMs"
+                                                    [selectionType]="'single'" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}" [limit]="20">
+                                                    <ngx-datatable-column [name]="'Tên khách hàng'" [prop]="'Name'" cellClass="d-flex align-items-center">
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column [name]="'Doanh thu'" [prop]="'TotalVndRevenue'" cellClass="d-flex align-items-center">
+                                                        <ng-template let-value="value" ngx-datatable-cell-template>
+                                                            {{formatter(value+ '')}}
+                                                        </ng-template>
+                                                    </ngx-datatable-column>
+                                                </ngx-datatable>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </app-chart-frame>
+        </div>
+        <div class="col-12">            
+            <app-chart-frame [isCollapse]="true" [toggle]="vpct" [title]="'Dashboard dịch vụ văn phòng cho thuê'" [height]="'-webkit-fill-available'">
+                <ng-template hTemplate>
+                    <div class="fake-workspace-wrapper">
+                        <div class="fake-workspace-header">&nbsp;</div>
+                        <div class="fake-workspace">
+                            <div class="container-fluid">
+                                <div class="row">
+                                    
+                                    <div class="col-6">
+                                        <app-chart-frame [title]="'Top doanh thu kinh doanh'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!topIncomeDashboardShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <ngx-datatable *ngIf="topIncomeDashboardShow" class='table table-hover kudo-disable-viewheight' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="topIncomeDashboard"
+                                                    [selectionType]="'single'" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}" [limit]="20">
+                                                    <ngx-datatable-column [name]="'Tên khách hàng'" [prop]="'CompanyName'" cellClass="d-flex align-items-center">                                                                                                                                                         
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column [name]="'Doanh thu'" [prop]="'RevenueYear'" cellClass="d-flex align-items-center">
+                                                        <ng-template let-value="value" ngx-datatable-cell-template>
+                                                            {{formatter(value+ '')}}
+                                                        </ng-template>
+                                                    </ngx-datatable-column>
+                                                </ngx-datatable>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+
+
+
+                                    <div class="col-6">
+                                        <app-chart-frame [title]="'Khách hàng gia nhập trong tháng'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!participantsInMonthShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <ngx-datatable *ngIf="participantsInMonthShow" class='table table-hover kudo-disable-viewheight' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="participantsInMonth.Customers"
+                                                    [selectionType]="'single'" [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}" [limit]="20">
+                                                    <ngx-datatable-column [name]="'Tên khách hàng'" [prop]="'Name'" [width]="250" cellClass="d-flex align-items-center">
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column [name]="'Số hợp đồng kinh doanh'" [prop]="'ContractNo'" [width]="200" cellClass="d-flex align-items-center">
+                                                        <ng-template let-value="value" ngx-datatable-cell-template>
+                                                            {{formatter(value+ '')}}
+                                                        </ng-template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column [name]="'Số hợp đồng viễn thông'" [width]="200" [prop]="'ContractTelecomNo'" cellClass="d-flex align-items-center">
+                                                        <ng-template let-value="value" ngx-datatable-cell-template>
+                                                            {{formatter(value+ '')}}
+                                                        </ng-template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column [name]="'Ngày gia nhập'" [prop]="'StartYear'" cellClass="d-flex align-items-center">
+                                                        <ng-template let-value="value" ngx-datatable-cell-template>
+                                                            {{value | date : 'dd/MM/yyyy'}}
+                                                        </ng-template>
+                                                    </ngx-datatable-column>
+                                                </ngx-datatable>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-12">
+                                        <app-chart-frame [height]="'auto'" [title]="'Quản lý hợp đồng kinh doanh'" [height]="'auto'">
+                                            <ng-template hTemplate>
+                                                <p-tabView>
+                                                    <p-tabPanel header="Hợp đồng sắp hết hạn">
+                                                        <div *ngIf="!contractExpireShow" class="show-loader">
+                                                            <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                        </div>
+                                                        <ngx-datatable *ngIf="contractExpireShow" class="table table-hover kudo-disable-viewheight" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="contractExpire" [selectionType]="'single'"
+                                                            [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}" [limit]="20">
+                                                            <ngx-datatable-column [name]="'Tên khách hàng'" [prop]="'Name'" cellClass="d-flex align-items-center">
+                                                            </ngx-datatable-column>
+                                                            <ngx-datatable-column [name]="'Số hợp đồng'" [prop]="'ContractNo'" cellClass="d-flex align-items-center">
+                                                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                                                    {{value+ ''}}
+                                                                </ng-template>
+                                                            </ngx-datatable-column>
+                                                            <ngx-datatable-column [name]="'Ngày hết hạn'" [prop]="'EndDate'" cellClass="d-flex align-items-center">
+                                                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                                                    {{value | date : 'dd/MM/yyyy'}}
+                                                                </ng-template>
+                                                            </ngx-datatable-column>
+                                                        </ngx-datatable>
+                                                    </p-tabPanel>
+                                                    <p-tabPanel header="Hợp đồng sắp điều chỉnh giá">
+                                                        <div *ngIf="!contractAdjustmentShow" class="show-loader">
+                                                            <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                        </div>
+                                                        <ngx-datatable *ngIf="contractAdjustmentShow" class="table table-hover kudo-disable-viewheight" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="contractAdjustment" [selectionType]="'single'"
+                                                            [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}" [limit]="20">
+                                                            <ngx-datatable-column [name]="'Tên khách hàng'" [prop]="'Name'" cellClass="d-flex align-items-center">
+                                                            </ngx-datatable-column>
+                                                            <ngx-datatable-column [name]="'Số hợp đồng'" [prop]="'ContractNo'" cellClass="d-flex align-items-center">
+                                                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                                                    {{value+ ''}}
+                                                                </ng-template>
+                                                            </ngx-datatable-column>
+                                                            <ngx-datatable-column [name]="'Ngày điều chỉnh giá'" [prop]="'EndDate'" cellClass="d-flex align-items-center">
+                                                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                                                    {{value | date : 'dd/MM/yyyy'}}
+                                                                </ng-template>
+                                                            </ngx-datatable-column>
+                                                        </ngx-datatable>
+                                                    </p-tabPanel>
+                                                    <p-tabPanel header="Hợp đồng thanh lý">
+                                                        <div *ngIf="!contractLiquidatedShow" class="show-loader">
+                                                            <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                        </div>
+                                                        <ngx-datatable *ngIf="contractLiquidatedShow" class="table table-hover kudo-disable-viewheight" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="contractLiquidated" [selectionType]="'single'"
+                                                            [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}" [limit]="20">
+                                                            <ngx-datatable-column [name]="'Tên khách hàng'" [prop]="'Name'" cellClass="d-flex align-items-center">
+                                                            </ngx-datatable-column>
+                                                            <ngx-datatable-column [name]="'Số hợp đồng'" [prop]="'ContractNo'" cellClass="d-flex align-items-center">
+                                                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                                                    {{value+ ''}}
+                                                                </ng-template>
+                                                            </ngx-datatable-column>
+                                                            <ngx-datatable-column [name]="'Ngày hết hạn'" [prop]="'EndDate'" cellClass="d-flex align-items-center">
+                                                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                                                    {{value | date : 'dd/MM/yyyy'}}
+                                                                </ng-template>
+                                                            </ngx-datatable-column>
+                                                        </ngx-datatable>
+                                                    </p-tabPanel>
+                                                </p-tabView>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-12">
+                                        <app-chart-frame [title]="'Doanh thu Kinh Doanh'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!barChartOptionsShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="barChartOptionsShow" echarts [options]="barChartOptions" style="height: 100%; width: 100%"></div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-12">
+                                        <app-chart-frame [height]="'auto'" [title]="'Tồn kho văn phòng'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!buildingInventoryShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <ngx-datatable *ngIf="buildingInventoryShow" class='table table-hover kudo-disable-viewheight' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="buildingInventory" [selectionType]="'single'"
+                                                    [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}" [limit]="20">
+                                                    <ngx-datatable-column [name]="'Tên tòa nhà'" [prop]="'Name'" cellClass="d-flex align-items-center">
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column [name]="'Đã sử dụng (m2)'" [prop]="'UsedSquare'" cellClass="d-flex align-items-center">
+                                                        <ng-template let-value="value" ngx-datatable-cell-template>
+                                                            {{formatter(value+ '')}}
+                                                        </ng-template>
+                                                    </ngx-datatable-column>
+                                                    <ngx-datatable-column [name]="'Tồn kho (m2)'" [prop]="'UnusedSquare'" cellClass="d-flex align-items-center">
+                                                        <ng-template let-value="value" ngx-datatable-cell-template>
+                                                            {{formatter(value+ '')}}
+                                                        </ng-template>
+                                                    </ngx-datatable-column>
+                                                </ngx-datatable>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </app-chart-frame>
+
+        </div>
+        <div class="col-12">
+            <app-chart-frame [isCollapse]="true" [toggle]="dvvt" [title]="'Dashboard dịch vụ viễn thông'" [height]="'-webkit-fill-available'">
+                <ng-template hTemplate>
+                    <div class="fake-workspace-wrapper">
+                        <div class="fake-workspace-header">&nbsp;</div>
+                        <div class="fake-workspace">
+                            <div class="container-fluid">
+                                <div class="row">
+
+                                    <div class="col-12">
+                                        <app-chart-frame [title]="'BÁO CÁO DOANH SỐ TTVT - NĂM'" [height]="'75vh'">
+                                            <ng-template hTemplate>
+                                                <div class="show-loader" *ngIf="!getCompleteRateShow">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <h4 *ngIf="getCompleteRateShow" class="page-title text-center">Doanh Thu Trung tâm viễn thông</h4>
+                                                <!-- <app-create-revenue></app-create-revenue> -->
+                                                <div *ngIf="getCompleteRateShow" class="row">
+                                                    <div class="col-12">
+                                                        <p-treeTable [value]="getCompleteRate" [scrollable]="true" scrollHeight="60vh">
+                                                            <ng-template pTemplate="header">
+                                                                <tr>
+                                                                    <th>NỘI DUNG DOANH SỐ</th>
+                                                                    <th>DS ĐĂNG KÝ</th>
+                                                                    <th>DS HIỆN THỰC</th>
+                                                                </tr>
+                                                            </ng-template>
+                                                            <ng-template pTemplate="body" let-rowNode let-rowData="rowData">
+                                                                <tr>
+                                                                    <td>
+                                                                        <p-treeTableToggler [rowNode]="rowNode">
+                                                                        </p-treeTableToggler>
+                                                                        {{rowData.Name}}
+                                                                    </td>
+                                                                    <td>{{formatter(rowData.RevenueRegister + '')}}
+                                                                    </td>
+                                                                    <td>{{formatter(rowData.ImplementRevenue + '')}}
+                                                                    </td>
+                                                                </tr>
+                                                            </ng-template>
+                                                        </p-treeTable>
+                                                    </div>
+                                                </div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-12">
+                                        <app-chart-frame [title]="'Tỷ trọng doanh số các loại dịch vụ viễn thông và dự án'" [height]="'75vh'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!proportionOfTelecommunicationRevenueShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="proportionOfTelecommunicationRevenueShow" echarts [options]="proportionOfTelecommunicationRevenue" style="height: 100%; width: 100%"></div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-6">
+                                        <app-chart-frame [title]="'Tỷ trọng doanh số ngân sách tập trung so với doanh số khác'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!proportionOfParentTelecommunicationRevenueShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="proportionOfParentTelecommunicationRevenueShow" echarts [options]="proportionOfParentTelecommunicationRevenue" style="height: 100%; width: 100%"></div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-6">
+                                        <app-chart-frame [title]="'Tỷ trọng doanh số bên trong và bên ngoài công viên'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!proportionOfTelecommunicationRevenueInsideOutsideChartShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="proportionOfTelecommunicationRevenueInsideOutsideChartShow" echarts [options]="proportionOfTelecommunicationRevenueInsideOutsideChart" style="height: 100%; width: 100%"></div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-6">
+                                        <app-chart-frame [title]="'Tỷ lệ tăng trưởng doanh số'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!increaseRateChartShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="increaseRateChartShow" echarts [options]="increaseRateChart" style="height: 100%; width: 100%"></div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                    <div class="col-6">
+                                        <app-chart-frame [title]="'Thống kê tỷ lệ tăng trưởng doanh nghiệp bên ngoài'">
+                                            <ng-template hTemplate>
+                                                <div *ngIf="!increaseRateOutSideChartShow" class="show-loader">
+                                                    <i class="fa fa-spinner fa-fw fa-spin fa-4x"></i>
+                                                </div>
+                                                <div *ngIf="increaseRateOutSideChartShow" echarts [options]="increaseRateOutSideChart" style="height: 100%; width: 100%"></div>
+                                            </ng-template>
+                                        </app-chart-frame>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </app-chart-frame>
+        </div>
+    </div>
+</div>

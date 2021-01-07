@@ -1,0 +1,101 @@
+ngx-datatable {
+  margin: 0;
+  height: calc(100% - 35px);
+}
+.pg-select-placeholder {
+  height: 55px;
+  width: 100%;
+}
+.date-select-placeholder {
+  height: 25px;
+  margin-top: -2px;
+  margin-bottom: 3px;
+  width: 100%;
+}
+span.divider {
+  display: block;
+}
+span.time {
+  font-weight: normal;
+}
+a.btn-upload {
+  color: #007be8 !important;
+  padding: 10px 15px;
+  height: 33%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  &:hover {
+    text-decoration: underline;
+  }
+}
+a.kudo-file {
+  padding: 10px 15px;
+  height: 33%;
+  width: 100%;
+  display: block;
+  align-items: center;
+  &:hover {
+    background-color: #daeffd;
+  }
+  &::before {
+    content: '\f15b';
+    display: block;
+    float: left;
+    font: normal normal normal 32px/1 FontAwesome;
+    margin-right: 15px;
+  }
+}
+span.file-info {
+  max-width: 100%;
+  text-align: justify;
+  span.date-time {
+    display: block;
+    color: #aaaaaa;
+    font-weight: normal;
+    span.dividerf::before {
+      content: '-';
+      margin-left: 5px;
+      margin-right: 5px;
+    }
+  }
+}
+div.fake-datatable-wrapper {
+  border: 1px solid lightgrey;
+  width: 100%;
+  height: 100%;
+  & > .fake-datatable-header {
+    display: inline-block;
+    width: 100%;
+    line-height: 1.625;
+    padding: 0.75rem;
+    text-transform: uppercase;
+    font-family: 'Source Sans Pro', sans-serif;
+    font-weight: 600;
+    font-size: 10.5px;
+    letter-spacing: .06em;
+    padding-top: 9px;
+    padding-bottom: 9px;
+    vertical-align: middle;
+    color: rgba(44, 44, 44, 0.35);
+    border-top: 0;
+    border-bottom: 1px solid rgba(230, 230, 230, 0.7);
+    height: 43px;
+  }
+  & > .fake-datatable {
+    width: 100%;
+    height: 362px;
+    overflow: auto;
+  }
+}
+h4.modal-title {
+  * {
+    font-weight: 300;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  }
+}
+textarea {
+  height: calc(100% - 16px);
+  resize: none;
+}

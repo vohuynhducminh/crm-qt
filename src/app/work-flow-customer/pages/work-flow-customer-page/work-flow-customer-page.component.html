@@ -1,0 +1,14 @@
+<div class="container-fluid">
+  <div class="row">
+    <div [ngClass]="{'col-12': !workFlowCustomer.selecting, 'col-4': workFlowCustomer.selecting}">
+      <app-work-flow-cus #workFlowCustomer></app-work-flow-cus>
+    </div>
+    <div class="col-8 pl-0" [ngClass]="{'d-none': !workFlowCustomer.selecting}">
+      <app-work-flow-customer
+        [workFlow]="workFlowCustomer.selecting"
+        [isWrite]="workFlowCustomer.selecting?.IsWrite"
+        (closeComponent)="workFlowCustomer.resetSelecting()">
+      </app-work-flow-customer>
+    </div>
+  </div>
+</div>

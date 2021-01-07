@@ -1,0 +1,32 @@
+<button [class.an]="!accountSelected" [disabled]="!accountSelected" class="btn btn-primary" (click)="useOpenModal(template)">
+  <span>Thêm</span>
+</button>
+
+<ng-template #template>
+    <div class="modal-header">
+        <h4 class="modal-title pull-left">Thêm quyền cho nhân viên</h4>
+        <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+    </div>
+    <div class="modal-body">
+        <div class="card card-transparent">
+            <div class="card-body" [formGroup]="form">
+                <div class="d-flex">
+                    <div class="form-group form-group-default form-group-default-select2 col">
+                        <label>Quyền hạn</label>
+                        <pg-select [PlaceHolder]="''" [Multiple]="true" ShowSearch formControlName="RoleNames">
+                            <pg-option *ngFor="let option of roleSelected" [Label]="option" [Value]="option">
+                            </pg-option>
+                        </pg-select>
+                    </div>
+                </div>
+                <br>
+                <button [disabled]="!form.valid" (click)="useUpdate()" class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-plus">
+          <span>Thêm</span>
+        </button>
+            </div>
+        </div>
+    </div>
+</ng-template>

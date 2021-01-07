@@ -1,0 +1,219 @@
+<div class="container-fluid customer-work-flow px-3">
+  <div class="row">
+    <div class="col">
+      <pg-tabset
+        tabAnimation="slide-left"
+        Type="simple"
+        TabPosition="left"
+        ActiveBarClass="kudo-active"
+        [extraTabContentClass]="'py-0 w-100'">
+        <pg-tab>
+          <ng-template #TabHeading>
+            <i
+              class="fa fa-briefcase"
+              style="font-size: 16px"
+              [tooltip]="'Đơn Vị'"
+              [placement]="'bottom'">
+            </i>
+          </ng-template>
+          <h4 class="page-title" style="margin-bottom: 2px">Thông Tin Đơn Vị</h4>
+          <div class="fake-workspace-wrapper">
+            <div class="fake-workspace-header">&nbsp;</div>
+            <div class="fake-workspace">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col pt-2 px-0 pb-4">
+                    <app-edit-customer
+                      [Customer]="_customer">
+                    </app-edit-customer>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </pg-tab>
+        <pg-tab>
+          <ng-template #TabHeading>
+            <i
+              class="fa fa-address-card"
+              style="font-size: 16px"
+              [tooltip]="'Người Liên Hệ'"
+              [placement]="'bottom'">
+            </i>
+          </ng-template>
+          <h4 class="page-title" style="margin-bottom: 2px">Thông Tin Người Liên Hệ</h4>
+          <div class="row">
+            <div class="col-5">
+              <app-customer-contact #customerContactView [customerId]="customerId"></app-customer-contact>
+            </div>
+            <div class="col pl-0">
+              <div class="fake-workspace-wrapper">
+                <div class="fake-workspace-header">&nbsp;</div>
+                <div class="fake-workspace">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="col pt-2 px-0 pb-4">
+                        <app-edit-customer-contact 
+                          [getCustomerContactVM]="customerContactView.selecting"
+                          [customerId]="customerId"
+                          (refresh)="customerContactView.refreshEditView()">
+                        </app-edit-customer-contact>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </pg-tab>
+        <pg-tab>
+          <ng-template #TabHeading>
+            <i
+              class="fa fa-sitemap"
+              style="font-size: 16px"
+              [tooltip]="'Quy Trình'"
+              [placement]="'bottom'">
+            </i>
+          </ng-template>
+          <h4 class="page-title">Thông Tin Quy Trình</h4>
+          <ngx-datatable
+            id="work-flow-table"
+            class='table table-hover long'
+            [columnMode]="'force'"
+            [headerHeight]="50"
+            [footerHeight]="50"
+            [rowHeight]="'auto'"
+            [loadingIndicator]="true"
+            [rows]="filteredData"
+            [selectionType]="'single'"
+            [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+            (select)="onSelect($event)"
+            [limit]="20">
+            <ngx-datatable-column
+              [name]="'Mã Đơn Vị'"
+              [prop]="'Code'"
+              cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [name]="'Quy Trình'"
+              [prop]="'Name'"
+              cellClass="d-flex align-items-center">
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [prop]="'StartDate'"
+              cellClass="d-flex align-items-center">
+              <ng-template ngx-datatable-header-template>
+                Ngày bắt đầu
+              </ng-template>
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value | date: 'dd/MM/yyyy'}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [prop]="'EndDate'"
+              cellClass="d-flex align-items-center">
+              <ng-template ngx-datatable-header-template>
+                Ngày kết thúc
+              </ng-template>
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                {{value | date: 'dd/MM/yyyy'}}
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column
+              [prop]="'CurrentProcesses'"
+              [sortable]="false"
+              cellClass="d-flex align-items-center">
+              <ng-template ngx-datatable-header-template>
+                Tiến trình hiện tại
+              </ng-template>
+              <ng-template let-value="value" ngx-datatable-cell-template>
+                <ul class="p-0 m-0">
+                  <li *ngFor="let v of value">
+                    <a class="doing" href="javascript:void(0)">{{v.InstanceName}}</a>
+                  </li>
+                  <li *ngIf="value.length === 0">
+                    <a href="javascript:void(0)">Đã hoàn thành</a>
+                  </li>
+                </ul>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </pg-tab>
+        <pg-tab>
+          <ng-template #TabHeading>
+            <i
+              class="fa fa-birthday-cake"
+              style="font-size: 16px"
+              [tooltip]="'Chăm Sóc Khách Hàng'"
+              [placement]="'bottom'">
+            </i>
+          </ng-template>
+          <h4 class="page-title" style="margin-bottom: 2px">Lịch Sử Chăm Sóc Khách Hàng</h4>
+          <div class="row">
+            <div class="col-12">
+              <app-customer-care [customerId]="customerId"></app-customer-care>
+            </div>
+          </div>
+        </pg-tab>
+        <pg-tab>  
+          <ng-template #TabHeading>
+            <i
+              class="fa fa-calendar"
+              style="font-size: 16px"
+              [tooltip]="'Lịch Sử Khách Hàng'"
+              [placement]="'bottom'">
+            </i>
+          </ng-template>
+          <h4 class="page-title" style="margin-bottom: 2px">Lịch Sử Khách Hàng</h4>
+          <div class="fake-workspace-wrapper">
+            <div class="fake-workspace-header">&nbsp;</div>
+            <div class="fake-workspace">
+              <div class="container-fluid">
+                <div class="row">
+                  <div class="col-6">
+                      <div class="input-group date form-group form-group-default">
+                          <div class="form-input-group">
+                              <label>Ngày 1</label>
+                              <pg-datepicker [(ngModel)]="currentTime" [Placeholder]="''" (ngModelChange)="getCurrentCustomer()"
+                                  [Format]="'DD/MM/YYYY'">
+                              </pg-datepicker>
+                          </div>
+                          <div class="input-group-append">
+                              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                          </div>
+                      </div>
+                    <app-edit-customer
+                      [Customer]="_customerCurrent" [typeShow]="'current'">
+                    </app-edit-customer>
+                  </div>
+                  <div class="col-6">
+                      <div class="input-group date form-group form-group-default">
+                          <div class="form-input-group">
+                              <label>Ngày 2</label>
+                              <pg-datepicker [(ngModel)]="futureTime" [Placeholder]="''" (ngModelChange)="getFutureCustomer()"
+                                  [Format]="'DD/MM/YYYY'">
+                              </pg-datepicker>
+                          </div>
+                          <div class="input-group-append">
+                              <span class="input-group-text"><i class="fa fa-calendar"></i></span>
+                          </div>
+                      </div>
+                    <app-edit-customer
+                      [Customer]="_customerFuture" [typeShow]="'future'" [currentCustomer]="_customerCurrent">
+                    </app-edit-customer>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </pg-tab>
+      </pg-tabset>
+    </div>
+  </div>
+</div>
+<swal
+  #checkDateFailSwal
+  html="Phải lớn hơn ngày hiện tại"
+  type="error"
+  [allowOutsideClick]="false">
+</swal>

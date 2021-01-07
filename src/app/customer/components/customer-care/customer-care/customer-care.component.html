@@ -1,0 +1,72 @@
+<div class="form-group d-flex m-0 toolbar-mini">
+  <app-create-customer-care (refresh)="getData()" [customerId]="customerId"></app-create-customer-care>
+  <input
+    type="text"
+    class="form-control search"
+    id="search"
+    placeholder="Tìm kiếm"
+    (keyup)="updateFilter($event)">
+</div>
+<ngx-datatable
+  id="customer-contact-table"
+  class='table table-hover'
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [loadingIndicator]="true"
+  [rows]="filteredData"
+  [limit]="20"
+  [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}">
+  <ngx-datatable-column
+    [name]="'STT'"
+    [sortable]="false"
+    [resizeable]="false"
+    [width]="20">
+    <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+      {{rowIndex + 1}}.
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [name]="'Phân loại'"
+    [prop]="'Type'">
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [name]="'Nội dung'"
+    [prop]="'Note'"
+    [width]="500">
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [name]="'Thời gian'"
+    [prop]="'Date'">
+    <ng-template let-value="value" ngx-datatable-cell-template>
+      {{value | date: 'dd/MM/yyyy'}}
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [sortable]="false"
+    [cellClass]="'text-right'"
+    [width]="20">
+    <ng-template
+      ngx-datatable-cell-template
+      let-row="row">
+      <i class="pg pg-more" tooltip="Cập nhật" placement="left" (click)="openUpdateModal(row)" *ngIf="checkAccess('customer', 'update')"></i>
+      <i class="pg pg-close_line" tooltip="Xóa" placement="left" [swal]="deleteSwal" *ngIf="checkAccess('customer', 'delete')"></i>
+      <swal
+        #deleteSwal
+        html="Xác nhận xóa Lịch Sử này?"
+        type="warning"
+        [showCancelButton]="true"
+        [focusCancel]="true"
+        (confirm)="deleteCustomerCare(row)"
+        [allowOutsideClick]="false">
+      </swal>
+      <swal
+        #deleteErrorSwal
+        html="Không thể xóa Lịch Sử này"
+        type="error"
+        [allowOutsideClick]="false">
+      </swal>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>

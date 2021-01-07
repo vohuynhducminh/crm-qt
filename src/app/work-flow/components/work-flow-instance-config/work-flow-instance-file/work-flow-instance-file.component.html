@@ -1,0 +1,100 @@
+<div class="container-fluid p-0">
+  <div class="row">
+    <div class="col-12">
+      <h4 class="page-title">Template</h4>
+      <div class="form-group form-group-default">
+        <label>&nbsp;</label>
+        <pg-upload
+          [Multiple]="true"
+          [Action]="uploadUrlPath"
+          [ShowUploadList]="false"
+          progressType="circle"
+          (Change)="onChangeFile($event)">
+          <div class="d-flex flex-column align-items-center">
+            <h4 class="semi-bold no-margin">Drop file to upload new template</h4>
+            <p>or click here</p>
+          </div>
+        </pg-upload>
+      </div>
+      <div class="fake-workspace-wrapper mt-0">
+        <div class="fake-workspace-header">Template list</div>
+        <div class="fake-workspace">
+          <div class="container-fluid p-0">
+            <div
+              class="kudo-file"
+              *ngFor="let file of fileList; let i = index">
+              <a
+                class="kudo-link"
+                href="javascript:void(0)"
+                (click)="onFileClick(file)">
+                <i class="fa fa-file file-icon"></i>
+                <span class="file-info">
+                  {{file.Name}}
+                  <span class="date-time">
+                    {{file.Date | date: 'dd-MM-yyyy'}}
+                    <span class="divider"></span>
+                    {{file.Date | date: 'HH:mm:ss'}}
+                  </span>
+                </span>
+              </a>
+              <i
+                class="pg pg-more ml-auto add-form-icon"
+                (click)="openModal(file, addFormModal)">
+              </i>
+              <i
+                class="pg pg-close_line ml-1 delete-icon"
+                (click)="onDeleteFile(file, i)">
+              </i>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #addFormModal>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">Set form for template</h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body pb-0">
+    <div class="card card-transparent">
+      <div class="card-body">
+        <div class="form-group-attached">
+          <div class="form-group form-group-default disabled">
+            <label>Template</label>
+            <input
+              disabled
+              type="text"
+              class="form-control"
+              [value]="selectedTemplate.Name">
+          </div>
+          <div class="form-group form-group-default form-group-default-select2">
+            <label class="">Form</label>
+            <pg-select
+              #form
+              [PlaceHolder]="'Chọn form'"
+              AllowClear
+              ShowSearch>
+              <pg-option
+                *ngFor="let option of availabledForms"
+                [Label]="option.Name"
+                [Value]="option.Id">
+              </pg-option>
+            </pg-select>
+          </div>
+        </div>
+        <br>
+        <button
+          class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-pencil"
+          (click)="setTemplateForm(form.Value)">
+          <span>Confirm</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,25 @@
+<div class="input-group">
+    <div class="input-group-prepend">
+        <app-create-common-service-sub (useChange)="useLoadData()" [commons]="commons" [common]="common"></app-create-common-service-sub>
+        <app-update-common-service-sub (useChange)="useLoadData()" [commons]="commons" [common]="common" [serviceSelected]="serviceSelected"></app-update-common-service-sub>
+        <button *ngIf="serviceSelected" class="btn btn-danger ml-2" (click)="useDelete()">
+            <span>Xóa</span>
+          </button>
+    </div>
+    <input class="form-control search" [(ngModel)]="name" (input)="useFilter()" *ngIf="id" placeholder="Nhập tên dịch vụ tìm kiếm">
+</div>
+<ngx-datatable (select)="useSelect($event)" [selected]="selected" class='table table-hover long' [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [loadingIndicator]="true" [rows]="common ? searchNames : []" [selectionType]="'single'"
+    [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}" [limit]="20">
+    <ngx-datatable-column [name]="'STT'" cellClass="d-flex align-items-center">
+        <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            {{(rowIndex + 1)}}.
+        </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Tên'" [prop]="'Name'" cellClass="d-flex align-items-center">
+    </ngx-datatable-column>
+    <ngx-datatable-column [name]="'Nhóm dịch vụ'" [prop]="'CommonTelecomserviceId'" cellClass="d-flex align-items-center">
+        <ng-template let-value="value" ngx-datatable-cell-template>
+            {{useGetRootService(value) ? useGetRootService(value).Name : ''}}.
+        </ng-template>
+    </ngx-datatable-column>
+</ngx-datatable>

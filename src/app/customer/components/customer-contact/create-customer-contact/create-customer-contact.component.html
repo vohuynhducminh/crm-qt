@@ -1,0 +1,255 @@
+<button
+  class="btn btn-primary"
+  (click)="openModal(template)" *ngIf="checkAccess('customer', 'create')">
+  <span>Thêm mới</span>
+</button>
+
+<ng-template #template>
+  <div class="modal-header">
+    <!-- {{ form.value | json }} -->
+    <h4 class="modal-title pull-left">Tạo mới Người Liên Hệ</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card card-transparent">
+      <div class="card-body">
+        <form [formGroup]="form" (submit)="createCustomerContact()">
+          <div class="pt-1">
+            <div
+              class="form-group form-group-default"
+              [class.required]="true"
+              [class.has-error]="form.controls['Name'].invalid
+                && (form.controls['Name'].dirty
+                || form.controls['Name'].touched)">
+              <label>Họ và Tên</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Name">
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="col-12 offset-0 px-0" style="margin-top: -10px" 
+            *ngIf="form.controls['Name'].invalid
+            && (form.controls['Name'].dirty
+            || form.controls['Name'].touched)">
+              <label class="error">
+                {{ form.controls['Name'].errors?.pattern ? 
+                'Vui lòng Không nhập số và các ký tự đặc biệt' : 
+                'Vui lòng điền Họ và tên' }}
+              </label>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div
+              class="form-group form-group-default form-group-default-select2">
+              <label>Quốc tịch</label>
+              <pg-select
+                [PlaceHolder]="''"
+                AllowClear
+                ShowSearch
+                formControlName="Nation">
+                <pg-option
+                  *ngFor="let option of countriesList"
+                  [Label]="option"
+                  [Value]="option">
+                </pg-option>
+              </pg-select>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div
+              class="form-group form-group-default col"
+              [class.required]="true"
+              [class.has-error]="form.controls['Phone'].errors?.pattern
+                      || (!form.controls['Phone'].value
+                      && !form.controls['Email'].value)
+                      && (form.controls['Phone'].dirty
+                      || form.controls['Phone'].touched)">
+              <label>Số điện thoại</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Phone">
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="col-6 px-0" style="margin-top: -10px" 
+            *ngIf="!form.controls['Phone'].value && !form.controls['Email'].value && (form.controls['Phone'].dirty || form.controls['Phone'].touched)">
+              <label class="error">
+                Vui lòng điền Số điện thoại
+              </label>
+            </div>
+            <div class="col-6 px-0" style="margin-top: -10px" 
+            *ngIf="form.controls['Phone'].errors?.pattern && (form.controls['Phone'].dirty || form.controls['Phone'].touched)">
+              <label class="error">
+                Số điện thoại không hợp lệ
+              </label>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div
+              class="form-group form-group-default col"
+              [class.required]="true"
+              [class.has-error]="form.controls['Email'].errors?.email
+                || (!form.controls['Phone'].value
+                && !form.controls['Email'].value)
+                && (form.controls['Email'].dirty
+                || form.controls['Email'].touched)">
+              <label>Email</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Email">
+            </div>
+          </div>
+          <div class="d-flex">
+            <div class="col-6 px-0" style="margin-top: -10px" *ngIf="!form.controls['Phone'].value && !form.controls['Email'].value && (form.controls['Email'].dirty || form.controls['Email'].touched)">
+              <label class="error">
+                Vui lòng điền Email
+              </label>
+            </div>
+            <div class="col-6 px-0" style="margin-top: -10px" *ngIf="form.controls['Email'].errors?.email && (form.controls['Email'].dirty || form.controls['Email'].touched)">
+              <label class="error">
+                Email không hợp lệ
+              </label>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div
+              class="form-group form-group-default">
+              <label>Địa chỉ</label>
+              <textarea
+                class="form-control"
+                rows="5"
+                formControlName="Address"
+              ></textarea>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div
+              class="form-group form-group-default form-group-default-select2">
+              <label>Giới tính</label>
+              <pg-select
+                [PlaceHolder]="''"
+                AllowClear
+                ShowSearch
+                formControlName="Gender">
+                <pg-option
+                  *ngFor="let option of [{text:'Nam',value:0},{text:'Nữ',value:1}]"
+                  [Label]="option.text"
+                  [Value]="option.value">
+                </pg-option>
+              </pg-select>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div
+              class="input-group date form-group form-group-default">
+              <div class="form-input-group">
+                <label>Sinh nhật</label>
+                <pg-datepicker
+                  [Placeholder]="''"
+                  [Format]="'DD/MM/YYYY'"
+                  formControlName="BirthDate">
+                </pg-datepicker>
+              </div>
+              <div class="input-group-append">
+                <span class="input-group-text">
+                  <i class="fa fa-calendar"></i>
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div
+              class="form-group form-group-default"
+              *ngIf="!customerContactPositionList || customerContactPositionList.length === 0">
+              <label>Chức vụ</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Position">
+            </div>
+            <div
+              class="form-group form-group-default form-group-default-select2"
+              *ngIf="customerContactPositionList && customerContactPositionList.length > 0">
+              <label>Chức vụ</label>
+              <pg-select
+                [PlaceHolder]="''"
+                AllowClear
+                ShowSearch
+                formControlName="Position">
+                <pg-option
+                  *ngFor="let option of customerContactPositionList"
+                  [Label]="option"
+                  [Value]="option">
+                </pg-option>
+              </pg-select>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div
+              class="form-group form-group-default"
+              *ngIf="!customerContactFunctionList || customerContactFunctionList.length === 0">
+              <label>Nghiệp vụ</label>
+              <input
+                type="text"
+                class="form-control"
+                formControlName="Functional">
+            </div>
+            <div
+              class="form-group form-group-default form-group-default-select2"
+              *ngIf="customerContactFunctionList && customerContactFunctionList.length > 0">
+              <label>Nghiệp vụ</label>
+              <pg-select
+                [PlaceHolder]="''"
+                AllowClear
+                ShowSearch
+                formControlName="Functional">
+                <pg-option
+                  *ngFor="let option of customerContactFunctionList"
+                  [Label]="option"
+                  [Value]="option">
+                </pg-option>
+              </pg-select>
+            </div>
+          </div>
+          <div class="d-flex">
+            <div
+              class="form-group form-group-default">
+              <label>Ghi chú</label>
+              <textarea
+                rows="5"
+                class="form-control"
+                formControlName="Note"
+              ></textarea>
+            </div>
+          </div>
+          <br>
+          <button
+            type="submit"
+            class="btn btn-primary btn-cons
+              btn-animated from-left fa fa-plus"
+            [disabled]="disableSubmit || form.invalid"
+            (click)="disableSubmitForm()">
+            <span>Thêm</span>
+          </button>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-template>
+
+<swal
+  #createCustomerSuccessSwal
+  html="Người Liên Hệ đã được tạo thành công!"
+  type="success"
+  [allowOutsideClick]="false">
+</swal>

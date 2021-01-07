@@ -1,0 +1,116 @@
+<div class="container-fluid px-3">
+  <div class="row">
+    <div class="col">
+      <pg-tabset
+        tabAnimation="slide-left"
+        Type="simple"
+        TabPosition="left"
+        ActiveBarClass="kudo-active"
+        [extraTabContentClass]="'py-0 w-100'">
+        <pg-tab>
+          <ng-template #TabHeading>
+            <i
+              class="fa fa-cogs"
+              style="font-size: 16px"
+              [tooltip]="'Work Flow Instance'"
+              [placement]="'bottom'">
+            </i>
+          </ng-template>
+          <div class="container-fluid p-0">
+            <div class="row">
+              <div class="col">
+                <h4 class="page-title">Information</h4>
+                <div class="fake-workspace-wrapper mt-0">
+                  <div class="fake-workspace-header">&nbsp;</div>
+                  <div class="fake-workspace">
+                    <div class="container-fluid">
+                      <div class="row">
+                        <div class="col pt-3 pb-4">
+                          <div class="form-group form-group-default disabled">
+                            <label>Work Flow Name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              disabled
+                              [value]="workFlow?.Name">
+                          </div>
+                          <div class="form-group form-group-default disabled">
+                            <label>Instance Name</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              disabled
+                              [value]="workFlowInstance?.Name">
+                          </div>
+                          <div class="form-group form-group-default disabled">
+                            <label>Type</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              disabled
+                              [value]="workFlowInstance?.Type">
+                          </div>
+                          <div class="form-group form-group-default disabled">
+                            <label>Sub Type</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              disabled
+                              [value]="workFlowInstance?.SubType">
+                          </div>
+                          <div class="form-group form-group-default disabled">
+                            <label>Form</label>
+                            <input
+                              type="text"
+                              class="form-control"
+                              disabled
+                              [value]="instanceForm?.Name">
+                          </div>
+                          <div class="form-group form-group-default disabled">
+                            <label>Description</label>
+                            <textarea
+                              class="form-control"
+                              rows="5"
+                              disabled
+                            >{{workFlowInstance?.Description}}</textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </pg-tab>
+        <pg-tab>
+          <ng-template #TabHeading>
+            <i
+              class="fa fa-pencil-square-o"
+              style="font-size: 16px"
+              [tooltip]="'Form'"
+              [placement]="'bottom'">
+            </i>
+          </ng-template>
+          <app-work-flow-instance-form
+            [workFlowInstance]="workFlowInstance"
+            (refresh)="getWorkFlowInstance()">
+          </app-work-flow-instance-form>
+        </pg-tab>
+        <pg-tab>
+          <ng-template #TabHeading>
+            <i
+              class="fa fa-file-text"
+              style="font-size: 16px"
+              [tooltip]="'Template'"
+              [placement]="'bottom'">
+            </i>
+          </ng-template>
+          <app-work-flow-instance-file
+            [workFlowInstance]="workFlowInstance">
+          </app-work-flow-instance-file>
+        </pg-tab>
+      </pg-tabset>
+    </div>
+  </div>
+</div>

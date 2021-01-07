@@ -1,0 +1,49 @@
+<div class="modal-header">
+  <h4 class="modal-title pull-left">Update Work Flow</h4>
+  <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <div class="card card-transparent">
+    <div class="card-body">
+      <div class="form-group-attached">
+        <div class="form-group form-group-default required">
+          <label>Name</label>
+          <input
+            type="text"
+            class="form-control"
+            name="name"
+            [(ngModel)]="workFlow.Name"
+            required>
+        </div>
+        <div class="form-group form-group-default required">
+          <label>Code</label>
+          <input
+            type="text"
+            class="form-control"
+            name="description"
+            [(ngModel)]="workFlow.Code"
+            required>
+        </div>
+        <div class="form-group form-group-default required">
+          <label>Description</label>
+          <textarea
+            rows="5"
+            class="form-control"
+            name="description"
+            [(ngModel)]="workFlow.Description"
+            required
+          ></textarea>
+        </div>
+      </div>
+      <br>
+      <button
+        class="btn btn-primary btn-cons
+          btn-animated from-left fa fa-pencil"
+        (click)="updateWorkFlow()">
+        <span>Update</span>
+      </button>
+    </div>
+  </div>
+</div>

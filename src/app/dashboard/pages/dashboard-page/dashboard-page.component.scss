@@ -1,0 +1,16 @@
+::ng-deep {
+    ngx-datatable.kudo-disable-viewheight {
+        &:not(.short) {
+            datatable-body.datatable-body {
+                height: calc(50vh - 83px - 1rem) !important;
+            }
+        }
+    }
+}
+
+.show-loader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}

@@ -1,0 +1,40 @@
+<div class="form-group d-flex m-0 toolbar-mini">
+  <app-create-customer-contact (refresh)="getData()" [customerId]="customerId"></app-create-customer-contact>
+  <input
+    type="text"
+    class="form-control search"
+    id="search"
+    placeholder="Tìm kiếm"
+    (keyup)="updateFilter($event)">
+</div>
+<ngx-datatable
+  id="customer-contact-table"
+  class='table table-hover'
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [loadingIndicator]="true"
+  [rows]="filteredData"
+  [selectionType]="'single'"
+  [limit]="20"
+  [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+  (select)="onSelect($event)">
+  <ngx-datatable-column
+    [name]="'STT'"
+    [width]="250"
+    [sortable]="false"
+    [resizeable]="false">
+    <ng-template let-rowIndex="rowIndex" ngx-datatable-cell-template>
+      {{rowIndex + 1}}.
+    </ng-template>
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [name]="'Họ và Tên'"
+    [prop]="'Name'">
+  </ngx-datatable-column>
+  <ngx-datatable-column
+    [name]="'Chức vụ'"
+    [prop]="'Position'">
+  </ngx-datatable-column>
+</ngx-datatable>

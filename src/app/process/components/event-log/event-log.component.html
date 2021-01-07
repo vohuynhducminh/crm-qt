@@ -1,0 +1,186 @@
+<button
+  class="btn btn-primary btn-cons btn-kudo btn-animated from-left fa fa-history"
+  title="Lịch Sử Làm Việc"
+  (click)="openModal(eventLog)">
+  <span class="fa fa-history"></span>
+</button>
+
+<ng-template #eventLog>
+  <div class="modal-header">
+    <h4
+      class="modal-title pull-left">
+      Lịch Sử Làm Việc<span *ngIf="selecting">: {{selecting.DateCreated | date: 'dd/MM/yyyy'}} - {{selecting.DateCreated | date: 'HH:mm:ss'}}</span>
+    </h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card card-transparent">
+      <div class="card-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-3 px-0">
+              <ngx-datatable
+                id="event-log"
+                class='table table-hover'
+                [columnMode]="'force'"
+                [footerHeight]="50"
+                [rowHeight]="'auto'"
+                [loadingIndicator]="true"
+                [rows]="data"
+                [selectionType]="'single'"
+                (select)="onSelect($event)"
+                [messages]="{emptyMessage: 'Không có dữ liệu để hiển thị',totalMessage: 'tổng cộng',selectedMessage: 'đã chọn'}"
+                [limit]="20">
+                <ngx-datatable-column
+                  [prop]="''"
+                  [sortable]="false"
+                  cellClass="d-flex align-items-center">
+                  <ng-template ngx-datatable-header-template>
+                    Thời gian
+                  </ng-template>
+                  <ng-template let-value="value" ngx-datatable-cell-template>
+                    <span class="date">{{value.DateCreated | date: 'dd/MM/yyyy'}}</span>
+                    <span class="divider"></span>
+                    <span class="time">{{value.DateCreated | date: 'HH:mm:ss'}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column 
+                  [sortable]="false"
+                  [cellClass]="'text-right'"
+                  [width]="20">
+                  <ng-template
+                    ngx-datatable-cell-template
+                    let-row="row">
+                    <i class="pg pg-close_line" tooltip="Xóa" [swal]="deleteSwal"></i>
+                    <swal
+                      #deleteSwal
+                      title="Xóa Lịch sử này?"
+                      text="Hành động này không thể hoàn tác"
+                      type="warning"
+                      [showCancelButton]="true"
+                      [focusCancel]="true"
+                      (confirm)="deleteEventLog(row)"
+                      [allowOutsideClick]="false">
+                    </swal>
+                    <swal
+                      #deleteErrorSwal
+                      title="Không thể xóa Lịch sử này"
+                      type="error"
+                      [allowOutsideClick]="false">
+                    </swal>
+                  </ng-template>
+                </ngx-datatable-column>
+              </ngx-datatable>
+              <button
+                class="btn btn-primary w-100"
+                (click)="createEventLog()">
+                <span>Thêm mới</span>
+              </button>
+            </div>
+            <div class="col-6">
+              <div class="row">
+                <form [formGroup]="form" class="form-group-attached w-100">
+                  <div class="form-group form-group-default form-group-default-select2">
+                    <label>Đánh giá cơ hội khách hàng</label>
+                    <div *ngIf="!selecting" class="pg-select-placeholder"></div>
+                    <pg-select
+                      *ngIf="selecting"
+                      [PlaceHolder]="''"
+                      [formControlName]="'Type'"
+                      AllowClear
+                      ShowSearch>
+                      <pg-option
+                        *ngFor="let option of ['Cao', 'Trung bình', 'Thấp']"
+                        [Label]="option"
+                        [Value]="option">
+                      </pg-option>
+                    </pg-select>
+                  </div>
+                  <div class="form-group form-group-default" style="height: 290px">
+                    <label>Ghi chú</label>
+                    <textarea
+                      class="form-control pr-1"
+                      name="comment"
+                      rows="5"
+                      *ngIf="selecting"
+                      [formControlName]="'Description'"
+                    ></textarea>
+                  </div>
+                  <div class="form-group form-group-default">
+                    <label>Loại công việc</label>
+                    <div *ngIf="!selecting" class="form-control"></div>
+                    <input
+                      type="text"
+                      class="form-control pr-1"
+                      *ngIf="selecting"
+                      [formControlName]="'ActionType'">
+                  </div>
+                  <div
+                    class="input-group date form-group form-group-default">
+                    <div class="form-input-group">
+                      <label>Ngày thực hiện</label>
+                      <div *ngIf="!selecting" class="date-select-placeholder"></div>
+                      <pg-datepicker
+                        *ngIf="selecting"
+                        [Placeholder]="''"
+                        [Format]="'DD/MM/YYYY'"
+                        [formControlName]="'ExecutedDate'">
+                      </pg-datepicker>
+                    </div>
+                    <div class="input-group-append">
+                      <span class="input-group-text">
+                        <i class="fa fa-calendar"></i>
+                      </span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            <div class="col-3 px-0">
+              <div class="fake-datatable-wrapper">
+                <div class="fake-datatable-header">Danh sách file</div>
+                <div class="fake-datatable">
+                  <div class="container-fluid p-0">
+                    <div class="row m-0">
+                      <div class="col p-0">
+                        <div class="files-wrapper w-100" *ngIf="selecting">
+                          <a
+                            class="kudo-file w-100"
+                            href="{{downloadEventLogFileUrl}}{{file.Id}}"
+                            target="_blank"
+                            *ngFor="let file of fileList">
+                            <span class="file-info">
+                              {{file.Name}}
+                            </span>
+                          </a>
+                          <pg-upload
+                            *ngIf="selecting"
+                            [Multiple]="true"
+                            Action="{{uploadEventLogFileUrl}}{{selecting.Id}}"
+                            [ShowUploadList]="false"
+                            progressType="circle"
+                            (Change)="changeHandler()">
+                            <a class="btn-upload d-flex justify-content-center">
+                                <i class="fa fa-upload"></i>
+                                Tải file lên
+                            </a>
+                          </pg-upload>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

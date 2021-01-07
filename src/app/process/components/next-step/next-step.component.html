@@ -1,0 +1,78 @@
+<button
+  class="btn btn-primary btn-cons btn-kudo
+    btn-animated from-left fa fa-arrow-right"
+  title="Chuyển tiếp"
+  [disabled]="disableSubmit"
+  *ngIf="routeResponse"
+  (click)="openModal(template)">
+  <span class="fa fa-arrow-right"></span>
+</button>
+
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left">{{modalTitle}}</h4>
+    <button
+      type="button"
+      class="close pull-right"
+      aria-label="Close"
+      (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div class="card card-transparent">
+      <div class="card-body form-group-attached">
+        <div class="form-group-attached" *ngIf="!isExclusive && routeResponse?.SubType && !routeResponse?.SubType.includes('Parallel')">
+          <div class="form-group form-group-default">
+            <input
+              type="text"
+              class="form-control"
+              name="name"
+              readonly
+              [value]="routeResponse?.Name">
+          </div>
+        </div>
+        <div class="form-group-attached" *ngIf="!isExclusive">
+          <div class="form-group form-group-default" *ngFor="let step of routeResponse?.NextSteps">
+            <div class="form-control form-control-kudo" readonly>
+              {{step.Name}}
+            </div>
+          </div>
+        </div>
+        <div class="form-group-attached" [hidden]="!isExclusive">
+          <div class="form-group form-group-default form-group-default-select2 required">
+            <label>Lựa chọn</label>
+            <pg-select
+              #command
+              [PlaceHolder]="''"
+              AllowClear
+              ShowSearch>
+              <pg-option
+                *ngFor="let option of routeResponse?.Commands"
+                [Label]="option.Command"
+                [Value]="option.Id">
+              </pg-option>
+            </pg-select>
+          </div>
+        </div>
+        <div class="form-group form-group-default last-child">
+          <label>Ghi chú</label>
+          <textarea
+            class="form-control"
+            name="comment"
+            rows="5"
+            [(ngModel)]="comment"
+          ></textarea>
+        </div>
+        <br>
+        <button
+          class="btn btn-primary btn-cons
+            btn-animated from-left fa fa-check"
+          [disabled]="disableSubmit"
+          (click)="isExclusive ? disableSubmitForm(command.Value) : disableSubmitForm(routeResponse.Id)">
+          <span>Xác nhận</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</ng-template>

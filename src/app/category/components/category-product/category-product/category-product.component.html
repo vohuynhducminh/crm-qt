@@ -1,0 +1,57 @@
+<h4 class="page-title">Category's Products</h4>
+<div class="form-group d-flex m-0">
+  <app-create-category-product
+    (refresh)="getData()"
+    [category]="_category"
+    [addedProductList]="data">
+  </app-create-category-product>
+  <input
+    type="text"
+    class="form-control search"
+    id="search"
+    placeholder="Search"
+    [disabled]="!_category"
+    (keyup)="updateFilter($event)">
+</div>
+<ngx-datatable
+  class='table table-hover'
+  [columnMode]="'force'"
+  [headerHeight]="50"
+  [footerHeight]="50"
+  [rowHeight]="'auto'"
+  [loadingIndicator]="true"
+  [selectionType]="'single'"
+  [rows]="filteredData"
+  [limit]="20">
+  <ngx-datatable-column
+    [name]="'Name'"
+    [prop]="'Name'"
+    cellClass="d-flex align-items-center">
+  </ngx-datatable-column>
+  <ngx-datatable-column 
+    [sortable]="false"
+    [cellClass]="'text-right'"
+    [width]="20">
+    <ng-template
+      ngx-datatable-cell-template
+      let-row="row">
+      <i class="pg pg-close_line" [swal]="deleteSwal"></i>
+      <swal 
+        #deleteSwal
+        title="Delete this category product?"
+        text="This action cannot be undone"
+        type="warning"
+        [showCancelButton]="true"
+        [focusCancel]="true"
+        (confirm)="deleteCategoryProduct(row)"
+        [allowOutsideClick]="false">
+      </swal>
+      <swal 
+        #deleteErrorSwal
+        title="Cannot delete this category product"
+        type="error"
+        [allowOutsideClick]="false">
+      </swal>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>
